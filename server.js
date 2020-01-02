@@ -7,13 +7,18 @@ let todos = [
 ];
 
 const server = http.createServer((req, res) => {
-  res.setHeader("X-Powered-By", "Node.js");
-  res.setHeader("Content-Type", "application/json");
+  res.writeHead(404, {
+    "Content-Type": "application/json",
+    "X-Powered-By": "Node.js"
+  });
+
+  console.log(req.headers.authorization);
 
   res.end(
     JSON.stringify({
-      success: true,
-      data: todos
+      success: false,
+      error: "Not Found",
+      data: null
     })
   );
 });
