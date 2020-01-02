@@ -1,9 +1,21 @@
 const http = require("http");
 
+let todos = [
+  { id: 1, date: "text 1" },
+  { id: 2, date: "text 2" },
+  { id: 3, date: "text 3" }
+];
+
 const server = http.createServer((req, res) => {
-  const { headers, url, method } = req;
-  console.log(headers, url, method);
-  res.end();
+  res.setHeader("X-Powered-By", "Node.js");
+  res.setHeader("Content-Type", "application/json");
+
+  res.end(
+    JSON.stringify({
+      success: true,
+      data: todos
+    })
+  );
 });
 
 const PORT = 5000;
