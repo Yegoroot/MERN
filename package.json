@@ -2,15 +2,20 @@
   "name": "nodeapiexpressmongo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start_WINDOWS": "NODE_ENV=production & node server",
+    "start": "NODE_ENV=production node server",
+    "dev": "nodemon server"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^6.8.0",
     "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
   }
 }
