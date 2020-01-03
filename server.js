@@ -1,45 +1,17 @@
-const http = require('http')
+const express = require('express')
+const dotenv = require('dotenv')
 
-let todos = [
-	{ id: 1, date: 'text 1' },
-	{ id: 2, date: 'text 2' },
-	{ id: 3, date: 'text 3' }
-]
+// load en vars
+dotenv.config({path: './config/config.env'})
 
-const server = http.createServer((req, res) => {
-	const { method, url } = req
-	let body = []
+const app = express()
 
-	req
-		.on('data', chunk => {
-			body.push(chunk)
-		})
-		.on('end', () => {
-			body = Buffer.concat(body).toString()
+const PORT = process.env.PORT || 5000
 
-			// по умолчанию
-			let status = 404
-			const response = {
-				success: false,
-				data: null
-			}
+app.listen(PORT, console.log(`server running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}`))
 
-			if (method === 'GET' && url === '/todos') {
-				status = 200
-				response.success = true
-				response.data = todos
-			}
-
-			res.writeHead(status, {
-				'Content-Type': 'application/json',
-				'X-Powered-By': 'Node.js'
-			})
-			res.end(JSON.stringify(response))
-		})
-
-	console.log(req.headers.authorization)
-})
-
-const PORT = 5000
-
-server.listen(PORT, () => console.log(`server runnig on potrt ${PORT}`))
+// let notes = [
+// 	{ id: 1, date: 'text 1' },
+// 	{ id: 2, date: 'text 2' },
+// 	{ id: 3, date: 'text 3' }
+// ]
