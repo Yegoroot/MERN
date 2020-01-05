@@ -34,6 +34,7 @@ const server = app.listen(
 )
 
 // Handle unhandle promise rejecttion
+// eslint-disable-next-line no-unused-vars
 process.on('unhandledRejection', (err, promise)=>{
 	console.log(`Error Ya Ahki:  ${err.message}`.red)
 	// Close server & exit procces
