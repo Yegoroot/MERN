@@ -1,3 +1,5 @@
+const Note = require('../model/Note')
+
 // @desc    Get all notes
 // @route   GET /api/v1/notes
 // @access  Public
@@ -15,8 +17,16 @@ exports.getNote = (req, res, next) => {
 // @desc    Create note
 // @route   POST /api/v1/notes/:id
 // @access  Private
-exports.createNote = (req, res, next) => {
-	res.status(200).json({success: true, msg: 'Create new note'})
+exports.createNote = async (req, res, next) => {
+	// console.log(req.body)
+	try {
+		const note = await Note.create(req.body)
+		res.status(201).json({success: true, data: note})
+	} catch (error) {
+		res.status(400).json({success: false})
+		
+	}
+
 }
 
 // @desc    Update note

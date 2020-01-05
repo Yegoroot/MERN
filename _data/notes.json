@@ -7,10 +7,11 @@
 		"content": "",
 		"category": "programming",
 		"label": [
-			"Web Development",
-			"UI/UX",
-			"Business"
-		]
+			"Глагол",
+			"Частица"
+		],
+		"level": "Elementary",
+		"mustHaveToKnow": true
 	},
 	{
 		"_id": "5d713a66ec8f2b88b8f830b8",
@@ -20,10 +21,11 @@
 		"description": "ModernTech has one goal, and that is to make you a rockstar developer and/or designer with a six figure salary. We teach both development and UI/UX",
 		"category": "programming",
 		"label": [
-			"Web Development",
-			"UI/UX",
-			"Mobile Development"
-		]
+			"Глагол",
+			"Частица"
+		],
+		"level": "Elementary",
+		"mustHaveToKnow": true
 	},
 	{
 		"_id": "5d725a037b292f5f8ceff787",
@@ -33,10 +35,12 @@
 		"description": "Is coding your passion? Codemasters will give you the skills and the tools to become the best developer possible. We specialize in full stack web development and data science",
 		"category": "programming",
 		"label": [
-			"Web Development",
-			"Data Science",
-			"Business"
-		]
+			"Имя",
+			"Спряжение глаголов",
+			"Насб глагола"
+		],
+		"level": "Elementary",
+		"mustHaveToKnow": true
 	},
 	{
 		"_id": "5d725a1b7b292f5f8ceff788",
@@ -46,10 +50,9 @@
 		"description": "Is coding your passion? Codemasters will give you the skills and the tools to become the best developer possible. We specialize in front end and full stack web development",
 		"category": "programming",
 		"label": [
-			"Mobile Development",
-			"Web Development",
-			"Data Science",
-			"Business"
-		]
+			"Склонение"
+		],
+		"level": "Elementary",
+		"mustHaveToKnow": true
 	}
 ]
