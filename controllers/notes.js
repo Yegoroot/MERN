@@ -4,9 +4,9 @@ const Note = require('../model/Note')
 // @route   GET /api/v1/notes
 // @access  Public
 exports.getNotes = async (req, res, next) => {
-
 	try {
-		const notes = await Note.find()
+		
+		const notes = await Note.find()    
 		res.status(200).json({success: true, count: notes.length, data: notes})
 	} catch (error) {
 		
@@ -27,7 +27,8 @@ exports.getNote =  async (req, res, next) => {
 		}
 
 	} catch (error) {
-		res.status(400).json({success: false,})
+		next(error)
+		// res.status(400).json({success: false,})
 	}
 	
 }

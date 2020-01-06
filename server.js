@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const connectDB = require('./config/db')
 // eslint-disable-next-line no-unused-vars
 const colors = require('colors')
+const errorHandlrer = require('./middleware/error')
 
 // load en vars
 dotenv.config({ path: './config/config.env' })
@@ -26,6 +27,8 @@ if(process.env.NODE_ENV === 'development') {
 
 // Mount routers
 app.use('/api/v1/notes', notes)
+
+app.use(errorHandlrer)
 
 const PORT = process.env.PORT || 5000
 
