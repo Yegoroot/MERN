@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const slugify = require('slugify')
 
 const NoteSchemea = new mongoose.Schema({
 	// name of note
@@ -49,17 +50,16 @@ const NoteSchemea = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	}
-
-	// category: {
-	// 	type: [String],
-	// 	required: true,
-	// 	enum: [ // one from these
-	// 		'Web Dev',
-	// 		'Mobile Dev',
-	// 		'Other'
-	// 	]
-	// }
     
+})
+/**
+ * это то что происходит на рахных этапах этой схемы, например в момент сохранения записи
+ */
+// Create bootcamp slug from the name
+NoteSchemea.pre('save', function(next){
+	console.log('Slugify ran', this.name)
+	this.slug = slugify(this.name, { lower: true })
+	next()
 })
 
 module.exports = mongoose.model('Note', NoteSchemea) 
