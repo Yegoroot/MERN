@@ -1,3 +1,5 @@
+const ErrorResponse = require('../utils/errorResponse')
+
 const Note = require('../model/Note')
 
 // @desc    Get all notes
@@ -9,8 +11,8 @@ exports.getNotes = async (req, res, next) => {
 		const notes = await Note.find()    
 		res.status(200).json({success: true, count: notes.length, data: notes})
 	} catch (error) {
-		
-		res.status(400).json({success: false})
+
+		next(error) // тут отработает app.use(errorHandlrer) middleware который мы подключили в server.js
 	}
 }
 
@@ -20,15 +22,15 @@ exports.getNotes = async (req, res, next) => {
 exports.getNote =  async (req, res, next) => {
 	try {
 		const note = await Note.findById(req.params.id)
-		res.status(200).json({success: true, data: note})
 		
-		if(!note) {
-			return res.status(400).json({success: false,})
+		if(!note) {	
+			return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 		}
-
+		
+		res.status(200).json({success: true, data: note})
 	} catch (error) {
-		next(error)
-		// res.status(400).json({success: false,})
+
+		next(error) // тут отработает app.use(errorHandlrer) middleware который мы подключили в server.js
 	}
 	
 }
@@ -42,8 +44,8 @@ exports.createNote = async (req, res, next) => {
 		const note = await Note.create(req.body)
 		res.status(201).json({success: true, data: note})
 	} catch (error) {
-		res.status(400).json({success: false})
-		
+
+		next(error) // тут отработает app.use(errorHandlrer) middleware который мы подключили в server.js
 	}
 
 }
@@ -60,13 +62,13 @@ exports.updateNote = async (req, res, next) => {
 		})
 	
 		if (!note) {
-			return res.status(400).json({success: false})
+			return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 		}
 		
 		return res.status(200).json({success: true, data: note})
 	} catch (error) {
 		
-		return res.status(400).json({success: false})
+		next(error) // тут отработает app.use(errorHandlrer) middleware который мы подключили в server.js
 	}
 }
 
@@ -79,12 +81,12 @@ exports.deleteNote = async (req, res, next) => {
 		const note = await Note.findByIdAndDelete(req.params.id)
 	
 		if (!note) {
-			return res.status(400).json({success: false})
+			return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 		}
 
 		return res.status(200).json({success: true, data: {}})
 	} catch (error) {
 		
-		return res.status(400).json({success: false})
+		next(error) // тут отработает app.use(errorHandlrer) middleware который мы подключили в server.js
 	}
 }
