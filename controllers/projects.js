@@ -8,12 +8,39 @@ const Project = require('../models/Projects')
 exports.getNotes = asyncHandler(async (req, res, next) => {
 	let query
 
-	let queryStr = JSON.stringify(req.query)
+	// Copy req query
+	let reqQuery = {...req.query}
 
+	// Fields to exclude  // 1 это наши внутренние поля нужны для внутренней обработки 
+	const removeFilelds = ['select', 'sort']
+
+	// loop over removeFileds and delete them from reqQuery // 2 и поэтому в запросе к БД их не должно быть (в БД таких полей нет)
+	removeFilelds.forEach(param => delete reqQuery[param])
+
+	// Create query string
+	let queryStr = JSON.stringify(reqQuery)
+
+	// Create opertators ($gt, $gte, etc)
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 	
+	// Finding resource
 	query = Project.find(JSON.parse(queryStr)) 
 
+	// Select Fileds
+	if(req.query.select) {
+		const filds = req.query.select.split(',').join(' ')
+		query = query.select(filds) // Стандартная ф-ия mongoose select(param1 param2) with spaces
+	}
+
+	// Sort
+	if(req.query.sort) {
+		const sortBy = req.query.sort.split(',').join(' ')
+		query = query.sort(sortBy)
+	} else {
+		query.sort('-createdAt')
+	}
+
+	// Executing query
 	const projects = await query  
 
 	res.status(200).json({success: true, count: projects.length, data: projects})

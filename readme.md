@@ -26,3 +26,13 @@ if (!note) {
 - **[gt]** указывает на **больше**
 - **[gte]** указывает на **больше или равно**
 
+## Select and Sort
+In this case we can **select fileds** which we want
+```
+/api/v1/projects?select=name,description
+```
+By default **-createdAt**
+```
+/api/v1/projects?sort=name
+/api/v1/projects?sort=-name
+```
