@@ -13,7 +13,7 @@ dotenv.config({ path: './config/config.env' })
 connectDB()
 
 // Route files
-const notes = require('./routes/notes')
+const projects = require('./routes/projects')
 
 const app = express()
 
@@ -48,7 +48,7 @@ app.use((req, res, next) => {
  */
 
 // Mount routers
-app.use('/api/v1/notes', notes)
+app.use('/api/v1/projects', projects)
 
 app.use(errorHandlrer)
 
