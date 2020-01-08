@@ -12,7 +12,7 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 	let reqQuery = {...req.query}
 
 	// Fields to exclude  // 1 это наши внутренние поля нужны для внутренней обработки 
-	const removeFilelds = ['select', 'sort']
+	const removeFilelds = ['select', 'sort', 'page', 'limit']
 
 	// loop over removeFileds and delete them from reqQuery // 2 и поэтому в запросе к БД их не должно быть (в БД таких полей нет)
 	removeFilelds.forEach(param => delete reqQuery[param])
@@ -40,10 +40,33 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 		query.sort('-createdAt')
 	}
 
+	// Pagination
+	const page = parseInt(req.query.page, 10) || 1
+	const limit = parseInt(req.query.limit, 10) || 25
+	const startIndex = (page -1) * limit
+	const endIndex = page * limit
+	const total = await Project.countDocuments()
+	query.skip(startIndex).limit(limit)
+
 	// Executing query
 	const projects = await query  
 
-	res.status(200).json({success: true, count: projects.length, data: projects})
+	// Pagination result
+	const pagination = {}
+	if (endIndex < total) {
+		pagination.next = {
+			page: page + 1,
+			limit
+		}
+	}
+	if (startIndex > 0) {
+		pagination.prev = {
+			page: page - 1,
+			limit
+		}
+	}
+
+	res.status(200).json({success: true, count: projects.length, pagination, data: projects})
 
 })
 
