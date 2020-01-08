@@ -21,10 +21,6 @@ const ProjectSchemea = new mongoose.Schema({
 	content: String,
 	category: String,
 	label: Array,
-	mustHaveToKnow: {
-		type: Boolean,
-		default: false
-	},
 	averageRating: {
 		type: Number,
 		min: [1, 'Rating must be at least 1'],
@@ -35,21 +31,27 @@ const ProjectSchemea = new mongoose.Schema({
 		default: 'no-photo.jpg'
 	},
 	level: {
-		type: [String],
+		// type: [String], // aray with type string
+		type: String,
 		required: true,
 		enum: [ // one from these
-			'Beginner',
-			'Elementary',
-			'Pre-Intermediate',
-			'Intermidiate',
-			'Upper-Intermediate',	
-			'Advanced',
+			'beginner',
+			'elementary',
+			'pre-intermediate',
+			'intermediate',
+			'upper-intermediate',	
+			'advanced',
 		]
 	},
 	createdAt: {
 		type: Date,
 		default: Date.now
-	}
+	},
+	average: Number
+	// mustHaveToKnow: {
+	// 	type: Boolean,
+	// 	default: false
+	// },
     
 })
 /**

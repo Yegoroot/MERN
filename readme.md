@@ -16,3 +16,13 @@ if (!note) {
     return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 }
 ```
+
+## Filter
+```
+/api/v1/projects?average[lte]=600
+```
+- **[lt]** указывает на **меньше**
+- **[lte]** указывает на **меньше или равно**
+- **[gt]** указывает на **больше**
+- **[gte]** указывает на **больше или равно**
+
