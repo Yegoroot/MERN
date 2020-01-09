@@ -3,56 +3,132 @@
 		"_id": "5d713995b721c3bb38c1f5d0",
 		"user": "5d7a514b5d2c12c7449be045",
 		"name": "Arabic language",
-		"description": "This is project aims to study arabic language, and this description I will fix and I'll write here more aditional information In sha Allah",
+		"description": "This is project aims to study Arabic language, and this description I will fix and I'll write here more aditional information In sha Allah",
 		"content": "",
-		"category": "language",
-		"label": [
-			"Глагол",
-			"Частица"
-		],
-		"level": "elementary",
-		"average": 2000
+		"subscribers": [
+			{
+				"_id": "5d713995b721c3bb98c1f5d0",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d1",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d2",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d3",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d4",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d5",
+				"photo": "no-photo.jpg"
+			}
+		]
 	},
 	{
 		"_id": "5d713a66ec8f2b88b8f830b8",
 		"user": "5d7a514b5d2c12c7449be046",
-		"name": "ModernTech Bootcamp",
+		"name": "English Language",
+		"description": "For students who want to learn English",
 		"content": "",
-		"description": "ModernTech has one goal, and that is to make you a rockstar developer and/or designer with a six figure salary. We teach both development and UI/UX",
-		"category": "programming",
-		"label": [
-			"Имя",
-			"Частица"
-		],
-		"level": "advanced",
-		"average": 100
+		"subscribers": [
+			{
+				"_id": "5d713995b721c3bb98c1f5d0",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d1",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d2",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d3",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d4",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d5",
+				"photo": "no-photo.jpg"
+			}
+		]
 	},
 	{
 		"_id": "5d725a037b292f5f8ceff787",
 		"user": "5c8a1d5b0190b214360dc031",
-		"name": "Codemasters",
+		"name": "Programming",
+		"description": "This this project for people who want to codding",
 		"content": "",
-		"description": "Is coding your passion? Codemasters will give you the skills and the tools to become the best developer possible. We specialize in full stack web development and data science",
-		"category": "programming",
-		"label": [
-			"Имя",
-			"Спряжение глаголов",
-			"Насб глагола"
-		],
-		"level": "elementary",
-		"average": 300
+		"subscribers": [
+			{
+				"_id": "5d713995b721c3bb98c1f5d0",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d1",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d2",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d3",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d4",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d5",
+				"photo": "no-photo.jpg"
+			}
+		]
 	},
 	{
 		"_id": "5d725a1b7b292f5f8ceff788",
 		"user": "5c8a1d5b0190b214360dc032",
-		"name": "Devcentral Bootcamp",
+		"name": "Sport",
+		"description": "This project for people who want to do exercise and save his health and for people who want to became more powerfull",
 		"content": "",
-		"description": "Is coding your passion? Codemasters will give you the skills and the tools to become the best developer possible. We specialize in front end and full stack web development",
-		"category": "programming",
-		"label": [
-			"Склонение"
-		],
-		"level": "intermediate",
-		"average": 450
+		"subscribers": [
+			{
+				"_id": "5d713995b721c3bb98c1f5d0",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d1",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d2",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d3",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d4",
+				"photo": "no-photo.jpg"
+			},
+			{
+				"_id": "5d713995b721c3bb98c1f5d5",
+				"photo": "no-photo.jpg"
+			}
+		]
 	}
 ]

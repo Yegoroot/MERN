@@ -7,7 +7,7 @@ const dotenv = require('dotenv')
 dotenv.config({ path: './config/config.env'})
 
 // Load models
-const Projects = require('./models/Projects')
+const Projects = require('./models/Project')
 
 // Connect to db
 mongoose.connect(process.env.MONGO_URI, {
