@@ -1,6 +1,6 @@
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
-const Categories = require('../models/Categories')
+const Category = require('../models/Category')
 
 // @desc    Get all categories
 // @route   GET /api/v1/categories
@@ -24,7 +24,7 @@ exports.getCategories = asyncHandler(async (req, res, next) => {
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 	
 	// Finding resource
-	query = Categories.find(JSON.parse(queryStr)) 
+	query = Category.find(JSON.parse(queryStr)) 
 
 	// Select Fileds
 	if(req.query.select) {
@@ -45,7 +45,7 @@ exports.getCategories = asyncHandler(async (req, res, next) => {
 	const limit = parseInt(req.query.limit, 10) || 25
 	const startIndex = (page -1) * limit
 	const endIndex = page * limit
-	const total = await Categories.countDocuments()
+	const total = await Category.countDocuments()
 	query.skip(startIndex).limit(limit)
 
 	// Executing query
@@ -75,7 +75,7 @@ exports.getCategories = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getCategory =  asyncHandler(async (req, res, next) => {
 
-	const category = await Categories.findById(req.params.id)
+	const category = await Category.findById(req.params.id)
 		
 	if(!category) {	
 		return	next(new ErrorResponse(`Category not found with of id ${req.params.id}`, 404))
@@ -89,7 +89,7 @@ exports.getCategory =  asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.createCategory = asyncHandler(async (req, res, next) => {
 
-	const category = await Categories.create(req.body)
+	const category = await Category.create(req.body)
 	res.status(201).json({success: true, data: category})
 })
 
@@ -98,7 +98,7 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateCategory = asyncHandler(async (req, res, next) => {
 
-	const category = await Categories.findByIdAndUpdate(req.params.id, req.body, {
+	const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true
 	})
@@ -115,7 +115,7 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.deleteCategory = asyncHandler(async (req, res, next) => {
 
-	const category = await Categories.findByIdAndDelete(req.params.id)
+	const category = await Category.findByIdAndDelete(req.params.id)
 	
 	if (!category) {
 		return	next(new ErrorResponse(`Category not found with of id ${req.params.id}`, 404))

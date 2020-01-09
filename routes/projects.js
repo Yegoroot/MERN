@@ -1,15 +1,15 @@
 const express = require('express')
 const router = express.Router()
 
-const { getNotes, getNote, createNote, updateNote, deleteNote } = require('../controllers/projects')
+const { getProjects, getProject, createProject, updateProject, deleteProject } = require('../controllers/projects')
 
 router.route('/')        
-	.get(getNotes)
-	.post(createNote)
+	.get(getProjects)
+	.post(createProject)
 
 router.route('/:id')	
-	.get(getNote)
-	.put(updateNote)
-	.delete(deleteNote)
+	.get(getProject)
+	.put(updateProject)
+	.delete(deleteProject)
 
 module.exports = router

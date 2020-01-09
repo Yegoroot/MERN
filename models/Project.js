@@ -1,6 +1,13 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
 
+// Subscribes model
+const subscribeSchema = new mongoose.Schema({
+	photo: String,
+})
+mongoose.model('subscribes', subscribeSchema, 'subscribes' )
+
+// Project model
 const ProjectSchemea = new mongoose.Schema({
 	// name of project
 	name: {
@@ -17,48 +24,26 @@ const ProjectSchemea = new mongoose.Schema({
 		required: [ true, 'please add a descripion'],
 		maxlength: [500, 'Descripion can not be more than 500 characters' ],
 	},
-	// content
 	content: String,
-	category: String,
-	label: Array,
-	averageRating: {
-		type: Number,
-		min: [1, 'Rating must be at least 1'],
-		max: [10, 'Rating must can not be more than 10'],
-	},
 	photo: {
 		type: String,
 		default: 'no-photo.jpg'
 	},
-	level: {
-		// type: [String], // aray with type string
-		type: String,
-		required: true,
-		enum: [ // one from these
-			'beginner',
-			'elementary',
-			'pre-intermediate',
-			'intermediate',
-			'upper-intermediate',	
-			'advanced',
-		]
+	subscribers: {
+		type: [Object],
+		ref: 'subscribes'
 	},
 	createdAt: {
 		type: Date,
 		default: Date.now
-	},
-	average: Number
-	// mustHaveToKnow: {
-	// 	type: Boolean,
-	// 	default: false
-	// },
-    
+	} 
 })
 /**
  * это то что происходит на рахных этапах этой схемы, например в момент сохранения записи
  */
 // Create bootcamp slug from the name
 ProjectSchemea.pre('save', function(next){
+	// eslint-disable-next-line no-console
 	console.log('Slugify ran', this.name)
 	this.slug = slugify(this.name, { lower: true })
 	next()
