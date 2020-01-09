@@ -9,14 +9,16 @@ const Category = require('../models/Category')
 exports.getCategories = asyncHandler(async (req, res, next) => {
 	let query
 
-	// if(req.params.projectId) {
-	// 	query = Category.find({project: req.params.projectId})
-	// } else {
-	// 	query = Category.find()
-	// }
-
 	// Copy req query
 	let reqQuery = {...req.query}
+
+	/**
+	 * этот projectId перетягивается с project роутера 
+	 * и в этом месте мы получаем список категорий в определенном проекте
+	 */
+	if(req.params.projectId) {
+		reqQuery.project = req.params.projectId
+	} 
 
 	// Fields to exclude  // 1 это наши внутренние поля нужны для внутренней обработки 
 	const removeFilelds = ['select', 'sort', 'page', 'limit']
