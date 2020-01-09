@@ -1,11 +1,11 @@
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
-const Project = require('../models/Projects')
+const Example = require('../models/Examples')
 
-// @desc    Get all projects
-// @route   GET /api/v1/projects
+// @desc    Get all examples
+// @route   GET /api/v1/examples
 // @access  Public
-exports.getNotes = asyncHandler(async (req, res, next) => {
+exports.getExamples = asyncHandler(async (req, res, next) => {
 	let query
 
 	// Copy req query
@@ -24,7 +24,7 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 	
 	// Finding resource
-	query = Project.find(JSON.parse(queryStr)) 
+	query = Example.find(JSON.parse(queryStr)) 
 
 	// Select Fileds
 	if(req.query.select) {
@@ -45,11 +45,11 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 	const limit = parseInt(req.query.limit, 10) || 25
 	const startIndex = (page -1) * limit
 	const endIndex = page * limit
-	const total = await Project.countDocuments()
+	const total = await Example.countDocuments()
 	query.skip(startIndex).limit(limit)
 
 	// Executing query
-	const projects = await query  
+	const examples = await query  
 
 	// Pagination result
 	const pagination = {}
@@ -66,59 +66,59 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 		}
 	}
 
-	res.status(200).json({success: true, count: projects.length, pagination, data: projects})
+	res.status(200).json({success: true, count: examples.length, pagination, data: examples})
 
 })
 
-// @desc    Get single project
-// @route   GET /api/v1/projects/:id
+// @desc    Get single example
+// @route   GET /api/v1/examples/:id
 // @access  Public
-exports.getNote =  asyncHandler(async (req, res, next) => {
+exports.getExample =  asyncHandler(async (req, res, next) => {
 
-	const project = await Project.findById(req.params.id)
+	const example = await Example.findById(req.params.id)
 		
-	if(!project) {	
-		return	next(new ErrorResponse(`Project not found with of id ${req.params.id}`, 404))
+	if(!example) {	
+		return	next(new ErrorResponse(`Example not found with of id ${req.params.id}`, 404))
 	}
 		
-	res.status(200).json({success: true, data: project})
+	res.status(200).json({success: true, data: example})
 })
 
-// @desc    Create project
-// @route   POST /api/v1/projects/:id
+// @desc    Create example
+// @route   POST /api/v1/examples/:id
 // @access  Private
-exports.createNote = asyncHandler(async (req, res, next) => {
+exports.createExample = asyncHandler(async (req, res, next) => {
 
-	const project = await Project.create(req.body)
-	res.status(201).json({success: true, data: project})
+	const example = await Example.create(req.body)
+	res.status(201).json({success: true, data: example})
 })
 
-// @desc    Update project
-// @route   PUT /api/v1/projects/:id
+// @desc    Update example
+// @route   PUT /api/v1/examples/:id
 // @access  Private
-exports.updateNote = asyncHandler(async (req, res, next) => {
+exports.updateExample = asyncHandler(async (req, res, next) => {
 
-	const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
+	const example = await Example.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true
 	})
 	
-	if (!project) {
-		return	next(new ErrorResponse(`Project not found with of id ${req.params.id}`, 404))
+	if (!example) {
+		return	next(new ErrorResponse(`Example not found with of id ${req.params.id}`, 404))
 	}
 		
-	return res.status(200).json({success: true, data: project})
+	return res.status(200).json({success: true, data: example})
 })
 
-// @desc    Delete project
-// @route   DELETE /api/v1/projects/:id
+// @desc    Delete example
+// @route   DELETE /api/v1/examples/:id
 // @access  Private
-exports.deleteNote = asyncHandler(async (req, res, next) => {
+exports.deleteExample = asyncHandler(async (req, res, next) => {
 
-	const project = await Project.findByIdAndDelete(req.params.id)
+	const example = await Example.findByIdAndDelete(req.params.id)
 	
-	if (!project) {
-		return	next(new ErrorResponse(`Project not found with of id ${req.params.id}`, 404))
+	if (!example) {
+		return	next(new ErrorResponse(`Example not found with of id ${req.params.id}`, 404))
 	}
 
 	return res.status(200).json({success: true, data: {}})
