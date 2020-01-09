@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
 
-const CategorySchemea = new mongoose.Schema({
+const NoteSchemea = new mongoose.Schema({
 	name: {
 		type: String,
 		required: [ true, 'please add a name'],
@@ -36,11 +36,11 @@ const CategorySchemea = new mongoose.Schema({
  * это то что происходит на рахных этапах этой схемы, например следующий код до моментта сохранения записи
  */
 // Create bootcamp slug from the name
-CategorySchemea.pre('save', function(next){
+NoteSchemea.pre('save', function(next){
 	// eslint-disable-next-line no-console
 	console.log('Slugify ran', this.name)
 	this.slug = slugify(this.name, { lower: true })
 	next()
 })
 
-module.exports = mongoose.model('Category', CategorySchemea) 
+module.exports = mongoose.model('Note', NoteSchemea) 

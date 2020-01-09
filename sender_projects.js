@@ -1,5 +1,6 @@
 const fs = require('fs')
 const mongoose = require('mongoose')
+// eslint-disable-next-line no-unused-vars
 const colors = require('colors')
 const dotenv = require('dotenv')
 
@@ -25,9 +26,11 @@ const importData = async () => {
 	try{
 		await Projects.create(projects)
 
+		// eslint-disable-next-line no-console
 		console.log('data imported...'.green.inverse)
 		process.exit()
 	}  catch(err) {
+		// eslint-disable-next-line no-console
 		console.error(err)
 	}
 }
@@ -37,9 +40,11 @@ const deleteData = async () => {
 	try{
 		await Projects.deleteMany()
 
+		// eslint-disable-next-line no-console
 		console.log('data destroyed...'.red.inverse)
 		process.exit()
 	}  catch(err) {
+		// eslint-disable-next-line no-console
 		console.error(err)
 	}
 }
