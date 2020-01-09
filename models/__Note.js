@@ -2,26 +2,27 @@ const mongoose = require('mongoose')
 const slugify = require('slugify')
 
 const NoteSchemea = new mongoose.Schema({
-	name: {
+	title: {
 		type: String,
-		required: [ true, 'please add a name'],
-		unique: true,
 		trim: true,
-		maxlength: [50, 'Name can not be more than 50 characters' ]
+		required: [ true, 'please add a category title'],
 	},
 	slug: String,
 	description: {
 		type: String,
-		required: [ true, 'please add a descripion'],
-		maxlength: [500, 'Descripion can not be more than 500 characters' ],
+		required: [ true, 'please add a descripion']
 	},
 	content: String,
-	project: String,
-	filters: Array,
+	// categories: Array, // может быть и в نحو и в мотивации и дополнительные
 	averageRating: {
 		type: Number,
 		min: [1, 'Rating must be at least 1'],
 		max: [10, 'Rating must can not be more than 10'],
+	},
+	minimumSkill: {
+		type: String,
+		required: [true, 'Please add a minium skill']
+		// enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
 	},
 	photo: {
 		type: String,
