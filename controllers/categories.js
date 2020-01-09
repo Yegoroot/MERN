@@ -4,9 +4,16 @@ const Category = require('../models/Category')
 
 // @desc    Get all categories
 // @route   GET /api/v1/categories
+// @route   GET /api/v1/projects/:projectsId/categories
 // @access  Public
 exports.getCategories = asyncHandler(async (req, res, next) => {
 	let query
+
+	// if(req.params.projectId) {
+	// 	query = Category.find({project: req.params.projectId})
+	// } else {
+	// 	query = Category.find()
+	// }
 
 	// Copy req query
 	let reqQuery = {...req.query}

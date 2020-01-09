@@ -5,7 +5,7 @@
 		"name": "Must Have To Know",
 		"description": "Сдесь то что обязательно знать, выучить наизусть чтоб отскакивало от зубов",
 		"content": "",
-		"project": "arabic_id",
+		"project": "5d713995b721c3bb38c1f5d0",
 		"filters": [
 			"Coran",
 			"beginning",
@@ -16,12 +16,25 @@
 		]
 	},
 	{
-		"_id": "5d713995b721c3bb38c1f5d1",
+		"_id": "5d713995b721c3bb38c1f588",
 		"user": "5d7a514b5d2c12c7449be045",
-		"name": "Advice for students",
+		"name": "Advice for students Arabic",
 		"description": "This area include advices which students can use, this is additional, optional",
 		"content": "",
-		"project": "arabic_id",
+		"project": "5d713995b721c3bb38c1f5d0",
+		"filters": [
+			"beginning",
+			"elementary",
+			"sarf"
+		]
+	},
+	{
+		"_id": "5d713995b721c3bb38c1f5d1",
+		"user": "5d7a514b5d2c12c7449be045",
+		"name": "Advice for students English",
+		"description": "This area include advices which students can use, this is additional, optional",
+		"content": "",
+		"project": "5d713a66ec8f2b88b8f830b8",
 		"filters": [
 			"beginning",
 			"elementary",
@@ -34,7 +47,7 @@
 		"name": "Nahv",
 		"description": "This area include grammar constructions",
 		"content": "",
-		"project": "arabic_id",
+		"project": "5d713995b721c3bb38c1f5d0",
 		"filters": [
 			"mast have",
 			"beginning",
@@ -47,7 +60,7 @@
 		"name": "Al Haal (State)",
 		"description": "This area is grammars which describe state of subject or situation",
 		"content": "",
-		"project": "arabic_id",
+		"project": "5d713995b721c3bb38c1f5d0",
 		"filters": [
 			"mast have",
 			"beginning",
@@ -61,7 +74,7 @@
 		"name": "Audio Materials",
 		"description": "in this block exist a materials for each level",
 		"content": "",
-		"project": "arabic_id",
+		"project": "5d713995b721c3bb38c1f5d0",
 		"filters": [
 			"beginning",
 			"elementary",
@@ -74,7 +87,7 @@
 		"name": "Expression exception",
 		"description": "In this area we explain how you can express exceptions and also give practical example",
 		"content": "",
-		"project": "arabic_id",
+		"project": "5d713995b721c3bb38c1f5d0",
 		"filters": [
 			"beginning",
 			"elementary",
@@ -87,7 +100,7 @@
 		"name": "Video Materials",
 		"description": "in this block exist a materials for each level",
 		"content": "",
-		"project": "arabic_id",
+		"project": "5d713a66ec8f2b88b8f830b8",
 		"filters": [
 			"beginning",
 			"elementary",

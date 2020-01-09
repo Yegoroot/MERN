@@ -16,7 +16,12 @@ const CategorySchemea = new mongoose.Schema({
 		maxlength: [500, 'Descripion can not be more than 500 characters' ],
 	},
 	content: String,
-	project: String,
+	// это связь с моделью Project
+	project: {
+		type: mongoose.Schema.ObjectId,
+		ref: 'Project',
+		required: true
+	},
 	filters: Array,
 	averageRating: {
 		type: Number,
