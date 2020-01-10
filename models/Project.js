@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
+const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
 
 // Subscribes model
 const subscribeSchema = new mongoose.Schema({
@@ -37,7 +38,7 @@ const ProjectSchemea = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	} 
-})
+}, opts)
 /**
  * это то что происходит на рахных этапах этой схемы, например в момент сохранения записи
  */
@@ -47,6 +48,25 @@ ProjectSchemea.pre('save', function(next){
 	console.log('Slugify ran', this.name)
 	this.slug = slugify(this.name, { lower: true })
 	next()
+})
+
+// Cascade delete category when a project is deleted
+ProjectSchemea.pre('remove', async function (next){
+	// eslint-disable-next-line no-console
+	console.log(`Categories being removed from project ${this._id}`)
+	await this.model('Category').deleteMany({ project: this._id })
+	next()
+})
+
+// Reverse populate with virtuals
+/**
+ * В таблицу project мы добавили те категории которые относяться к нему
+ */
+ProjectSchemea.virtual('categories', {
+	ref: 'Category',
+	localField: '_id',
+	foreignField: 'project',
+	// justOne: false
 })
 
 module.exports = mongoose.model('Project', ProjectSchemea) 
