@@ -33,7 +33,15 @@ exports.getCategories = asyncHandler(async (req, res, next) => {
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 	
 	// Finding resource
-	query = Category.find(JSON.parse(queryStr)) 
+	if(req.params.projectId) {
+		query = Category.find(JSON.parse(queryStr)) 
+	}  else {
+
+		query = Category.find(JSON.parse(queryStr)).populate({
+			path: 'project',
+			select: 'name description'
+		})
+	}
 
 	// Select Fileds
 	if(req.query.select) {

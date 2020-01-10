@@ -24,7 +24,10 @@ exports.getProjects = asyncHandler(async (req, res, next) => {
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 	
 	// Finding resource
-	query = Project.find(JSON.parse(queryStr)) 
+	query = Project.find(JSON.parse(queryStr)).populate({
+		path: 'categories',
+		select: 'name description photo'
+	})
 
 	// Select Fileds
 	if(req.query.select) {
@@ -115,11 +118,13 @@ exports.updateProject = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.deleteProject = asyncHandler(async (req, res, next) => {
 
-	const project = await Project.findByIdAndDelete(req.params.id)
+	const project = await Project.findById(req.params.id)
 	
 	if (!project) {
 		return	next(new ErrorResponse(`Project not found with of id ${req.params.id}`, 404))
 	}
+
+	project.remove() // не используем deleteByID потому что не сработает событие .pre('remove',
 
 	return res.status(200).json({success: true, data: {}})
 })
