@@ -34,7 +34,7 @@ const importData = async () => {
 		process.exit()
 	}  catch(err) {
 		// eslint-disable-next-line no-console
-		console.error(err)
+		console.error('Err БРО', err)
 	}
 }
 

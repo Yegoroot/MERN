@@ -1,0 +1,94 @@
+[
+	{
+		"_id": "5d713995b721c3bb38c80100",
+		"category": "5",
+		"user": "",
+		"title": "Именное предложение",
+		"description": "Статья о именном предложении, которая переведена из материалов Мединского Курса",
+		"content": "<h1> Именное предложение </h1>",
+		"language": "russian",
+		"translation": [
+			{
+				"language": "english",
+				"title": "Names expressions",
+				"description": "Article about language",
+				"content": "<h1>Ismi Djumla</h1>"
+			},
+			{
+				"language": "arabic",
+				"title": "يجب أن نعرف",
+				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
+				"content": "<h1>يجب أن نعرف</h1>"
+			}
+		]
+	},
+	{
+		"_id": "5d713995b721c3bb38c80200",
+		"category": "5",
+		"user": "",
+		"title": "Ни'3т и ман'3ут",
+		"description": "Согласованное определение, иными словами слово и определение к нему, например 'Сильный Мужчина ...'",
+		"content": "<h1> Согласованное определение </h1>",
+		"language": "russian",
+		"translation": [
+			{
+				"language": "english",
+				"title": "Ni'3t and Man'3ut",
+				"description": "...",
+				"content": "<h1> </h1>"
+			},
+			{
+				"language": "arabic",
+				"title": "---",
+				"description": "---",
+				"content": "---"
+			}
+		]
+	},
+	{
+		"_id": "5d713995b721c3bb38c80300",
+		"category": "2",
+		"user": "",
+		"title": "Порядковые числительные",
+		"description": "---",
+		"content": "<h1> </h1>",
+		"language": "russian",
+		"translation": [
+			{
+				"language": "english",
+				"title": "Poryadkovie",
+				"description": "---",
+				"content": "<h1> ---</h1>"
+			},
+			{
+				"language": "arabic",
+				"title": "-111--",
+				"description": "--111--",
+				"content": "--11--"
+			}
+		]
+	},
+	{
+		"_id": "5d713995b721c3bb38c80400",
+		"category": "2",
+		"user": "",
+		"title": "Количественные Числительные",
+		"description": "---2---",
+		"content": "<h1> ---2--- </h1>",
+		"language": "russian",
+		"translation": [
+			{
+				"language": "english",
+				"title": "---2---",
+				"description": "---2---",
+				"content": "<h1> ---2--- </h1>"
+			},
+			{
+				"language": "arabic",
+				"title": "---2---",
+				"description": "---2---",
+				"content": "---2---"
+			}
+		]
+	},
+]

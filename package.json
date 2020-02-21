@@ -6,7 +6,9 @@
   "scripts": {
     "start_WINDOWS": "NODE_ENV=production & node server",
     "start": "NODE_ENV=production node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "delete": "node sender.js -d",
+    "install": "node sender.js -i"
   },
   "author": "",
   "license": "ISC",
