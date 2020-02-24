@@ -10,7 +10,7 @@ const CategorySchemea = new mongoose.Schema({
 		maxlength: [50, 'Name can not be more than 50 characters' ]
 	},
 	language: String,
-	translate: Object,
+	translation: Object,
 	slug: String,
 	description: {
 		type: String,
