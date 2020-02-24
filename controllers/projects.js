@@ -77,8 +77,11 @@ exports.getProjects = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/projects/:id
 // @access  Public
 exports.getProject =  asyncHandler(async (req, res, next) => {
-
-	const project = await Project.findById(req.params.id)
+	
+	const project = await Project.findById(req.params.id).populate({
+		path: 'categories',
+		select: 'name description photo'
+	})
 		
 	if(!project) {	
 		return	next(new ErrorResponse(`Project not found with of id ${req.params.id}`, 404))
