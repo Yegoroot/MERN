@@ -8,8 +8,9 @@ const dotenv = require('dotenv')
 dotenv.config({ path: './config/config.env'})
 
 // Load models
-const Projects = require('./models/Project')
+const Project = require('./models/Project')
 const Category = require('./models/Category')
+const Note = require('./models/Note')
 
 // Connect to db
 mongoose.connect(process.env.MONGO_URI, {
@@ -22,12 +23,14 @@ mongoose.connect(process.env.MONGO_URI, {
 // Read JSON files
 const projects = JSON.parse(fs.readFileSync(`${__dirname}/_data/projects.json`, 'utf-8'))
 const categories = JSON.parse(fs.readFileSync(`${__dirname}/_data/categories.json`, 'utf-8'))
+const notes = JSON.parse(fs.readFileSync(`${__dirname}/_data/notes.json`, 'utf-8'))
 
 // Import into DB
 const importData = async () => {
 	try{
-		await Projects.create(projects)
+		await Project.create(projects)
 		await Category.create(categories)
+		await Note.create(notes)
 
 		// eslint-disable-next-line no-console
 		console.log('data imported...'.green.inverse)
@@ -41,8 +44,9 @@ const importData = async () => {
 // Delete data
 const deleteData = async () => {
 	try{
-		await Projects.deleteMany()
+		await Project.deleteMany()
 		await Category.deleteMany()
+		await Note.deleteMany()
 
 		// eslint-disable-next-line no-console
 		console.log('data destroyed...'.red.inverse)

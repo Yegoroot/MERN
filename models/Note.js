@@ -2,11 +2,13 @@ const mongoose = require('mongoose')
 const slugify = require('slugify')
 
 const NoteSchemea = new mongoose.Schema({
-	title: {
+	name: {
 		type: String,
 		trim: true,
-		required: [ true, 'please add a category title'],
+		required: [ true, 'please add a category name'],
 	},
+	language: String,
+	translation: Array,
 	slug: String,
 	description: {
 		type: String,
@@ -20,7 +22,7 @@ const NoteSchemea = new mongoose.Schema({
 		max: [10, 'Rating must can not be more than 10'],
 	},
 	minimumSkill: {
-		type: String,
+		type: Array,
 		required: [true, 'Please add a minium skill']
 		// enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
 	},
