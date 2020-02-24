@@ -5,6 +5,15 @@
 		"name": "Arabic language",
 		"description": "This is project aims to study Arabic language, and this description I will fix and I'll write here more aditional information In sha Allah",
 		"content": "",
+		"language": "en",
+		"translation": [
+			{
+				"language": "ru",
+				"name": "Арабский язык",
+				"description": "Этот проект для изучающих арабский язык",
+				"content": "---"
+			}
+		],
 		"subscribers": [
 			{
 				"_id": "5d713995b721c3bb98c1f5d0",
@@ -38,6 +47,15 @@
 		"name": "English Language",
 		"description": "For students who want to learn English",
 		"content": "",
+		"language": "en",
+		"translation": [
+			{
+				"language": "ru",
+				"name": "Английский язык",
+				"description": "Этот проект для изучающих английский язык",
+				"content": "---"
+			}
+		],
 		"subscribers": [
 			{
 				"_id": "5d713995b721c3bb98c1f5d0",
@@ -71,6 +89,15 @@
 		"name": "Programming",
 		"description": "This this project for people who want to codding",
 		"content": "",
+		"language": "en",
+		"translation": [
+			{
+				"language": "ru",
+				"name": "Программирование",
+				"description": "Этот проект для изучающих программирование",
+				"content": "---"
+			}
+		],
 		"subscribers": [
 			{
 				"_id": "5d713995b721c3bb98c1f5d0",
@@ -104,6 +131,15 @@
 		"name": "Sport",
 		"description": "This project for people who want to do exercise and save his health and for people who want to became more powerfull",
 		"content": "",
+		"language": "ar",
+		"translation": [
+			{
+				"language": "ru",
+				"name": "Спорт",
+				"description": "Этот проект для практикующих различный спорт",
+				"content": "---"
+			}
+		],
 		"subscribers": [
 			{
 				"_id": "5d713995b721c3bb98c1f5d0",
