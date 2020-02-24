@@ -1,0 +1,25 @@
+[
+	{
+		"_id": "00013995b721c3bb38c10300",
+		"project": "5d713995b721c3bb38c1f5d0",
+		"user": "",
+		"language": "ru",
+		"name": "Уровень Легкий",
+		"description": "В этом разделе будут представлены материалы для элементарного понимания языка",
+		"content": "<h1>Легкий старт</h1>",
+		"translation": [
+			{
+				"language": "en",
+				"name": "Level Easy",
+				"description": "In this section we'll present material for elementary ..",
+				"content": "<h1>Level Easy</h1>"
+			},
+			{
+				"language": "ar",
+				"name": "يجب أن نعرف",
+				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
+				"content": "<h1>يجب أن نعرف</h1>"
+			}
+		]
+	}
+]

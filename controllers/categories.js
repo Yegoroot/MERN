@@ -92,7 +92,8 @@ exports.getCategories = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getCategory =  asyncHandler(async (req, res, next) => {
 
-	const category = await Category.findById(req.params.id)
+	const category = await Category.findById(req.params.id).populate('notes')
+	// console.log(category)
 		
 	if(!category) {	
 		return	next(new ErrorResponse(`Category not found with of id ${req.params.id}`, 404))
