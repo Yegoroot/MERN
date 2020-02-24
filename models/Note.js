@@ -7,11 +7,11 @@ const NoteSchemea = new mongoose.Schema({
 		trim: true,
 		required: [ true, 'please add a note name'],
 	},
-	category: {
-		type: mongoose.Schema.ObjectId,
+	category: [{
+		type: mongoose.Schema.ObjectId, 
 		ref: 'Category',
 		required: true
-	},
+	}],
 	language: String,
 	translation: Array,
 	slug: String,
