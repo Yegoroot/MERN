@@ -3,6 +3,11 @@ const router = express.Router({mergeParams: true})
 
 const { getCategories, getCategory, createCategory, updateCategory, deleteCategory } = require('../controllers/categories')
 
+// Include other resource
+const NoteRouter = require('./notes')
+
+router.use('/:categoryId/notes', NoteRouter)
+
 router.route('/')        
 	.get(getCategories)
 	.post(createCategory)
