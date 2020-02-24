@@ -5,7 +5,7 @@ const NoteSchemea = new mongoose.Schema({
 	name: {
 		type: String,
 		trim: true,
-		required: [ true, 'please add a category name'],
+		required: [ true, 'please add a note name'],
 	},
 	category: {
 		type: mongoose.Schema.ObjectId,

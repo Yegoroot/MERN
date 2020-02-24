@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
+const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
 
 const CategorySchemea = new mongoose.Schema({
 	name: {
@@ -38,6 +39,14 @@ const CategorySchemea = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	}
+	
+}, opts)
+
+CategorySchemea.virtual('notes', {
+	ref: 'Note',
+	localField: '_id',
+	foreignField: 'category',
+	// justOne: false
 })
 /**
  * это то что происходит на рахных этапах этой схемы, например следующий код до моментта сохранения записи
