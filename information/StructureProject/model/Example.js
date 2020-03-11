@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
 
-const ProjectSchemea = new mongoose.Schema({
-	// name of project
+const Topicschemea = new mongoose.Schema({
+	// name of topic
 	name: {
 		type: String,
 		required: [ true, 'please add a name'],
@@ -11,7 +11,7 @@ const ProjectSchemea = new mongoose.Schema({
 		maxlength: [50, 'Name can not be more than 50 characters' ]
 	},
 	slug: String,
-	// desc's project
+	// desc's topic
 	description: {
 		type: String,
 		required: [ true, 'please add a descripion'],
@@ -19,7 +19,7 @@ const ProjectSchemea = new mongoose.Schema({
 	},
 	// content
 	content: String,
-	category: String,
+	note: String,
 	label: Array,
 	averageRating: {
 		type: Number,
@@ -58,10 +58,10 @@ const ProjectSchemea = new mongoose.Schema({
  * это то что происходит на рахных этапах этой схемы, например в момент сохранения записи
  */
 // Create bootcamp slug from the name
-ProjectSchemea.pre('save', function(next){
+Topicschemea.pre('save', function(next){
 	console.log('Slugify ran', this.name)
 	this.slug = slugify(this.name, { lower: true })
 	next()
 })
 
-module.exports = mongoose.model('Project', ProjectSchemea) 
+module.exports = mongoose.model('Topic', Topicschemea) 

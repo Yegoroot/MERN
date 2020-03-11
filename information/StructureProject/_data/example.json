@@ -3,9 +3,9 @@
 		"_id": "5d713995b721c3bb38c1f5d0",
 		"user": "5d7a514b5d2c12c7449be045",
 		"name": "Arabic language",
-		"description": "This is project aims to study arabic language, and this description I will fix and I'll write here more aditional information In sha Allah",
+		"description": "This is topic aims to study arabic language, and this description I will fix and I'll write here more aditional information In sha Allah",
 		"content": "",
-		"category": "language",
+		"note": "language",
 		"label": [
 			"Глагол",
 			"Частица"
@@ -19,7 +19,7 @@
 		"name": "ModernTech Bootcamp",
 		"content": "",
 		"description": "ModernTech has one goal, and that is to make you a rockstar developer and/or designer with a six figure salary. We teach both development and UI/UX",
-		"category": "programming",
+		"note": "programming",
 		"label": [
 			"Имя",
 			"Частица"
@@ -33,7 +33,7 @@
 		"name": "Codemasters",
 		"content": "",
 		"description": "Is coding your passion? Codemasters will give you the skills and the tools to become the best developer possible. We specialize in full stack web development and data science",
-		"category": "programming",
+		"note": "programming",
 		"label": [
 			"Имя",
 			"Спряжение глаголов",
@@ -48,7 +48,7 @@
 		"name": "Devcentral Bootcamp",
 		"content": "",
 		"description": "Is coding your passion? Codemasters will give you the skills and the tools to become the best developer possible. We specialize in front end and full stack web development",
-		"category": "programming",
+		"note": "programming",
 		"label": [
 			"Склонение"
 		],

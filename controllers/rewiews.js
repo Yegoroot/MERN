@@ -1,12 +1,12 @@
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
-const Note = require('../models/Note')
+const Rewiew = require('../models/Rewiew')
 
 // @desc    Get all notes
 // @route   GET /api/v1/notes
 // @route   GET /api/v1/topics/:topicsId/notes
 // @access  Public
-exports.getNotes = asyncHandler(async (req, res, next) => {
+exports.getRewiews = asyncHandler(async (req, res, next) => {
 	let query
 
 	// Copy req query
@@ -16,8 +16,8 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 	 * этот topicId перетягивается с topic роутера 
 	 * и в этом месте мы получаем список категорий в определенном проекте
 	 */
-	if(req.params.topicId) {
-		reqQuery.topic = req.params.topicId
+	if(req.params.noteId) {
+		reqQuery.note = req.params.noteId
 	} 
 
 	// Fields to exclude  // 1 это наши внутренние поля нужны для внутренней обработки 
@@ -33,12 +33,15 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 	
 	// Finding resource
-	if(req.params.topicId) {
-		query = Note.find(JSON.parse(queryStr)) 
+	if(req.params.noteId) {
+		/** 
+		 * если выводим /notes/__hash__/rewiews то не зачем вставлять данные о категории
+		 */
+		query = Rewiew.find(JSON.parse(queryStr)) 
 	}  else {
 
-		query = Note.find(JSON.parse(queryStr)).populate({
-			path: 'topic',
+		query = Rewiew.find(JSON.parse(queryStr)).populate({
+			path: 'note',
 			select: 'name description'
 		})
 	}
@@ -62,11 +65,11 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 	const limit = parseInt(req.query.limit, 10) || 25
 	const startIndex = (page -1) * limit
 	const endIndex = page * limit
-	const total = await Note.countDocuments()
+	const total = await Rewiew.countDocuments()
 	query.skip(startIndex).limit(limit)
 
 	// Executing query
-	const notes = await query  
+	const rewiews = await query  
 
 	// Pagination result
 	const pagination = {}
@@ -83,62 +86,6 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 		}
 	}
 
-	res.status(200).json({success: true, count: notes.length, pagination, data: notes})
+	res.status(200).json({success: true, count: rewiews.length, pagination, data: rewiews})
 
-})
-
-// @desc    Get single note
-// @route   GET /api/v1/notes/:id
-// @access  Public
-exports.getNote =  asyncHandler(async (req, res, next) => {
-
-	const note = await Note.findById(req.params.id).populate('rewiews')
-	// console.log(note)
-		
-	if(!note) {	
-		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
-	}
-		
-	res.status(200).json({success: true, data: note})
-})
-
-// @desc    Create note
-// @route   POST /api/v1/notes/:id
-// @access  Private
-exports.createNote = asyncHandler(async (req, res, next) => {
-
-	console.log(req)
-	const note = await Note.create(req.body)
-	res.status(201).json({success: true, data: note})
-})
-
-// @desc    Update note
-// @route   PUT /api/v1/notes/:id
-// @access  Private
-exports.updateNote = asyncHandler(async (req, res, next) => {
-
-	const note = await Note.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-		runValidators: true
-	})
-	
-	if (!note) {
-		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
-	}
-		
-	return res.status(200).json({success: true, data: note})
-})
-
-// @desc    Delete note
-// @route   DELETE /api/v1/notes/:id
-// @access  Private
-exports.deleteNote = asyncHandler(async (req, res, next) => {
-
-	const note = await Note.findByIdAndDelete(req.params.id)
-	
-	if (!note) {
-		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
-	}
-
-	return res.status(200).json({success: true, data: {}})
 })

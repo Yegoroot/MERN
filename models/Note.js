@@ -1,35 +1,34 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
+const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
 
 const NoteSchemea = new mongoose.Schema({
 	name: {
 		type: String,
+		required: [ true, 'please add a name'],
+		unique: true,
 		trim: true,
-		required: [ true, 'please add a note name'],
+		maxlength: [50, 'Name can not be more than 50 characters' ]
 	},
-	category: [{
-		type: mongoose.Schema.ObjectId, 
-		ref: 'Category',
-		required: true
-	}],
 	language: String,
-	translation: Array,
+	translation: Object,
 	slug: String,
 	description: {
 		type: String,
-		required: [ true, 'please add a descripion']
+		required: [ true, 'please add a descripion'],
+		maxlength: [500, 'Descripion can not be more than 500 characters' ],
 	},
 	content: String,
-	// categories: Array, // может быть и в نحو и в мотивации и дополнительные
+	topic: [{
+		type: mongoose.Schema.ObjectId, 
+		ref: 'Topic',
+		required: true
+	}],
+	filters: Array,
 	averageRating: {
 		type: Number,
 		min: [1, 'Rating must be at least 1'],
 		max: [10, 'Rating must can not be more than 10'],
-	},
-	minimumSkill: {
-		type: Array,
-		required: [true, 'Please add a minium skill']
-		// enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
 	},
 	photo: {
 		type: String,
@@ -39,6 +38,14 @@ const NoteSchemea = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	}
+	
+}, opts)
+
+NoteSchemea.virtual('rewiews', {
+	ref: 'Rewiew',
+	localField: '_id',
+	foreignField: 'note',
+	// justOne: false
 })
 /**
  * это то что происходит на рахных этапах этой схемы, например следующий код до моментта сохранения записи
