@@ -1,7 +1,6 @@
 [
 	{
 		"_id": "23413995b721c3bb38c10100",
-		"project": "5d713995b721c3bb38c1f5d0",
 		"user": "",
 		"language": "ru",
 		"name": "Должен знать",
@@ -20,11 +19,20 @@
 				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
 				"content": "<h1>يجب أن نعرف</h1>"
 			}
+		],
+		"tags": [
+			{
+				"text": "sarf",
+				"color": "#ccc"
+			},
+			{
+				"text": "harf_ma",
+				"color": "#ccc"
+			}
 		]
 	},
 	{
 		"_id": "98713995b721c3bb38c10200",
-		"project": "5d713995b721c3bb38c1f5d0",
 		"user": "",
 		"language": "ru",
 		"name": "Числительные",
@@ -43,11 +51,16 @@
 				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
 				"content": "<h1>يجب أن نعرف</h1>"
 			}
+		],
+		"tags": [
+			{
+				"text": "sarf",
+				"color": "#ccc"
+			}
 		]
 	},
 	{
 		"_id": "00013995b721c3bb38c10300",
-		"project": "5d713995b721c3bb38c1f5d0",
 		"user": "",
 		"language": "ru",
 		"name": "Уровень Легкий",
@@ -66,11 +79,16 @@
 				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
 				"content": "<h1>يجب أن نعرف</h1>"
 			}
+		],
+		"tags": [
+			{
+				"text": "sarf",
+				"color": "#ccc"
+			}
 		]
 	},
 	{
 		"_id": "00013995b721c3bb38c10400",
-		"project": "5d713a66ec8f2b88b8f830b8",
 		"user": "",
 		"language": "en",
 		"name": "Advice for students En",
@@ -88,6 +106,12 @@
 				"name": "يجب أن نعرف",
 				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
 				"content": "<h1>يجب أن نعرف</h1>"
+			}
+		],
+		"tags": [
+			{
+				"text": "sarf",
+				"color": "#ccc"
 			}
 		]
 	}

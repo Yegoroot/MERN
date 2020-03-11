@@ -2,15 +2,15 @@ const mongoose = require('mongoose')
 const slugify = require('slugify')
 const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
 
-// Subscribes model
-const subscribeSchema = new mongoose.Schema({
+// tags model
+const tags = new mongoose.Schema({
 	photo: String,
 })
-mongoose.model('subscribes', subscribeSchema, 'subscribes' )
+mongoose.model('tags', tags, 'tags' )
 
-// Project model
-const ProjectSchemea = new mongoose.Schema({
-	// name of project
+// Topic model
+const Topicschemea = new mongoose.Schema({
+	// name of topic
 	name: {
 		type: String,
 		required: [ true, 'please add a name'],
@@ -22,7 +22,7 @@ const ProjectSchemea = new mongoose.Schema({
 	language: String,
 	translation: Array,
 	slug: String,
-	// desc's project
+	// desc's topic
 	description: {
 		type: String,
 		required: [ true, 'please add a descripion'],
@@ -33,9 +33,9 @@ const ProjectSchemea = new mongoose.Schema({
 		type: String,
 		default: 'no-photo.jpg'
 	},
-	subscribers: {
+	tags: {
 		type: [Object],
-		ref: 'subscribes'
+		ref: 'tags'
 	},
 	createdAt: {
 		type: Date,
@@ -46,30 +46,30 @@ const ProjectSchemea = new mongoose.Schema({
  * это то что происходит на рахных этапах этой схемы, например в момент сохранения записи
  */
 // Create bootcamp slug from the name
-ProjectSchemea.pre('save', function(next){
+Topicschemea.pre('save', function(next){
 	// eslint-disable-next-line no-console
 	console.log('Slugify ran', this.name)
 	this.slug = slugify(this.name, { lower: true })
 	next()
 })
 
-// Cascade delete category when a project is deleted
-ProjectSchemea.pre('remove', async function (next){
+// Cascade delete note when a topic is deleted
+Topicschemea.pre('remove', async function (next){
 	// eslint-disable-next-line no-console
-	console.log(`Categories being removed from project ${this._id}`)
-	await this.model('Category').deleteMany({ project: this._id })
+	console.log(`Notes being removed from topic ${this._id}`)
+	await this.model('Note').deleteMany({ topic: this._id })
 	next()
 })
 
 // Reverse populate with virtuals
 /**
- * В таблицу project мы добавили те категории которые относяться к нему
+ * В таблицу topic мы добавили те категории которые относяться к нему
  */
-ProjectSchemea.virtual('categories', {
-	ref: 'Category',
+Topicschemea.virtual('notes', {
+	ref: 'Note',
 	localField: '_id',
-	foreignField: 'project',
+	foreignField: 'topic',
 	// justOne: false
 })
 
-module.exports = mongoose.model('Project', ProjectSchemea) 
+module.exports = mongoose.model('Topic', Topicschemea) 

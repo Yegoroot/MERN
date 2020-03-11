@@ -1,11 +1,11 @@
-## Structure The project
-First of all in the general this is project for **project**. Project to lear Arabic, had been decided to expand the project with areas such as **English** and **computer science** 
+## Structure The topic
+First of all in the general this is topic for **topic**. Topic to lear Arabic, had been decided to expand the topic with areas such as **English** and **computer science** 
 
-Project -> A lot of categories -> A lot of materials
+Topic -> A lot of notes -> A lot of materials
 
 ## Filter
 ```
-/api/v1/projects?average[lte]=600
+/api/v1/topics?average[lte]=600
 ```
 - **[lt]** указывает на **меньше**
 - **[lte]** указывает на **меньше или равно**
@@ -15,16 +15,16 @@ Project -> A lot of categories -> A lot of materials
 ## Select and Sort
 In this case we can **select fileds** which we want
 ```
-/api/v1/projects?select=name,description
+/api/v1/topics?select=name,description
 ```
 By default **-createdAt**
 ```
-/api/v1/projects?sort=name
-/api/v1/projects?sort=-name
+/api/v1/topics?sort=name
+/api/v1/topics?sort=-name
 ```
 
 ## Validation Errors
-In this project we dont use 3rd part library for validation instead we created **middleware/error**, which include in **server.js** and use in **controller/note.js** (for example) 
+In this topic we dont use 3rd part library for validation instead we created **middleware/error**, which include in **server.js** and use in **controller/rewiew.js** (for example) 
 ```js
 try {
     // ...
@@ -37,29 +37,29 @@ catch(err) {
 ```
 Also we use the construction allow us directly send message's error without additional logic and conditions. For custom status code and custom message
 ```js
-if (!note) {
-    return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
+if (!rewiew) {
+    return	next(new ErrorResponse(`Rewiew not found with of id ${req.params.id}`, 404))
 }
 ```
 
 ### mongoose populate()
 This this methos which allow one table to load data from another table.
-For example in the table Categories has field project="sadfsdfasdfasdfasdf7897892347ri2uh" which indicate id one of the project from table Project. We want to know more information about this project, not only id
+For example in the table Notes has field topic="sadfsdfasdfasdfasdf7897892347ri2uh" which indicate id one of the topic from table Topic. We want to know more information about this topic, not only id
 
 [More about populate() in the official doc](https://mongoosejs.com/docs/tutorials/virtuals.html#populate)
 
 ```js
-query = Category.find(JSON.parse(queryStr)).populate({
-    path: 'project', // link of field 'project' )
+query = Note.find(JSON.parse(queryStr)).populate({
+    path: 'topic', // link of field 'topic' )
     select: 'name description'
 })
 ```
 
 ```js
-// * this in the model Category 
-project: { // into here load data from table Project* 
+// * this in the model Note 
+topic: { // into here load data from table Topic* 
     type: mongoose.Schema.ObjectId,
-    ref: 'Project',
+    ref: 'Topic',
     required: true
 },
 ```

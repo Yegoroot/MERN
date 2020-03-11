@@ -8,9 +8,9 @@ const dotenv = require('dotenv')
 dotenv.config({ path: './config/config.env'})
 
 // Load models
-const Project = require('./models/Project')
-const Category = require('./models/Category')
+const Topic = require('./models/Topic')
 const Note = require('./models/Note')
+const Rewiew = require('./models/Rewiew')
 
 // Connect to db
 mongoose.connect(process.env.MONGO_URI, {
@@ -21,16 +21,16 @@ mongoose.connect(process.env.MONGO_URI, {
 })
 
 // Read JSON files
-const projects = JSON.parse(fs.readFileSync(`${__dirname}/_data/projects.json`, 'utf-8'))
-const categories = JSON.parse(fs.readFileSync(`${__dirname}/_data/categories.json`, 'utf-8'))
+const topics = JSON.parse(fs.readFileSync(`${__dirname}/_data/topics.json`, 'utf-8'))
 const notes = JSON.parse(fs.readFileSync(`${__dirname}/_data/notes.json`, 'utf-8'))
+const rewiews = JSON.parse(fs.readFileSync(`${__dirname}/_data/rewiews.json`, 'utf-8'))
 
 // Import into DB
 const importData = async () => {
 	try{
-		await Project.create(projects)
-		await Category.create(categories)
+		await Topic.create(topics)
 		await Note.create(notes)
+		await Rewiew.create(rewiews)
 
 		// eslint-disable-next-line no-console
 		console.log('data imported...'.green.inverse)
@@ -44,9 +44,9 @@ const importData = async () => {
 // Delete data
 const deleteData = async () => {
 	try{
-		await Project.deleteMany()
-		await Category.deleteMany()
+		await Topic.deleteMany()
 		await Note.deleteMany()
+		await Rewiew.deleteMany()
 
 		// eslint-disable-next-line no-console
 		console.log('data destroyed...'.red.inverse)

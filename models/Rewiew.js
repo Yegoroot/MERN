@@ -1,35 +1,35 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
-const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
 
-const CategorySchemea = new mongoose.Schema({
+const Rewiewschemea = new mongoose.Schema({
 	name: {
 		type: String,
-		required: [ true, 'please add a name'],
-		unique: true,
 		trim: true,
-		maxlength: [50, 'Name can not be more than 50 characters' ]
+		required: [ true, 'please add a rewiew name'],
+	},
+	note: {
+		type: mongoose.Schema.ObjectId, 
+		ref: 'Note',
+		required: true
 	},
 	language: String,
-	translation: Object,
+	translation: Array,
 	slug: String,
 	description: {
 		type: String,
-		required: [ true, 'please add a descripion'],
-		maxlength: [500, 'Descripion can not be more than 500 characters' ],
+		required: [ true, 'please add a descripion']
 	},
 	content: String,
-	// это связь с моделью Project
-	project: {
-		type: mongoose.Schema.ObjectId,
-		ref: 'Project',
-		required: true
-	},
-	filters: Array,
+	// notes: Array, // может быть и в نحو и в мотивации и дополнительные
 	averageRating: {
 		type: Number,
 		min: [1, 'Rating must be at least 1'],
 		max: [10, 'Rating must can not be more than 10'],
+	},
+	minimumSkill: {
+		type: Array,
+		required: [true, 'Please add a minium skill']
+		// enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
 	},
 	photo: {
 		type: String,
@@ -39,24 +39,16 @@ const CategorySchemea = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	}
-	
-}, opts)
-
-CategorySchemea.virtual('notes', {
-	ref: 'Note',
-	localField: '_id',
-	foreignField: 'category',
-	// justOne: false
 })
 /**
  * это то что происходит на рахных этапах этой схемы, например следующий код до моментта сохранения записи
  */
 // Create bootcamp slug from the name
-CategorySchemea.pre('save', function(next){
+Rewiewschemea.pre('save', function(next){
 	// eslint-disable-next-line no-console
 	console.log('Slugify ran', this.name)
 	this.slug = slugify(this.name, { lower: true })
 	next()
 })
 
-module.exports = mongoose.model('Category', CategorySchemea) 
+module.exports = mongoose.model('Rewiew', Rewiewschemea) 
