@@ -68,12 +68,13 @@ topic: { // into here load data from table Topic*
 
 ### static
 Есть у монгоДБ возможность вычисления среднего показания по записям в бд, при удалении или добавлении соответсвенно пересчитывается https://coursehunter.net/course/node-js-api-master-klass-s-express-i-mongodb в уроке 41
+то есть для родительсякого документа можно вычитать среднее по дочерним и при изминении дочерних пересчитывать в родтеле
 
 ```js
 // model
 
 // static method to get avg of smt of note
-NoteSchema.static.getAverageFunc = async function(topicId) {
+NoteSchema.statics.getAverageFunc = async function(topicId) {
     console.log('Calculating avg')
 
     const obj = await this.aggregate([
@@ -82,7 +83,7 @@ NoteSchema.static.getAverageFunc = async function(topicId) {
         },
         {
             $group: {
-                _id: '$bootcamp',
+                _id: '$topic',
                 averageField: { $avg: '$fieldNAmeIsHERE' }
             }
         }

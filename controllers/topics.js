@@ -26,7 +26,7 @@ exports.getTopics = asyncHandler(async (req, res, next) => {
 	// Finding resource
 	query = Topic.find(JSON.parse(queryStr)).populate({
 		path: 'notes',
-		select: 'name description photo'
+		select: 'title description photo'
 	})
 
 	// Select Fileds
@@ -80,7 +80,7 @@ exports.getTopic =  asyncHandler(async (req, res, next) => {
 	
 	const topic = await Topic.findById(req.params.id).populate({
 		path: 'notes',
-		select: 'name description photo'
+		select: 'title description photo'
 	})
 		
 	if(!topic) {	

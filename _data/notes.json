@@ -5,20 +5,21 @@
 			"00013995b721c3bb38c10300"
 		],
 		"user": "",
-		"name": "Именное предложение",
+		"title": "Именное предложение",
 		"description": "Статья о именном предложении, которая переведена из материалов Мединского Курса",
 		"content": "<h1> Именное предложение </h1>",
 		"language": "ru",
+		"level": 3,
 		"translation": [
 			{
 				"language": "en",
-				"name": "Names expressions",
+				"title": "Titles expressions",
 				"description": "Article about language",
 				"content": "<h1>Ismi Djumla</h1>"
 			},
 			{
 				"language": "ar",
-				"name": "يجب أن نعرف",
+				"title": "يجب أن نعرف",
 				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
 				"content": "<h1>يجب أن نعرف</h1>"
 			}
@@ -33,23 +34,24 @@
 			"00013995b721c3bb38c10300"
 		],
 		"user": "",
-		"name": "Ни'3т и ман'3ут",
+		"title": "Ни'3т и ман'3ут",
 		"description": "Согласованное определение, иными словами слово и определение к нему, например 'Сильный Мужчина ...'",
 		"content": "<h1> Согласованное определение </h1>",
 		"language": "ru",
+		"level": 2,
 		"minimumSkill": [
 			"alphabet"
 		],
 		"translation": [
 			{
 				"language": "en",
-				"name": "Ni'3t and Man'3ut",
+				"title": "Ni'3t and Man'3ut",
 				"description": "...",
 				"content": "<h1> </h1>"
 			},
 			{
 				"language": "ar",
-				"name": "---",
+				"title": "---",
 				"description": "---",
 				"content": "---"
 			}
@@ -62,7 +64,8 @@
 			"00013995b721c3bb38c10300"
 		],
 		"user": "",
-		"name": "Порядковые числительные",
+		"level": 4,
+		"title": "Порядковые числительные",
 		"description": "---",
 		"content": "<h1> </h1>",
 		"language": "ru",
@@ -72,13 +75,13 @@
 		"translation": [
 			{
 				"language": "en",
-				"name": "Poryadkovie",
+				"title": "Poryadkovie",
 				"description": "---",
 				"content": "<h1> ---</h1>"
 			},
 			{
 				"language": "ar",
-				"name": "-111--",
+				"title": "-111--",
 				"description": "--111--",
 				"content": "--11--"
 			}
@@ -90,23 +93,24 @@
 			"98713995b721c3bb38c10200"
 		],
 		"user": "",
-		"name": "Количественные Числительные",
+		"title": "Количественные Числительные",
 		"description": "---2---",
 		"content": "<h1> ---2--- </h1>",
 		"language": "ru",
+		"level": 3,
 		"minimumSkill": [
 			"alphabet"
 		],
 		"translation": [
 			{
 				"language": "en",
-				"name": "---2---",
+				"title": "---2---",
 				"description": "---2---",
 				"content": "<h1> ---2--- </h1>"
 			},
 			{
 				"language": "ar",
-				"name": "---2---",
+				"title": "---2---",
 				"description": "---2---",
 				"content": "---2---"
 			}

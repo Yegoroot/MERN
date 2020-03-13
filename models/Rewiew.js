@@ -23,20 +23,10 @@ const Rewiewschemea = new mongoose.Schema({
 	},
 	language: String,
 	slug: String,
-	minimumSkill: {
-		type: String,
-		required: [true, 'Please add a minium skill'],
-		enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
-	},
 	createdAt: {
 		type: Date,
 		default: Date.now
-	},
-	// user: {
-	// 	type: mongoose.mongoose.Schema.ObjectId,
-	// 	ref: 'User',
-	// 	required: true
-	// }
+	}
 })
 /**
  * это то что происходит на рахных этапах этой схемы, например следующий код до моментта сохранения записи

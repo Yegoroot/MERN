@@ -13,7 +13,7 @@ module.exports = {
     ecmaVersion: 2020
   },
   rules: {
-    "no-console": "warn",
+    "no-console": ["warn", { allow: ["warn", "info", "error"] }],
     "quotes": ["error", "single"],
     "semi": ["warn", "never"],
     "max-len": [

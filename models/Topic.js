@@ -10,13 +10,13 @@ mongoose.model('tags', tags, 'tags' )
 
 // Topic model
 const Topicschemea = new mongoose.Schema({
-	// name of topic
-	name: {
+	// title of topic
+	title: {
 		type: String,
-		required: [ true, 'please add a name'],
+		required: [ true, 'please add a title'],
 		unique: true,
 		trim: true,
-		maxlength: [50, 'Name can not be more than 50 characters' ]
+		maxlength: [50, 'Title can not be more than 50 characters' ]
 	},
 	icon: String,
 	language: String,
@@ -37,6 +37,10 @@ const Topicschemea = new mongoose.Schema({
 		type: [Object],
 		ref: 'tags'
 	},
+	updatedAt: {
+		type: Date,
+		default: Date.now
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now
@@ -45,11 +49,11 @@ const Topicschemea = new mongoose.Schema({
 /**
  * это то что происходит на рахных этапах этой схемы, например в момент сохранения записи
  */
-// Create bootcamp slug from the name
+// Create bootcamp slug from the title
 Topicschemea.pre('save', function(next){
 	// eslint-disable-next-line no-console
-	console.log('Slugify ran', this.name)
-	this.slug = slugify(this.name, { lower: true })
+	console.log('Slugify ran', this.title)
+	this.slug = slugify(this.title, { lower: true })
 	next()
 })
 
@@ -69,6 +73,7 @@ Topicschemea.virtual('notes', {
 	ref: 'Note',
 	localField: '_id',
 	foreignField: 'topic',
+	id: true
 	// justOne: false
 })
 

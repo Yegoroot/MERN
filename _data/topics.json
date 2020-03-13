@@ -3,19 +3,19 @@
 		"_id": "23413995b721c3bb38c10100",
 		"user": "",
 		"language": "ru",
-		"name": "Должен знать",
+		"title": "Должен знать",
 		"description": "Сдесь то что обязательно знать, выучить наизусть чтоб отскакивало от зубов",
 		"content": "<h1>Должен знать</h1>",
 		"translation": [
 			{
 				"language": "en",
-				"name": "Must Have To Know",
+				"title": "Must Have To Know",
 				"description": "Here is what you need to know, memorize to bounce off your teeth",
 				"content": "<h1>Must Have To Know</h1>"
 			},
 			{
 				"language": "ar",
-				"name": "يجب أن نعرف",
+				"title": "يجب أن نعرف",
 				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
 				"content": "<h1>يجب أن نعرف</h1>"
 			}
@@ -23,11 +23,11 @@
 		"tags": [
 			{
 				"text": "sarf",
-				"color": "#ccc"
+				"color": "#e53935"
 			},
 			{
 				"text": "harf_ma",
-				"color": "#ccc"
+				"color": "#3f51b5"
 			}
 		]
 	},
@@ -35,19 +35,19 @@
 		"_id": "98713995b721c3bb38c10200",
 		"user": "",
 		"language": "ru",
-		"name": "Числительные",
+		"title": "Числительные",
 		"description": "Числительные в арабском языке и разные примеры с ними, в этом блоке мы расставим все по полочкам",
 		"content": "<h1>Числительные</h1>",
 		"translation": [
 			{
 				"language": "en",
-				"name": "Chislitelniye Ar Language",
+				"title": "Chislitelniye Ar Language",
 				"description": "In this section we'll nave learn all material about chislitelnie",
 				"content": "<h1>Chislitelniye</h1>"
 			},
 			{
 				"language": "ar",
-				"name": "يجب أن نعرف",
+				"title": "يجب أن نعرف",
 				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
 				"content": "<h1>يجب أن نعرف</h1>"
 			}
@@ -55,7 +55,7 @@
 		"tags": [
 			{
 				"text": "sarf",
-				"color": "#ccc"
+				"color": "#e53935"
 			}
 		]
 	},
@@ -63,19 +63,19 @@
 		"_id": "00013995b721c3bb38c10300",
 		"user": "",
 		"language": "ru",
-		"name": "Уровень Легкий",
+		"title": "Уровень Легкий",
 		"description": "В этом разделе будут представлены материалы для элементарного понимания языка",
 		"content": "<h1>Легкий старт</h1>",
 		"translation": [
 			{
 				"language": "en",
-				"name": "Level Easy",
+				"title": "Level Easy",
 				"description": "In this section we'll present material for elementary ..",
 				"content": "<h1>Level Easy</h1>"
 			},
 			{
 				"language": "ar",
-				"name": "يجب أن نعرف",
+				"title": "يجب أن نعرف",
 				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
 				"content": "<h1>يجب أن نعرف</h1>"
 			}
@@ -83,7 +83,7 @@
 		"tags": [
 			{
 				"text": "sarf",
-				"color": "#ccc"
+				"color": "#e53935"
 			}
 		]
 	},
@@ -91,19 +91,19 @@
 		"_id": "00013995b721c3bb38c10400",
 		"user": "",
 		"language": "en",
-		"name": "Advice for students En",
+		"title": "Advice for students En",
 		"description": "This area include advices which students can use, this is additional, optional",
 		"content": "<h1>Advice for students En</h1>",
 		"translation": [
 			{
 				"language": "ru",
-				"name": "Советы для студентов изучающих английский",
+				"title": "Советы для студентов изучающих английский",
 				"description": "Эта область включает советы",
 				"content": "<h1>Советы для студентов изучающих английский</h1>"
 			},
 			{
 				"language": "ar",
-				"name": "يجب أن نعرف",
+				"title": "يجب أن نعرف",
 				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
 				"content": "<h1>يجب أن نعرف</h1>"
 			}
@@ -111,7 +111,7 @@
 		"tags": [
 			{
 				"text": "sarf",
-				"color": "#ccc"
+				"color": "#e53935"
 			}
 		]
 	}

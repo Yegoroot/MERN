@@ -42,7 +42,7 @@ exports.getRewiews = asyncHandler(async (req, res, next) => {
 
 		query = Rewiew.find(JSON.parse(queryStr)).populate({
 			path: 'note',
-			select: 'name description'
+			select: 'title description'
 		})
 	}
 

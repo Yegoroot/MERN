@@ -1,26 +1,32 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
-const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
+const opts = { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 
 const NoteSchemea = new mongoose.Schema({
-	name: {
+	title: {
 		type: String,
-		required: [ true, 'please add a name'],
+		required: [true, 'please add a title'],
 		unique: true,
 		trim: true,
-		maxlength: [50, 'Name can not be more than 50 characters' ]
+		maxlength: [50, 'Title can not be more than 50 characters']
 	},
 	language: String,
 	translation: Object,
 	slug: String,
+	level: Number,
 	description: {
 		type: String,
-		required: [ true, 'please add a descripion'],
-		maxlength: [500, 'Descripion can not be more than 500 characters' ],
+		required: [true, 'please add a descripion'],
+		maxlength: [500, 'Descripion can not be more than 500 characters'],
 	},
+	minimumSkill: [{
+		type: String,
+		required: [true, 'Please add a minium skill'],
+		// enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
+	}],
 	content: String,
 	topic: [{
-		type: mongoose.Schema.ObjectId, 
+		type: mongoose.Schema.ObjectId,
 		ref: 'Topic',
 		required: true
 	}],
@@ -38,7 +44,7 @@ const NoteSchemea = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	}
-	
+
 }, opts)
 
 NoteSchemea.virtual('rewiews', {
@@ -47,15 +53,34 @@ NoteSchemea.virtual('rewiews', {
 	foreignField: 'note',
 	// justOne: false
 })
-/**
- * это то что происходит на рахных этапах этой схемы, например следующий код до моментта сохранения записи
- */
-// Create bootcamp slug from the name
-NoteSchemea.pre('save', function(next){
-	// eslint-disable-next-line no-console
-	console.log('Slugify ran', this.name)
-	this.slug = slugify(this.name, { lower: true })
+
+// static method to get date of update or create date of note
+NoteSchemea.statics.setUpdatedAtTopic = async function (topicIds) {
+	try {
+		await this.model('Topic').updateMany({ '_id': { $in: topicIds } }, {
+			$set: {
+				updatedAt: new Date()
+			}
+		})
+	} catch (err) {
+		console.error(err)
+	}
+}
+
+NoteSchemea.pre('save', function (next) {
+	console.info('Slugify ran', this.title)
+	this.slug = slugify(this.title, { lower: true })
 	next()
+})
+
+// call setUpdatedAtTopic after save
+NoteSchemea.post('save', function () {
+	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
+})
+
+// call setUpdatedAtTopic before remove
+NoteSchemea.pre('remove', function () {
+	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
 })
 
 module.exports = mongoose.model('Note', NoteSchemea) 

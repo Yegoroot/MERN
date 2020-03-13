@@ -39,7 +39,7 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 
 		query = Note.find(JSON.parse(queryStr)).populate({
 			path: 'topic',
-			select: 'name description'
+			select: 'title description'
 		})
 	}
 
@@ -94,7 +94,7 @@ exports.getNote =  asyncHandler(async (req, res, next) => {
 
 	const note = await Note.findById(req.params.id).populate('rewiews').populate({
 		path: 'topic',
-		select: 'name description'
+		select: 'title description'
 	})
 		
 	if(!note) {	
