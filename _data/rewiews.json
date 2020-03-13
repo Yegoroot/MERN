@@ -3,24 +3,9 @@
 		"_id": "00000995b721c3bb38c80100",
 		"note": "77700995b721c3bb38c80100",
 		"user": "",
-		"name": "Именное предложение",
-		"description": "Статья о именном предложении, которая переведена из материалов Мединского Курса",
-		"content": "<h1> Именное предложение </h1>",
+		"title": "Именное предложение",
+		"text": "Статья о именном предложении, которая переведена из материалов Мединского Курса",
 		"language": "ru",
-		"translation": [
-			{
-				"language": "en",
-				"name": "Names expressions",
-				"description": "Article about language",
-				"content": "<h1>Ismi Djumla</h1>"
-			},
-			{
-				"language": "ar",
-				"name": "يجب أن نعرف",
-				"description": "إليك ما تحتاج إلى معرفته ، لحفظه بحيث يرتد من أسنانك",
-				"content": "<h1>يجب أن نعرف</h1>"
-			}
-		],
 		"minimumSkill": [
 			"alphabet"
 		]
@@ -29,78 +14,35 @@
 		"_id": "00000995b721c3bb38c80200",
 		"note": "77700995b721c3bb38c80102",
 		"user": "",
-		"name": "Ни'3т и ман'3ут",
-		"description": "Согласованное определение, иными словами слово и определение к нему, например 'Сильный Мужчина ...'",
-		"content": "<h1> Согласованное определение </h1>",
+		"title": "Ни'3т и ман'3ут",
+		"text": "Согласованное определение, иными словами слово и определение к нему, например 'Сильный Мужчина ...'",
 		"language": "ru",
 		"minimumSkill": [
 			"alphabet"
 		],
-		"translation": [
-			{
-				"language": "en",
-				"name": "Ni'3t and Man'3ut",
-				"description": "...",
-				"content": "<h1> </h1>"
-			},
-			{
-				"language": "ar",
-				"name": "---",
-				"description": "---",
-				"content": "---"
-			}
-		]
 	},
 	{
 		"_id": "00000995b721c3bb38c80300",
 		"note": "77700995b721c3bb38c80103",
 		"user": "",
-		"name": "Порядковые числительные",
-		"description": "---",
+		"title": "Порядковые числительные",
+		"text": "---",
 		"content": "<h1> </h1>",
 		"language": "ru",
 		"minimumSkill": [
 			"alphabet"
 		],
-		"translation": [
-			{
-				"language": "en",
-				"name": "Poryadkovie",
-				"description": "---",
-				"content": "<h1> ---</h1>"
-			},
-			{
-				"language": "ar",
-				"name": "-111--",
-				"description": "--111--",
-				"content": "--11--"
-			}
-		]
 	},
 	{
 		"_id": "00000995b721c3bb38c80400",
 		"note": "77700995b721c3bb38c80104",
 		"user": "",
-		"name": "Количественные Числительные",
-		"description": "---2---",
+		"title": "Количественные Числительные",
+		"text": "---2---",
 		"content": "<h1> ---2--- </h1>",
 		"language": "ru",
 		"minimumSkill": [
 			"alphabet"
-		],
-		"translation": [
-			{
-				"language": "en",
-				"name": "---2---",
-				"description": "---2---",
-				"content": "<h1> ---2--- </h1>"
-			},
-			{
-				"language": "ar",
-				"name": "---2---",
-				"description": "---2---",
-				"content": "---2---"
-			}
 		]
 	}
 ]

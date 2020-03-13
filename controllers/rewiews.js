@@ -2,9 +2,9 @@ const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const Rewiew = require('../models/Rewiew')
 
-// @desc    Get all notes
-// @route   GET /api/v1/notes
-// @route   GET /api/v1/topics/:topicsId/notes
+// @desc    Get all rewiews
+// @route   GET /api/v1/rewiews
+// @route   GET /api/v1/topics/:topicsId/rewiews
 // @access  Public
 exports.getRewiews = asyncHandler(async (req, res, next) => {
 	let query
@@ -35,7 +35,7 @@ exports.getRewiews = asyncHandler(async (req, res, next) => {
 	// Finding resource
 	if(req.params.noteId) {
 		/** 
-		 * если выводим /notes/__hash__/rewiews то не зачем вставлять данные о категории
+		 * если выводим /rewiews/__hash__/rewiews то не зачем вставлять данные о категории
 		 */
 		query = Rewiew.find(JSON.parse(queryStr)) 
 	}  else {

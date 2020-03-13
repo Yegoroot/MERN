@@ -65,3 +65,43 @@ topic: { // into here load data from table Topic*
 ```
 
 ### virtuale() 
+
+### static
+Есть у монгоДБ возможность вычисления среднего показания по записям в бд, при удалении или добавлении соответсвенно пересчитывается https://coursehunter.net/course/node-js-api-master-klass-s-express-i-mongodb в уроке 41
+
+```js
+// model
+
+// static method to get avg of smt of note
+NoteSchema.static.getAverageFunc = async function(topicId) {
+    console.log('Calculating avg')
+
+    const obj = await this.aggregate([
+        {
+            $match: { topic: topicId }
+        },
+        {
+            $group: {
+                _id: '$bootcamp',
+                averageField: { $avg: '$fieldNAmeIsHERE' }
+            }
+        }
+    ])
+
+    console.log(obj)
+    try {
+        await this.model('Topic').findByIdAndUpdate(topicId, {
+            averageField: obj[0].averageField
+        })
+    }
+}
+
+
+NoteSchema.post('save', function() {
+    this.constructor.getAverageFunc(this.topic) // send id
+})
+NoteSchema.pre('remove', function() {
+    this.constructor.getAverageFunc(this.topic) // send id
+})
+```
+

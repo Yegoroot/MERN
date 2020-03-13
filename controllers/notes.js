@@ -92,8 +92,10 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getNote =  asyncHandler(async (req, res, next) => {
 
-	const note = await Note.findById(req.params.id).populate('rewiews')
-	// console.log(note)
+	const note = await Note.findById(req.params.id).populate('rewiews').populate({
+		path: 'topic',
+		select: 'name description'
+	})
 		
 	if(!note) {	
 		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
@@ -107,7 +109,6 @@ exports.getNote =  asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.createNote = asyncHandler(async (req, res, next) => {
 
-	console.log(req)
 	const note = await Note.create(req.body)
 	res.status(201).json({success: true, data: note})
 })
@@ -133,12 +134,14 @@ exports.updateNote = asyncHandler(async (req, res, next) => {
 // @route   DELETE /api/v1/notes/:id
 // @access  Private
 exports.deleteNote = asyncHandler(async (req, res, next) => {
-
-	const note = await Note.findByIdAndDelete(req.params.id)
+	
+	const note = await Note.findById(req.params.id)
 	
 	if (!note) {
 		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 	}
+
+	await note.remove()
 
 	return res.status(200).json({success: true, data: {}})
 })
