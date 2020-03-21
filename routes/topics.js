@@ -3,6 +3,10 @@ const router = express.Router()
 
 const { getTopics, getTopic, createTopic, updateTopic, deleteTopic, topicPhotoUpload } = require('../controllers/topics')
 
+const advancedResults = require('../middleware/advancedResults')
+
+const Topic = require('../models/Topic')
+
 // Include other resource
 const NoteRouter = require('./notes')
 
@@ -12,7 +16,7 @@ router.use('/:topicId/notes', NoteRouter)
 router.route('/:id/photo').put(topicPhotoUpload)
 
 router.route('/')        
-	.get(getTopics)
+	.get(advancedResults(Topic, { path: 'notes', select: 'title description photo' }), getTopics)
 	.post(createTopic)
 
 router.route('/:id')	

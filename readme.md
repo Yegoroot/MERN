@@ -5,6 +5,7 @@ Topic -> A lot of notes -> A lot of materials
 
 ## Filter
 ```
+/api/v1/topics?photo=no-photo.jpg
 /api/v1/topics?average[lte]=600
 ```
 - **[lt]** указывает на **меньше**
