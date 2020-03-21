@@ -7,21 +7,23 @@ const advancedResults = require('../middleware/advancedResults')
 
 const Topic = require('../models/Topic')
 
+const { protect } = require('../middleware/auth')
+
 // Include other resource
 const NoteRouter = require('./notes')
 
 // Re-route into other resourse router
 router.use('/:topicId/notes', NoteRouter)
 
-router.route('/:id/photo').put(topicPhotoUpload)
+router.route('/:id/photo').put(protect, topicPhotoUpload)
 
 router.route('/')        
 	.get(advancedResults(Topic, { path: 'notes', select: 'title description photo' }), getTopics)
-	.post(createTopic)
+	.post(protect, createTopic)
 
 router.route('/:id')	
 	.get(getTopic)
-	.put(updateTopic)
-	.delete(deleteTopic)
+	.put(protect, updateTopic)
+	.delete(protect, deleteTopic)
 
 module.exports = router
