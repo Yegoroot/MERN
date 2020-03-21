@@ -5,6 +5,7 @@ const connectDB = require('./config/db')
 // eslint-disable-next-line no-unused-vars
 const colors = require('colors')
 const fileupload = require('express-fileupload')
+const cookieParser = require('cookie-parser')
 const path = require('path')
 const errorHandlrer = require('./middleware/error')
 
@@ -24,6 +25,9 @@ const app = express()
 
 // Body parser
 app.use(express.json())
+
+// Coockie parser
+app.use(cookieParser())
 
 // Dev logging middleware
 if(process.env.NODE_ENV === 'development') {
