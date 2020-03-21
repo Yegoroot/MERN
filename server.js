@@ -4,6 +4,8 @@ const morgan = require('morgan')
 const connectDB = require('./config/db')
 // eslint-disable-next-line no-unused-vars
 const colors = require('colors')
+const fileupload = require('express-fileupload')
+const path = require('path')
 const errorHandlrer = require('./middleware/error')
 
 // load en vars
@@ -26,6 +28,11 @@ app.use(express.json())
 if(process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'))
 }
+
+app.use(fileupload())
+
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')))
 
 /************************************************************************************
  * **********************************************************************************
