@@ -18,6 +18,7 @@ connectDB()
 const topics = require('./routes/topics')
 const notes = require('./routes/notes')
 const rewiews = require('./routes/rewiews')
+const auth = require('./routes/auth')
 
 const app = express()
 
@@ -60,6 +61,7 @@ app.use((req, res, next) => {
 app.use('/api/v1/topics', topics)
 app.use('/api/v1/notes', notes)
 app.use('/api/v1/rewiews', rewiews)
+app.use('/api/v1/auth', auth)
 
 app.use(errorHandlrer)
 
