@@ -107,3 +107,9 @@ NoteSchema.pre('remove', function() {
 })
 ```
 
+
+### a little about auth
+we use information about user in controlers ```req.body.user = req.user.id``` And this information (req.user.id) we set in middleware **auth** and call it __protect middleware__
+Another words if we have information about user in our controllers we can check them role and so on
+
+We also know that we put in __protect middleware__ only several role for others REST API unavalible

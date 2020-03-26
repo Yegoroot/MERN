@@ -33,6 +33,10 @@ exports.getTopic =  asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/topics/:id
 // @access  Private
 exports.createTopic = asyncHandler(async (req, res, next) => {
+	// Add user to req.body
+	req.body.user = req.user.id
+
+	// Check for publisher bootcamp
 
 	const topic = await Topic.create(req.body)
 	res.status(201).json({success: true, data: topic})

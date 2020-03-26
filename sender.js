@@ -11,6 +11,7 @@ dotenv.config({ path: './config/config.env'})
 const Topic = require('./models/Topic')
 const Note = require('./models/Note')
 const Rewiew = require('./models/Rewiew')
+const Users = require('./models/User')
 
 // Connect to db
 mongoose.connect(process.env.MONGO_URI, {
@@ -24,6 +25,7 @@ mongoose.connect(process.env.MONGO_URI, {
 const topics = JSON.parse(fs.readFileSync(`${__dirname}/_data/topics.json`, 'utf-8'))
 const notes = JSON.parse(fs.readFileSync(`${__dirname}/_data/notes.json`, 'utf-8'))
 const rewiews = JSON.parse(fs.readFileSync(`${__dirname}/_data/rewiews.json`, 'utf-8'))
+const users = JSON.parse(fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8'))
 
 // Import into DB
 const importData = async () => {
@@ -31,6 +33,7 @@ const importData = async () => {
 		await Topic.create(topics)
 		await Note.create(notes)
 		await Rewiew.create(rewiews)
+		await Users.create(users)
 
 		// eslint-disable-next-line no-console
 		console.log('data imported...'.green.inverse)
@@ -47,6 +50,7 @@ const deleteData = async () => {
 		await Topic.deleteMany()
 		await Note.deleteMany()
 		await Rewiew.deleteMany()
+		await Users.deleteMany()
 
 		// eslint-disable-next-line no-console
 		console.log('data destroyed...'.red.inverse)

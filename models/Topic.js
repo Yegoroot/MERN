@@ -44,7 +44,12 @@ const Topicschemea = new mongoose.Schema({
 	createdAt: {
 		type: Date,
 		default: Date.now
-	} 
+	},
+	user: {
+		type: mongoose.Schema.ObjectId,
+		ref: 'User',
+		required: true
+	},
 }, opts)
 /**
  * это то что происходит на рахных этапах этой схемы, например в момент сохранения записи
