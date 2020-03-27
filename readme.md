@@ -113,3 +113,7 @@ we use information about user in controlers ```req.body.user = req.user.id``` An
 Another words if we have information about user in our controllers we can check them role and so on
 
 We also know that we put in __protect middleware__ only several role for others REST API unavalible
+
+### several owner a note
+when we create or when update a note with to several topics, then every owner topic become owner this note
+// продумать логику, удвлить чужое всегда можно реализовать - не спеши
