@@ -52,13 +52,6 @@ const NoteSchemea = new mongoose.Schema({
 
 }, opts)
 
-NoteSchemea.virtual('rewiews', {
-	ref: 'Rewiew',
-	localField: '_id',
-	foreignField: 'note',
-	// justOne: false
-})
-
 // static method to get date of update or create date of note
 NoteSchemea.statics.setUpdatedAtTopic = async function (topicIds) {
 	try {

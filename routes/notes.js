@@ -10,11 +10,6 @@ const { protect, authorize } = require('../middleware/auth')
 
 const allowedUsers = ['superadmin', 'admin', 'teacher', 'publisher']
 
-// Include other resource
-const RewiewRouter = require('./rewiews')
-
-router.use('/:noteId/rewiews', RewiewRouter)
-
 router.route('/')        
 	.get(advancedResults(Note, { path: 'topic', select: 'title description' }), getNotes)
 	.post(protect, authorize(...allowedUsers), createNote)

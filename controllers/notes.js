@@ -28,7 +28,7 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getNote =  asyncHandler(async (req, res, next) => {
 
-	const note = await Note.findById(req.params.id).populate('rewiews').populate({
+	const note = await Note.findById(req.params.id).populate({
 		path: 'topic',
 		select: 'title description'
 	})
