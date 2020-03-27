@@ -57,14 +57,21 @@ exports.createNote = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateNote = asyncHandler(async (req, res, next) => {
 
-	const note = await Note.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-		runValidators: true
-	})
+	let note = await Note.findById(req.params.id)
 	
 	if (!note) {
 		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 	}
+
+	// Make shure user is owner
+	if (note.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
+		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
+	}
+	
+	note = await Note.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true
+	})
 		
 	return res.status(200).json({success: true, data: note})
 })
@@ -78,6 +85,10 @@ exports.deleteNote = asyncHandler(async (req, res, next) => {
 	
 	if (!note) {
 		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
+	}
+
+	if (note.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
+		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
 	}
 
 	await note.remove()

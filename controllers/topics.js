@@ -45,14 +45,21 @@ exports.createTopic = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateTopic = asyncHandler(async (req, res, next) => {
 
-	const topic = await Topic.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-		runValidators: true
-	})
+	let topic = await Topic.findById(req.params.id)
 	
 	if (!topic) {
 		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
 	}
+	
+	// Make shure user is owner
+	if (topic.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
+		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
+	}
+
+	topic = await Topic.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true
+	})
 		
 	return res.status(200).json({success: true, data: topic})
 })
@@ -66,6 +73,11 @@ exports.deleteTopic = asyncHandler(async (req, res, next) => {
 	
 	if (!topic) {
 		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
+	}
+
+	// Make shure user is owner
+	if (topic.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
+		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
 	}
 
 	topic.remove() // не используем deleteByID потому что не сработает событие .pre('remove',
@@ -86,6 +98,11 @@ exports.topicPhotoUpload = asyncHandler(async (req, res, next) => {
 
 	if (!req.files) {
 		return	next(new ErrorResponse('Please upload file', 400))
+	}
+
+	// Make shure user is owner
+	if (topic.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
+		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
 	}
 
 	const file  = req.files.file

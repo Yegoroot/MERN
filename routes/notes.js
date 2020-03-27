@@ -7,7 +7,6 @@ const Note = require('../models/Note')
 const advancedResults = require('../middleware/advancedResults')
 
 const { protect, authorize } = require('../middleware/auth')
-const owner = require('../middleware/owner')
 
 const allowedUsers = ['superadmin', 'admin', 'teacher', 'publisher']
 
@@ -18,11 +17,11 @@ router.use('/:noteId/rewiews', RewiewRouter)
 
 router.route('/')        
 	.get(advancedResults(Note, { path: 'topic', select: 'title description' }), getNotes)
-	.post(protect, authorize(...allowedUsers), owner(Note), createNote)
+	.post(protect, authorize(...allowedUsers), createNote)
 
 router.route('/:id')	
 	.get(getNote)
-	.put(protect, authorize(...allowedUsers), owner(Note), updateNote)
-	.delete(protect, authorize(...allowedUsers), owner(Note), deleteNote)
+	.put(protect, authorize(...allowedUsers), updateNote)
+	.delete(protect, authorize(...allowedUsers),  deleteNote)
 
 module.exports = router
