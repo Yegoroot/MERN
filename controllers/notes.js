@@ -45,6 +45,9 @@ exports.getNote =  asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.createNote = asyncHandler(async (req, res, next) => {
 
+	// Add user to req.body
+	req.body.user = req.user.id
+	
 	const note = await Note.create(req.body)
 	res.status(201).json({success: true, data: note})
 })
