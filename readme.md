@@ -117,3 +117,6 @@ We also know that we put in __protect middleware__ only several role for others 
 ### several owner a note
 when we create or when update a note with to several topics, then every owner topic become owner this note
 // продумать логику, удвлить чужое всегда можно реализовать - не спеши
+
+### difference between static and methods in Model
+I dont know excactly but methods calls user itself not model of user itself
