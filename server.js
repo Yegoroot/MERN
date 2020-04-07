@@ -6,9 +6,12 @@ const connectDB = require('./config/db')
 const colors = require('colors')
 const fileupload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
-const mongoSanitize = require('express-mongo-sanitize')
 const path = require('path')
 const errorHandlrer = require('./middleware/error')
+
+const mongoSanitize = require('express-mongo-sanitize')
+const helmet = require('helmet')
+const xss = require('xss-clean')
 
 // load en vars
 dotenv.config({ path: './config/config.env' })
@@ -40,6 +43,12 @@ app.use(fileupload())
 
 // Sanitize data
 app.use(mongoSanitize())
+
+// Set security headers
+app.use(helmet())
+
+// Prevent XSS attaks
+app.use(xss())
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')))
