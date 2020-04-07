@@ -28,6 +28,7 @@ module.exports = {
         "ignoreRegExpLiterals": true
       }
     ],
+    "comma-dangle": ["error"],
     "no-unused-vars": "warn", // не используеммые переменные,
     indent: ["error", "tab"],
     "linebreak-style": ["error", "windows"],
