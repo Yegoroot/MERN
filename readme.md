@@ -120,3 +120,7 @@ when we create or when update a note with to several topics, then every owner to
 
 ### difference between static and methods in Model
 I dont know excactly but methods calls user itself not model of user itself
+
+
+## Auth
+> Right now we can authorithate with cooike and in headers (Bearer) 
