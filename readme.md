@@ -124,3 +124,7 @@ I dont know excactly but methods calls user itself not model of user itself
 
 ## Auth
 > Right now we can authorithate with cooike and in headers (Bearer) 
+
+## Documentation
+делаеться из json файла (postman) и прогоняеться программой Docgen
+lesson 69 [https://coursehunter.net/course/node-js-api-master-klass-s-express-i-mongodb](https://coursehunter.net/course/node-js-api-master-klass-s-express-i-mongodb)
