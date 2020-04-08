@@ -131,6 +131,22 @@ lesson 69 [https://coursehunter.net/course/node-js-api-master-klass-s-express-i-
 
 
 ## Production
-Выкладываю на DigitalOcean 
-
 [https://gist.github.com/bradtraversy/cd90d1ed3c462fe3bddd11bf8953a896](https://gist.github.com/bradtraversy/cd90d1ed3c462fe3bddd11bf8953a896)
+
+Rename /config/config.env.env to "/config/config.env"
+
+### install dependencies
+```
+npm i
+```
+### run app
+```
+# dev mode
+npm run dev 
+
+# production mode
+npm start 
+```
+
+
+
