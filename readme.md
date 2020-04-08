@@ -128,3 +128,9 @@ I dont know excactly but methods calls user itself not model of user itself
 ## Documentation
 делаеться из json файла (postman) и прогоняеться программой Docgen
 lesson 69 [https://coursehunter.net/course/node-js-api-master-klass-s-express-i-mongodb](https://coursehunter.net/course/node-js-api-master-klass-s-express-i-mongodb)
+
+
+## Production
+Выкладываю на DigitalOcean 
+
+[https://gist.github.com/bradtraversy/cd90d1ed3c462fe3bddd11bf8953a896](https://gist.github.com/bradtraversy/cd90d1ed3c462fe3bddd11bf8953a896)
