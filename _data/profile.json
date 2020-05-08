@@ -1,0 +1,34 @@
+[
+  {
+    "user": "5d7a514b5d2c12c7449be020",
+    "location": "Moscow",
+    "status": "четкий тип",
+    "skills": [
+      "arabic",
+      "Coran"
+    ],
+    "bio": "Рос в детстве, сейчас дорастаю, все клева"
+  },
+  {
+    "user": "5d7a514b5d2c12c7449be021",
+    "location": "Sudan",
+    "status": "норм",
+    "skills": [
+      "arabic",
+      "Coran",
+      "english"
+    ],
+    "bio": "Ну вот расскажу сейчас а потом что"
+  },
+  {
+    "user": "5d7a514b5d2c12c7449be023",
+    "location": "Francia",
+    "status": "статусный",
+    "skills": [
+      "arabic",
+      "Coran",
+      "franch"
+    ],
+    "bio": "Биография тут есть тоже"
+  }
+]
