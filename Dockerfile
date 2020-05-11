@@ -21,7 +21,7 @@ COPY --chown=node:node . .
 
 
 EXPOSE 8080
-CMD [ "npm", "start" ]
+CMD [ "npm", "dev" ]
 
 #CMD [ "npm", "dev" ]
 #VOLUME ["/app/public"]
