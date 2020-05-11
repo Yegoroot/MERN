@@ -6,7 +6,8 @@
   "scripts": {
     "start_WINDOWS": "NODE_ENV=production & node server",
     "start": "NODE_ENV=production node server",
-    "dev": "nodemon server",
+    "start.dev": "node server",
+    "dev": "nodemon -L server.js",
     "d": "node sender.js -d",
     "i": "node sender.js -i"
   },

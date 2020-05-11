@@ -1,5 +1,7 @@
 # you can use apline version
-FROM node:14-alpine
+# иногда бывает с путями исполняет (необходимо другая версия)
+# FROM node:14-alpine // для линукс
+FROM node:14-slim
 
 RUN mkdir -p /app/node_modules && chown -R node:node /app
 # Create app directory
@@ -20,8 +22,9 @@ RUN npm install
 COPY --chown=node:node . .
 
 
-EXPOSE 8080
-CMD [ "npm", "dev" ]
+EXPOSE 5000
+CMD [ "npm", "run", "dev" ]
+
 
 #CMD [ "npm", "dev" ]
 #VOLUME ["/app/public"]
