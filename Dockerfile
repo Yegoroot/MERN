@@ -1,16 +1,15 @@
-# you can use apline version
 # иногда бывает с путями исполняет (необходимо другая версия)
 # FROM node:14-alpine // для линукс
-FROM node:14-slim
+FROM node:14-alpine
 
 RUN mkdir -p /app/node_modules && chown -R node:node /app
-# Create app directory
-WORKDIR /app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+# Рабочая директория
+WORKDIR /app
+RUN npm install nodemon -g
+
+# Копируем файлы перед установкой на тот слуай чтоб не устанавливать пакеты если не было изминений в этих файлаъ
+COPY package*.json ./ 
 
 USER node
 
@@ -23,7 +22,7 @@ COPY --chown=node:node . .
 
 
 EXPOSE 5000
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "dev.docker" ]
 
 
 #CMD [ "npm", "dev" ]
