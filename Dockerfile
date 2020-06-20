@@ -1,30 +1,31 @@
-# иногда бывает с путями исполняет (необходимо другая версия)
-# FROM node:14-alpine // для линукс
 FROM node:14-alpine
 
-RUN mkdir -p /app/node_modules && chown -R node:node /app
+# Спицифика работы нодовского приложения, требует node_modules внуцтри
+RUN mkdir -p /app/node_modules
 
 # Рабочая директория
 WORKDIR /app
-RUN npm install nodemon -g
 
 # Копируем файлы перед установкой на тот слуай чтоб не устанавливать пакеты если не было изминений в этих файлаъ
 COPY package*.json ./ 
 
-USER node
+RUN npm ci --production
 
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# Bundle app source
-COPY --chown=node:node . .
-
+COPY . .
 
 EXPOSE 5000
-CMD [ "npm", "run", "dev.docker" ]
+CMD [ "npm", "run", "start" ]
 
+# ------------------------------------ 
+# FROM node:14-alpine
 
-#CMD [ "npm", "dev" ]
-#VOLUME ["/app/public"]
-#CMD flask run --host=0.0.0.0 --port=5000
+# WORKDIR /usr/src/app
+
+# COPY ./package.json /usr/src/app/package.json
+# RUN mkdir -p  /usr/src/app/node_modules
+# COPY node_modules/ /usr/src/app/node_modules
+# COPY ./build/index.js /usr/src/app/index.js
+
+# EXPOSE 5000
+
+# CMD ["node", "server.js"]
