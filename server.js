@@ -51,7 +51,7 @@ app.use(mongoSanitize())
 app.use(helmet())
 
 // Prevent XSS attaks
-app.use(xss())
+// app.use(xss())
 
 // Enable CORS
 app.use(cors())

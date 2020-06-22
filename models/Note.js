@@ -8,7 +8,7 @@ const NoteSchemea = new mongoose.Schema({
 		required: [true, 'please add a title'],
 		unique: true,
 		trim: true,
-		maxlength: [50, 'Title can not be more than 50 characters']
+		maxlength: [150, 'Title can not be more than 50 characters']
 	},
 	language: String,
 	translation: Object,
@@ -17,11 +17,11 @@ const NoteSchemea = new mongoose.Schema({
 	description: {
 		type: String,
 		required: [true, 'please add a descripion'],
-		maxlength: [500, 'Descripion can not be more than 500 characters'],
+		maxlength: [500, 'Descripion can not be more than 500 characters']
 	},
 	minimumSkill: [{
 		type: String,
-		required: [true, 'Please add a minium skill'],
+		required: [true, 'Please add a minium skill']
 		// enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
 	}],
 	content: String,
@@ -34,7 +34,7 @@ const NoteSchemea = new mongoose.Schema({
 	averageRating: {
 		type: Number,
 		min: [1, 'Rating must be at least 1'],
-		max: [10, 'Rating must can not be more than 10'],
+		max: [10, 'Rating must can not be more than 10']
 	},
 	photo: {
 		type: String,
@@ -48,7 +48,7 @@ const NoteSchemea = new mongoose.Schema({
 		type: mongoose.Schema.ObjectId,
 		ref: 'User',
 		required: true
-	},
+	}
 
 }, opts)
 
