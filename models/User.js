@@ -29,6 +29,19 @@ const UserSchema = new mongoose.Schema({
 		minLength: 6,
 		select: false // downt show password in API
 	},
+	location: {
+		type: String
+	},
+	status: {
+		type: String
+	},
+	skills: [{
+		type: String
+		// enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
+	}],
+	bio: {
+		type: String
+	},
 	resetPasswordToken: String,
 	resetPasswordExpire: Date,
 	creadedAt: {

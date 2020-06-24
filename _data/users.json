@@ -4,28 +4,59 @@
     "name": "Super Admin Account",
     "email": "superadmin@gmail.com",
     "role": "superadmin",
-    "password": "123456"
+    "password": "123456",
+    "location": "Moscow",
+    "status": "четкий тип",
+    "skills": [
+      "arabic",
+      "Coran"
+    ],
+    "bio": "Рос в детстве, сейчас дорастаю, все клева"
   },
   {
     "_id": "5d7a514b5d2c12c7449be021",
     "name": "Super Admin Account 2",
     "email": "superadmin2@gmail.com",
     "role": "superadmin",
-    "password": "123456"
+    "password": "123456",
+    "location": "Sudan",
+    "status": "норм",
+    "skills": [
+      "arabic",
+      "Coran",
+      "english"
+    ],
+    "bio": "Ну вот расскажу сейчас а потом что"
   },
   {
     "_id": "5d7a514b5d2c12c7449be023",
     "name": "Admin Account",
     "email": "admin@gmail.com",
     "role": "admin",
-    "password": "123456"
+    "password": "123456",
+    "location": "Francia",
+    "status": "статусный",
+    "skills": [
+      "arabic",
+      "Coran",
+      "franch"
+    ],
+    "bio": "Биография тут есть тоже"
   },
   {
     "_id": "5d7a514b5d2c12c7449be024",
     "name": "Admin Account 2",
     "email": "admin2@gmail.com",
     "role": "admin",
-    "password": "123456"
+    "password": "123456",
+    "location": "America",
+    "status": "статусный",
+    "skills": [
+      "arabic",
+      "Coran",
+      "franch"
+    ],
+    "bio": "Биография here"
   },
   {
     "_id": "5d7a514b5d2c12c7449be025",
