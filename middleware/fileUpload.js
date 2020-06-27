@@ -9,7 +9,6 @@ const ErrorResponse = require('../utils/errorResponse')
 exports.fileUpload = function (req, res, next) {
 
 	if(!req.files || !req.files.photo) {
-		req.body.photo = null
 		return next()
 	}
   

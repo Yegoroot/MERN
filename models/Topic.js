@@ -29,8 +29,8 @@ const Topicschemea = new mongoose.Schema({
 	},
 	content: String,
 	photo: {
-		type: String,
-		default: 'no-photo.jpg'
+		type: String
+		// default: 'no-photo.jpg'
 	},
 	tags: {
 		type: [Object],
