@@ -4,7 +4,7 @@ const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
 
 // tags model
 const tags = new mongoose.Schema({
-	photo: String,
+	photo: String
 })
 mongoose.model('tags', tags, 'tags' )
 
@@ -18,7 +18,6 @@ const Topicschemea = new mongoose.Schema({
 		trim: true,
 		maxlength: [50, 'Title can not be more than 50 characters' ]
 	},
-	icon: String,
 	language: String,
 	translation: Array,
 	slug: String,
@@ -26,7 +25,7 @@ const Topicschemea = new mongoose.Schema({
 	description: {
 		type: String,
 		required: [ true, 'please add a descripion'],
-		maxlength: [500, 'Descripion can not be more than 500 characters' ],
+		maxlength: [500, 'Descripion can not be more than 500 characters' ]
 	},
 	content: String,
 	photo: {
@@ -49,7 +48,7 @@ const Topicschemea = new mongoose.Schema({
 		type: mongoose.Schema.ObjectId,
 		ref: 'User',
 		required: true
-	},
+	}
 }, opts)
 /**
  * это то что происходит на рахных этапах этой схемы, например в момент сохранения записи

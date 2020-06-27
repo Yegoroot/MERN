@@ -8,7 +8,7 @@ const advancedResults = require('../middleware/advancedResults')
 const Topic = require('../models/Topic')
 
 const { protect, authorize } = require('../middleware/auth')
-
+const { fileUpload } = require('../middleware/fileUpload')
 // Include other resource
 const NoteRouter = require('./notes')
 
@@ -21,11 +21,11 @@ router.route('/:id/photo').put(protect, authorize(...allowedUsers), topicPhotoUp
 
 router.route('/')        
 	.get(advancedResults(Topic, { path: 'notes', select: 'title description photo' }), getTopics)
-	.post(protect, authorize(...allowedUsers), createTopic)
+	.post(protect, authorize(...allowedUsers), fileUpload, createTopic)
 
 router.route('/:id')	
 	.get(getTopic)
-	.put(protect, authorize(...allowedUsers), updateTopic)
-	.delete(protect, authorize(...allowedUsers),  deleteTopic)
+	.put(protect, authorize(...allowedUsers), fileUpload, updateTopic)
+	.delete(protect, authorize(...allowedUsers), deleteTopic)
 
 module.exports = router
