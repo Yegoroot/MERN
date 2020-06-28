@@ -1,7 +1,15 @@
 const express = require('express')
 const router = express.Router()
 
-const { getTopics, getTopic, createTopic, updateTopic, deleteTopic, topicPhotoUpload } = require('../controllers/topics')
+const { 
+	getTopics, 
+	getTopic, 
+	createTopic, 
+	updateTopic, 
+	deleteTopic, 
+	topicPhotoUpload, 
+	deleteTopics // only superadmin (control this in controllers)
+} = require('../controllers/topics')
 
 const advancedResults = require('../middleware/advancedResults')
 
@@ -22,6 +30,7 @@ router.route('/:id/photo').put(protect, authorize(...allowedUsers), topicPhotoUp
 router.route('/')        
 	.get(advancedResults(Topic, { path: 'notes', select: 'title description photo' }), getTopics)
 	.post(protect, authorize(...allowedUsers), fileUpload, createTopic)
+	.delete(protect, authorize(...allowedUsers), deleteTopics)
 
 router.route('/:id')	
 	.get(getTopic)

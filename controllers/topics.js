@@ -85,6 +85,26 @@ exports.deleteTopic = asyncHandler(async (req, res, next) => {
 	return res.status(200).json({success: true, data: {}})
 })
 
+// @desc    Delete topics
+// @route   DELETE /api/v1/topics/?ids=1,2
+// @access  Private
+exports.deleteTopics = asyncHandler(async (req, res, next) => {
+	const ids = req.query.ids.split(',')
+	if ( req.user.role !== 'superadmin') {
+		return	next(new ErrorResponse(`This user is not allowed to work with ${ids}`, 401))
+	}
+	await Topic.deleteMany(
+		{	_id: {	$in: ids	}	},
+		(error, result) => {
+			if (error) {
+				res.status(200).json({success: false, error})
+			} else {
+				res.status(200).json({success: true, data: {}})
+			}
+		}
+	)
+})
+
 // @desc    Upload photo for topic
 // @route   PUL /api/v1/topics/:id/photo
 // @access  Private
