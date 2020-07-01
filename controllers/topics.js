@@ -35,6 +35,7 @@ exports.getTopic =  asyncHandler(async (req, res, next) => {
 exports.createTopic = asyncHandler(async (req, res, next) => {
 	// Add user to req.body
 	req.body.user = req.user.id
+	req.body.tags =  JSON.parse(req.body.tags)
 
 	const topic = await Topic.create(req.body)
 	res.status(201).json({success: true, data: topic})
