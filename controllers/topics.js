@@ -47,6 +47,7 @@ exports.createTopic = asyncHandler(async (req, res, next) => {
 exports.updateTopic = asyncHandler(async (req, res, next) => {
 
 	let topic = await Topic.findById(req.params.id)
+	req.body.tags =  JSON.parse(req.body.tags)
 	
 	if (!topic) {
 		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
