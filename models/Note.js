@@ -12,6 +12,10 @@ const NoteSchemea = new mongoose.Schema({
 	},
 	language: String,
 	translation: Object,
+	publish: { 
+		type: Boolean,
+		default: false
+	},
 	slug: String,
 	level: Number,
 	description: {
@@ -37,8 +41,7 @@ const NoteSchemea = new mongoose.Schema({
 		max: [10, 'Rating must can not be more than 10']
 	},
 	photo: {
-		type: String,
-		default: 'no-photo.jpg'
+		type: String
 	},
 	createdAt: {
 		type: Date,

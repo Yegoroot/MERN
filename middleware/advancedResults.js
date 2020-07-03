@@ -1,3 +1,5 @@
+const setArray = require('../utils/methods')
+
 const advancedResults = (model, populate) => async (req,res, next) => {
 	let query
 
@@ -41,16 +43,14 @@ const advancedResults = (model, populate) => async (req,res, next) => {
 	const total = await model.countDocuments()
 	query.skip(startIndex).limit(limit)
 
-	if (populate) {
-
-		/**
-    .populate({
-      path: 'notes',
-      select: 'title description photo'
-    })
-  */
-		query = query.populate(populate)
-
+	/**
+	.populate({ 	path: 'notes', 	select: 'title description photo' })
+	*/
+	const populates = setArray(populate)
+	if (populates.length) {
+		populates.forEach(poplte => {
+			query = query.populate(poplte)
+		})
 	}
 
 	// Executing query

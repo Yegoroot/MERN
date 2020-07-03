@@ -27,8 +27,12 @@ router.use('/:topicId/notes', NoteRouter)
 
 router.route('/:id/photo').put(protect, authorize(...allowedUsers), topicPhotoUpload)
 
+const populate = [
+	{ path: 'notes', select: 'title description photo' },
+	{ path: 'user', select: 'name email' }
+]
 router.route('/')        
-	.get(advancedResults(Topic, { path: 'notes', select: 'title description photo' }), getTopics)
+	.get(advancedResults(Topic, populate), getTopics)
 	.post(protect, authorize(...allowedUsers), fileUpload, createTopic)
 	.delete(protect, authorize(...allowedUsers), deleteTopics)
 

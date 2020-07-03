@@ -7,13 +7,14 @@ const Note = require('../models/Note')
 // @route   GET /api/v1/topics/:topicsId/notes
 // @access  Public
 exports.getNotes = asyncHandler(async (req, res, next) => {
-
-	// Finding resource
-	if(req.params.topicId) {
-		const notes = await Note.find({ topic: req.params.topicId }) 
-
-		// TODO сделать pagination in the course it doesnt exist
-		return 	res.status(200).json({ 
+	if(req.params.topicId) { 	// if find note list by topic
+		const notes = await Note.find({ topic: req.params.topicId })		
+			.populate({
+				path: 'user',
+				select: 'name email' 
+			}) 
+		return 	res.status(200).json({ 	
+			// TODO сделать pagination in the course it doesnt exist
 			success: true, 
 			count: notes.length, 
 			// pagination, 
@@ -27,16 +28,18 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/notes/:id
 // @access  Public
 exports.getNote =  asyncHandler(async (req, res, next) => {
-
-	const note = await Note.findById(req.params.id).populate({
-		path: 'topic',
-		select: 'title description'
-	})
-		
+	const note = await Note.findById(req.params.id)
+		.populate({
+			path: 'topic',
+			select: 'title description'
+		})
+		.populate({
+			path: 'user',
+			select: 'name email' 
+		})
 	if(!note) {	
 		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 	}
-		
 	res.status(200).json({success: true, data: note})
 })
 
@@ -44,10 +47,7 @@ exports.getNote =  asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/notes/:id
 // @access  Private
 exports.createNote = asyncHandler(async (req, res, next) => {
-
-	// Add user to req.body
-	req.body.user = req.user.id
-	
+	req.body.user = req.user.id // Add user to req.body
 	const note = await Note.create(req.body)
 	res.status(201).json({success: true, data: note})
 })
@@ -56,23 +56,18 @@ exports.createNote = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/notes/:id
 // @access  Private
 exports.updateNote = asyncHandler(async (req, res, next) => {
-
 	let note = await Note.findById(req.params.id)
-	
 	if (!note) {
 		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 	}
-
 	// Make shure user is owner
 	if (note.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
 		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
 	}
-	
 	note = await Note.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true
 	})
-		
 	return res.status(200).json({success: true, data: note})
 })
 
@@ -80,19 +75,14 @@ exports.updateNote = asyncHandler(async (req, res, next) => {
 // @route   DELETE /api/v1/notes/:id
 // @access  Private
 exports.deleteNote = asyncHandler(async (req, res, next) => {
-	
 	const note = await Note.findById(req.params.id)
-	
 	if (!note) {
 		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 	}
-
 	if (note.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
 		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
 	}
-
 	await note.remove()
-
 	return res.status(200).json({success: true, data: {}})
 })
 
@@ -101,11 +91,9 @@ exports.deleteNote = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.deleteNotes = asyncHandler(async (req, res, next) => {
 	const ids = req.query.ids.split(',')
-
 	if ( req.user.role !== 'superadmin') {
 		return	next(new ErrorResponse(`This user is not allowed to work with ${ids}`, 401))
 	}
-
 	await Note.deleteMany(
 		{	_id: {	$in: ids	}	},
 		function(error, result) {

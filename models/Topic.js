@@ -10,7 +10,6 @@ mongoose.model('tags', tags, 'tags' )
 
 // Topic model
 const Topicschemea = new mongoose.Schema({
-	// title of topic
 	title: {
 		type: String,
 		required: [ true, 'please add a title'],
@@ -21,7 +20,10 @@ const Topicschemea = new mongoose.Schema({
 	language: String,
 	translation: Array,
 	slug: String,
-	// desc's topic
+	publish: { 
+		type: Boolean,
+		default: false
+	},
 	description: {
 		type: String,
 		required: [ true, 'please add a descripion'],
@@ -30,7 +32,6 @@ const Topicschemea = new mongoose.Schema({
 	content: String,
 	photo: {
 		type: String
-		// default: 'no-photo.jpg'
 	},
 	tags: {
 		type: [Object],

@@ -10,8 +10,12 @@ const { protect, authorize } = require('../middleware/auth')
 
 const allowedUsers = ['superadmin', 'admin', 'teacher', 'publisher']
 
+const populate = [
+	{ path: 'topic', select: 'title description' },
+	{ path: 'user', select: 'name email' }
+]
 router.route('/')        
-	.get(advancedResults(Note, { path: 'topic', select: 'title description' }), getNotes)
+	.get(advancedResults(Note, populate), getNotes)
 	.post(protect, authorize(...allowedUsers), createNote)
 	.delete(protect, authorize(...allowedUsers),  deleteNotes)
 
