@@ -24,6 +24,12 @@ By default **-createdAt**
 /api/v1/topics?sort=-name
 ```
 
+## Pagination
+```
+{{URL}}/api/v1/topics?page=2&limit=2
+```
+
+
 ## Validation Errors
 In this topic we dont use 3rd part library for validation instead we created **middleware/error**, which include in **server.js** and use in **controller/rewiew.js** (for example) 
 ```js

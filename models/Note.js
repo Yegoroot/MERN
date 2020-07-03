@@ -43,6 +43,10 @@ const NoteSchemea = new mongoose.Schema({
 	photo: {
 		type: String
 	},
+	updatedAt: {
+		type: Date,
+		default: Date.now
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now

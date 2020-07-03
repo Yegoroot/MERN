@@ -17,7 +17,6 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 			// TODO сделать pagination in the course it doesnt exist
 			success: true, 
 			count: notes.length, 
-			// pagination, 
 			data: notes})
 	}  else {
 		res.status(200).json(res.advancedResults)

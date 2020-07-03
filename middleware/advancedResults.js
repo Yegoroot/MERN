@@ -36,12 +36,11 @@ const advancedResults = (model, populate) => async (req,res, next) => {
 	}
 
 	// Pagination
-	const page = parseInt(req.query.page, 10) || 1
+	const page = parseInt(req.query.page, 10) || 0
 	const limit = parseInt(req.query.limit, 10) || 25
-	const startIndex = (page -1) * limit
-	const endIndex = page * limit
+	const index = page * limit
 	const total = await model.countDocuments()
-	query.skip(startIndex).limit(limit)
+	query.skip(index).limit(limit)
 
 	/**
 	.populate({ 	path: 'notes', 	select: 'title description photo' })
@@ -55,27 +54,11 @@ const advancedResults = (model, populate) => async (req,res, next) => {
 
 	// Executing query
 	const results = await query  
-
-	// Pagination result
-	const pagination = {}
-	if (endIndex < total) {
-		pagination.next = {
-			page: page + 1,
-			limit
-		}
-	}
-	if (startIndex > 0) {
-		pagination.prev = {
-			page: page - 1,
-			limit
-		}
-	}
   
 	res.advancedResults = {
 		success: true,
 		count: results.length,
 		total,
-		pagination,
 		data: results
 	}
   
