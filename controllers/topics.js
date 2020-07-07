@@ -35,8 +35,10 @@ exports.getTopic =  asyncHandler(async (req, res, next) => {
 exports.createTopic = asyncHandler(async (req, res, next) => {
 	// Add user to req.body
 	req.body.user = req.user.id
-	req.body.tags =  JSON.parse(req.body.tags)
-
+	
+	if(req.body.tags) {
+		req.body.tags =  JSON.parse(req.body.tags)
+	}
 	const topic = await Topic.create(req.body)
 	res.status(201).json({success: true, data: topic})
 })
@@ -47,8 +49,10 @@ exports.createTopic = asyncHandler(async (req, res, next) => {
 exports.updateTopic = asyncHandler(async (req, res, next) => {
 
 	let topic = await Topic.findById(req.params.id)
-	req.body.tags =  JSON.parse(req.body.tags)
-	
+	if(req.body.tags) {
+		req.body.tags =  JSON.parse(req.body.tags)
+	}
+
 	if (!topic) {
 		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
 	}
