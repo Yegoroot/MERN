@@ -20,6 +20,11 @@ const Topicschemea = new mongoose.Schema({
 	language: String,
 	translation: Array,
 	slug: String,
+	program: {
+		type: mongoose.Schema.ObjectId,
+		ref: 'Program',
+		required: true
+	},
 	publish: { 
 		type: Boolean,
 		default: false
