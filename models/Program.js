@@ -54,6 +54,15 @@ const Programschemea = new mongoose.Schema({
 			ref: 'User'
 		}
 	],
+	rating: {
+		type: Number
+	},
+	subscribers: [
+		{
+			type: mongoose.Schema.ObjectId,
+			ref: 'User'
+		}
+	],
 	// who created this program
 	user: {
 		type: mongoose.Schema.ObjectId,
