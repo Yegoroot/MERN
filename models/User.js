@@ -44,10 +44,21 @@ const UserSchema = new mongoose.Schema({
 	},
 	resetPasswordToken: String,
 	resetPasswordExpire: Date,
-	creadedAt: {
+	createdAt: {
+		type: Date, 
+		default: Date.now
+	},
+	/**
+	 * This for show tag 'new' ahead smth if had smth created since last user entered  
+	 */
+	lastVisitedDate: {
 		type: Date, 
 		default: Date.now
 	}
+	// lastLoginDate: {
+	// 	type: Date, 
+	// 	default: Date.now
+	// },
 })
 
 // Encrypt password using bcrypt
