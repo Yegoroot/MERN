@@ -26,7 +26,7 @@ exports.getProgram =  asyncHandler(async (req, res, next) => {
 	if(!program) {	
 		return	next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
 	}
-	res.status(200).json({success: true, program})
+	res.status(200).json({success: true, data: program})
 })
 
 // @desc    Create program
@@ -36,7 +36,7 @@ exports.createProgram = asyncHandler(async (req, res, next) => {
 	req.body.user = req.user.id // Add user to req.body
 	
 	const program = await Program.create(req.body)
-	res.status(201).json({success: true, program})
+	res.status(201).json({success: true, data: program})
 })
 
 // @desc    Update program
