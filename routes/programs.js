@@ -17,12 +17,12 @@ const Program = require('../models/Program')
 const { protect, authorize } = require('../middleware/auth')
 const { fileUpload } = require('../middleware/fileUpload')
 // Include other resource
-const NoteRouter = require('./notes')
+const TopicRouter = require('./topics')
 
 const allowedUsers = ['superadmin', 'admin', 'teacher']
 
 // Re-route into other resourse router
-router.use('/:programId/notes', NoteRouter)
+router.use('/:programId/topics', TopicRouter)
 
 const populate = [
 	{ path: 'topics', select: 'title description photo' },

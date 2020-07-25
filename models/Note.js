@@ -59,18 +59,18 @@ const NoteSchemea = new mongoose.Schema({
 
 }, opts)
 
-// static method to get date of update or create date of note
-NoteSchemea.statics.setUpdatedAtTopic = async function (topicIds) {
-	try {
-		await this.model('Topic').updateMany({ '_id': { $in: topicIds } }, {
-			$set: {
-				updatedAt: new Date()
-			}
-		})
-	} catch (err) {
-		console.error(err)
-	}
-}
+// // static method to get date of update or create date of note
+// NoteSchemea.statics.setUpdatedAtTopic = async function (topicIds) {
+// 	try {
+// 		await this.model('Topic').updateMany({ '_id': { $in: topicIds } }, {
+// 			$set: {
+// 				updatedAt: new Date()
+// 			}
+// 		})
+// 	} catch (err) {
+// 		console.error(err)
+// 	}
+// }
 
 NoteSchemea.pre('save', function (next) {
 	console.info('Slugify ran', this.title)

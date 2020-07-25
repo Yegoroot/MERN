@@ -7,9 +7,18 @@ const Topic = require('../models/Topic')
 // @route   GET /api/v1/topics
 // @access  Public
 exports.getTopics = asyncHandler(async (req, res, next) => {
-
-	res.status(200).json(res.advancedResults)
-
+	if(req.params.programId) { 	
+		const topics = await Topic.find({ program: req.params.programId })		
+			.populate({
+				path: 'notes',
+				select: 'title' 
+			}) 
+		return 	res.status(200).json({ 	
+			success: true, 
+			data: topics})
+	}  else {
+		res.status(200).json(res.advancedResults)
+	}
 })
 
 // @desc    Get single topic
