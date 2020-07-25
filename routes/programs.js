@@ -25,7 +25,7 @@ const allowedUsers = ['superadmin', 'admin', 'teacher']
 router.use('/:programId/notes', NoteRouter)
 
 const populate = [
-	{ path: 'notes', select: 'title description photo' },
+	{ path: 'topics', select: 'title description photo' },
 	{ path: 'user', select: 'name email' }
 ]
 router.route('/')        

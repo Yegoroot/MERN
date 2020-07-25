@@ -33,20 +33,6 @@ const Programschemea = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
-	// list of notes (if user dont want to use layer of topics)
-	notes:[
-		{
-			type: mongoose.Schema.ObjectId,
-			ref: 'Note'
-		}	
-	],
-	// list of topics
-	topics: [
-		{
-			type: mongoose.Schema.ObjectId,
-			ref: 'Topic'
-		}
-	],
 	// who can have access
 	access: [
 		{
@@ -70,6 +56,14 @@ const Programschemea = new mongoose.Schema({
 		required: true
 	}
 }, opts)
+
+Programschemea.virtual('topics', {
+	ref: 'Topic',
+	localField: '_id',
+	foreignField: 'program',
+	id: true
+	// justOne: false
+})
 
 Programschemea.pre('save', function(next){
 	this.slug = slugify(this.title, { lower: true })

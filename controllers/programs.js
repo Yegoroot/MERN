@@ -15,12 +15,12 @@ exports.getPrograms = asyncHandler(async (req, res, next) => {
 exports.getProgram =  asyncHandler(async (req, res, next) => {
 	const program = await Program.findById(req.params.id)
 		.populate({
-			path: 'programs',
+			path: 'topics',
 			select: 'title description photo'
 		})
 		.populate({
-			path: 'notes',
-			select: 'title description photo'
+			path: 'user',
+			select: 'name email'
 		})
 		
 	if(!program) {	

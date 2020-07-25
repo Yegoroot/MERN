@@ -29,7 +29,8 @@ router.route('/:id/photo').put(protect, authorize(...allowedUsers), topicPhotoUp
 
 const populate = [
 	{ path: 'notes', select: 'title description photo' },
-	{ path: 'user', select: 'name email' }
+	{ path: 'user', select: 'name email' },
+	{ path: 'program', select: 'title' }
 ]
 router.route('/')        
 	.get(advancedResults(Topic, populate), getTopics)
