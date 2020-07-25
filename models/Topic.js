@@ -23,7 +23,7 @@ const Topicschemea = new mongoose.Schema({
 	program: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'Program',
-		required: true
+		required: [ true, 'please choose a program']
 	},
 	publish: { 
 		type: Boolean,
