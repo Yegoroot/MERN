@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const slugify = require('slugify')
 const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
 
 // tags model
@@ -19,7 +18,6 @@ const Topicschemea = new mongoose.Schema({
 	},
 	language: String,
 	translation: Array,
-	slug: String,
 	program: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'Program',
@@ -56,16 +54,6 @@ const Topicschemea = new mongoose.Schema({
 		required: true
 	}
 }, opts)
-/**
- * это то что происходит на рахных этапах этой схемы, например в момент сохранения записи
- */
-// Create bootcamp slug from the title
-Topicschemea.pre('save', function(next){
-	// eslint-disable-next-line no-console
-	console.log('Slugify ran', this.title)
-	this.slug = slugify(this.title, { lower: true })
-	next()
-})
 
 // Cascade delete note when a topic is deleted
 Topicschemea.pre('remove', async function (next){

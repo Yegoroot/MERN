@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const slugify = require('slugify')
+// const slugify = require('slugify')
 const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
 
 const Programschemea = new mongoose.Schema({
@@ -12,7 +12,7 @@ const Programschemea = new mongoose.Schema({
 	},
 	language: String,
 	translation: Array,
-	slug: String,
+	// slug: String,
 	publish: { 
 		type: Boolean,
 		default: false
@@ -65,9 +65,9 @@ Programschemea.virtual('topics', {
 	// justOne: false
 })
 
-Programschemea.pre('save', function(next){
-	this.slug = slugify(this.title, { lower: true })
-	next()
-})
+// Programschemea.pre('save', function(next){
+// 	this.slug = slugify(this.title, { lower: true })
+// 	next()
+// })
 
 module.exports = mongoose.model('Program', Programschemea) 

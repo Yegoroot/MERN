@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const slugify = require('slugify')
 const opts = { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 
 const NoteSchemea = new mongoose.Schema({
@@ -16,7 +15,6 @@ const NoteSchemea = new mongoose.Schema({
 		type: Boolean,
 		default: false
 	},
-	slug: String,
 	level: Number,
 	description: {
 		type: String,
@@ -71,12 +69,6 @@ const NoteSchemea = new mongoose.Schema({
 // 		console.error(err)
 // 	}
 // }
-
-NoteSchemea.pre('save', function (next) {
-	console.info('Slugify ran', this.title)
-	this.slug = slugify(this.title, { lower: true })
-	next()
-})
 
 // call setUpdatedAtTopic after save
 NoteSchemea.post('save', function () {
