@@ -13,6 +13,10 @@ exports.getTopics = asyncHandler(async (req, res, next) => {
 				path: 'notes',
 				select: 'title' 
 			}) 
+			.populate({
+				path: 'program',
+				select: 'title' 
+			}) 
 		return 	res.status(200).json({ 	
 			success: true, 
 			data: topics})
