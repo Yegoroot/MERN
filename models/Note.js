@@ -71,13 +71,13 @@ const NoteSchemea = new mongoose.Schema({
 // }
 
 // call setUpdatedAtTopic after save
-NoteSchemea.post('save', function () {
-	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
-})
+// NoteSchemea.post('save', function () {
+// 	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
+// })
 
 // call setUpdatedAtTopic before remove
-NoteSchemea.pre('remove', function () {
-	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
-})
+// NoteSchemea.pre('remove', function () {
+// 	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
+// })
 
 module.exports = mongoose.model('Note', NoteSchemea) 

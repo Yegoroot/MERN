@@ -116,7 +116,7 @@ exports.deleteTopics = asyncHandler(async (req, res, next) => {
 		{	_id: {	$in: ids	}	},
 		(error, result) => {
 			if (error) {
-				res.status(200).json({success: false, error})
+				return	next(new ErrorResponse(`${error.message}`, 500))
 			} else {
 				res.status(200).json({success: true, data: {}})
 			}

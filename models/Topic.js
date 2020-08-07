@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
-
+const Note = require('./Note')
 // tags model
 const tags = new mongoose.Schema({
 	photo: String
@@ -56,10 +56,26 @@ const Topicschemea = new mongoose.Schema({
 }, opts)
 
 // Cascade delete note when a topic is deleted
-Topicschemea.pre('remove', async function (next){
-	// eslint-disable-next-line no-console
-	console.log(`Notes being removed from topic ${this._id}`)
-	await this.model('Note').deleteMany({ topic: this._id })
+Topicschemea.pre('deleteMany', async function (next){
+
+	const ids = this.getQuery()._id['$in']
+	ids.forEach( async id => {
+		const notes = await Note.find({ topic: id })
+		notes.forEach(note => {
+			// console.log('Topic', note.topic)
+			// console.log('Length', note.topic.length)
+			if(note.topic.length === 1) {
+				// only in one topic
+				note.delete()
+			} else {
+				// delete objectId
+				note.update(
+					{ },
+					{ $pull: { topic: id } }
+				)
+			}
+		})
+	})
 	next()
 })
 
