@@ -6,8 +6,8 @@ const {
 	getProgram, 
 	createProgram, 
 	updateProgram, 
-	deleteProgram, 
-	deletePrograms // only superadmin (control this in controllers)
+	deleteProgram 
+/*	deletePrograms */// only superadmin (control this in controllers)
 } = require('../controllers/programs')
 
 const advancedResults = require('../middleware/advancedResults')
@@ -31,7 +31,7 @@ const populate = [
 router.route('/')        
 	.get(advancedResults(Program, populate), getPrograms)
 	.post(protect, authorize(...allowedUsers), fileUpload, createProgram)
-	.delete(protect, authorize(...allowedUsers), deletePrograms)
+	.delete(protect, authorize(...allowedUsers) /*deletePrograms*/)
 
 router.route('/:id')	
 	.get(getProgram)

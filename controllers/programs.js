@@ -83,20 +83,20 @@ exports.deleteProgram = asyncHandler(async (req, res, next) => {
 // @desc    Delete programs
 // @route   DELETE /api/v1/programs/?ids=1,2
 // @access  Private
-exports.deletePrograms = asyncHandler(async (req, res, next) => {
-	const ids = req.query.ids.split(',')
-	if ( req.user.role !== 'superadmin') {
-		return	next(new ErrorResponse(`This user is not allowed to work with ${ids}`, 401))
-	}
-	await Program.deleteMany(
-		{	_id: {	$in: ids	}	},
-		(error, result) => {
-			if (error) {
-				res.status(200).json({success: false, error})
-			} else {
-				res.status(200).json({success: true, data: {}})
-			}
-		}
-	)
-})
+// exports.deletePrograms = asyncHandler(async (req, res, next) => {
+// 	const ids = req.query.ids.split(',')
+// 	if ( req.user.role !== 'superadmin') {
+// 		return	next(new ErrorResponse(`This user is not allowed to work with ${ids}`, 401))
+// 	}
+// 	await Program.deleteMany(
+// 		{	_id: {	$in: ids	}	},
+// 		(error, result) => {
+// 			if (error) {
+// 				res.status(200).json({success: false, error})
+// 			} else {
+// 				res.status(200).json({success: true, data: {}})
+// 			}
+// 		}
+// 	)
+// })
 
