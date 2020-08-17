@@ -15,29 +15,37 @@ const NoteSchemea = new mongoose.Schema({
 		type: Boolean,
 		default: false
 	},
-	level: Number,
 	description: {
 		type: String,
 		required: [true, 'please add a descripion'],
 		maxlength: [500, 'Descripion can not be more than 500 characters']
 	},
-	minimumSkill: [{
-		type: String,
-		required: [true, 'Please add a minium skill']
-		// enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
+	// minimumSkill: [{
+	// 	type: String,
+	// 	required: [true, 'Please add a minium skill']
+	// 	enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
+	// }],
+	content: [{
+		type: {
+			type: String,
+			enum: ['text', 'md', 'audio']
+		},
+		content: {
+			type: Object,
+			required: true
+		}
 	}],
-	content: String,
 	topic: [{
 		type: mongoose.Schema.ObjectId,
 		ref: 'Topic',
 		required: true
 	}],
-	filters: Array,
-	averageRating: {
-		type: Number,
-		min: [1, 'Rating must be at least 1'],
-		max: [10, 'Rating must can not be more than 10']
-	},
+	// filters: Array,
+	// averageRating: {
+	// 	type: Number,
+	// 	min: [1, 'Rating must be at least 1'],
+	// 	max: [10, 'Rating must can not be more than 10']
+	// },
 	photo: {
 		type: String
 	},
