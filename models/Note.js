@@ -1,6 +1,27 @@
 const mongoose = require('mongoose')
 const opts = { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 
+// const RecordSchemea = new mongoose.Schema({
+// 	subtitle: {
+// 		type: String
+// 	},
+// 	type: {
+// 		type: String,
+// 		enum: ['text', 'markdown', 'audio']
+// 	},
+// 	data: {
+// 		type: Object,
+// 		required: true
+// 	}
+// })
+
+// const TagsSchema = new mongoose.Schema({
+// 	tag: {
+// 		type: String,
+// 		enum: ['text', 'md', 'audio']
+// 	},
+// })
+
 const NoteSchemea = new mongoose.Schema({
 	title: {
 		type: String,
@@ -20,32 +41,28 @@ const NoteSchemea = new mongoose.Schema({
 		required: [true, 'please add a descripion'],
 		maxlength: [500, 'Descripion can not be more than 500 characters']
 	},
-	// minimumSkill: [{
-	// 	type: String,
-	// 	required: [true, 'Please add a minium skill']
-	// 	enum: ['beginner', 'pre-intermediate', 'intermediate', 'advanced']
-	// }],
-	content: [{
+	contents: [{
+		subtitle: {
+			type: String
+		},
 		type: {
 			type: String,
-			enum: ['text', 'md', 'audio']
+			enum: ['text', 'markdown', 'audio']
 		},
-		content: {
+		data: {
 			type: Object,
 			required: true
 		}
 	}],
+	tags: [{
+		type: String
+	}],
+	// tags: [TagsSchema],
 	topic: [{
 		type: mongoose.Schema.ObjectId,
 		ref: 'Topic',
 		required: true
 	}],
-	// filters: Array,
-	// averageRating: {
-	// 	type: Number,
-	// 	min: [1, 'Rating must be at least 1'],
-	// 	max: [10, 'Rating must can not be more than 10']
-	// },
 	photo: {
 		type: String
 	},
@@ -62,7 +79,6 @@ const NoteSchemea = new mongoose.Schema({
 		ref: 'User',
 		required: true
 	}
-
 }, opts)
 
 // // static method to get date of update or create date of note
