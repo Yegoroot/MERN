@@ -42,6 +42,7 @@ const NoteSchemea = new mongoose.Schema({
 		maxlength: [500, 'Descripion can not be more than 500 characters']
 	},
 	contents: [{
+		id: String,
 		subtitle: {
 			type: String
 		},
