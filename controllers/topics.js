@@ -34,10 +34,15 @@ exports.getTopics = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getTopic =  asyncHandler(async (req, res, next) => {
 	
-	const topic = await Topic.findById(req.params.id).populate({
-		path: 'notes',
-		select: 'title description photo'
-	})
+	const topic = await Topic.findById(req.params.id)
+		.populate({
+			path: 'notes',
+			select: 'title description photo'
+		})
+		.populate({
+			path: 'program',
+			select: 'title'
+		})
 		
 	if(!topic) {	
 		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
