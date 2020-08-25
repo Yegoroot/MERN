@@ -25,7 +25,21 @@ exports.getTopics = asyncHandler(async (req, res, next) => {
 			success: true, 
 			data: topics})
 	}  else {
-		res.status(200).json(res.advancedResults)
+
+		req.requestModel.populate([
+			{ path: 'notes', select: 'title description photo' },
+			{ path: 'user', select: 'name email' },
+			{ path: 'program', select: 'title' }
+		])
+	
+		const topics = await req.requestModel
+
+		res.status(200).json({
+			success: true,
+			count: topics.length,
+			total: req.total,
+			data: topics
+		})
 	}
 })
 

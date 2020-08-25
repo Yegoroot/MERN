@@ -4,18 +4,14 @@ const router = express.Router({mergeParams: true})
 const { getNotes, getNote, createNote, updateNote, deleteNote, deleteNotes } = require('../controllers/notes')
 
 const Note = require('../models/Note')
-const advancedResults = require('../middleware/advancedResults')
+const {requestModel} = require('../middleware/query')
 
 const { protect, authorize } = require('../middleware/auth')
 
 const allowedUsers = ['superadmin', 'admin', 'teacher', 'publisher']
 
-const populate = [
-	{ path: 'topic', select: 'title description' },
-	{ path: 'user', select: 'name email' }
-]
 router.route('/')        
-	.get(advancedResults(Note, populate), getNotes)
+	.get(requestModel(Note), getNotes)
 	.post(protect, authorize(...allowedUsers), createNote)
 	.delete(protect, authorize(...allowedUsers),  deleteNotes)
 
