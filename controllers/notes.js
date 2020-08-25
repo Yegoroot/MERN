@@ -49,7 +49,7 @@ exports.getNote =  asyncHandler(async (req, res, next) => {
 			path: 'user',
 			select: 'name email' 
 		})
-	if(!note) {	
+	if(!note || !note.publish) {	
 		return	next(new ErrorResponse(`Note not found with of id ${req.params.id}`, 404))
 	}
 	res.status(200).json({success: true, data: note})

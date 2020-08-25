@@ -58,7 +58,7 @@ exports.getTopic =  asyncHandler(async (req, res, next) => {
 			select: 'title'
 		})
 		
-	if(!topic) {	
+	if(!topic || !topic.publish) {	
 		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
 	}
 		

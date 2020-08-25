@@ -34,7 +34,8 @@ exports.getProgram =  asyncHandler(async (req, res, next) => {
 			path: 'user',
 			select: 'name email'
 		})
-	if(!program) {	
+
+	if(!program || !program.publish) {	
 		return	next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
 	}
 	res.status(200).json({success: true, data: program})
