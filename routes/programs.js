@@ -10,26 +10,18 @@ const {
 /*	deletePrograms */// only superadmin (control this in controllers)
 } = require('../controllers/programs')
 
-const advancedResults = require('../middleware/advancedResults')
-
 const Program = require('../models/Program')
-
-const { protect, authorize } = require('../middleware/auth')
-const { fileUpload } = require('../middleware/fileUpload')
-// Include other resource
-const TopicRouter = require('./topics')
+const TopicRouter = require('./topics') // Re-route into other resourse router
+router.use('/:programId/topics', TopicRouter)
 
 const allowedUsers = ['superadmin', 'admin', 'teacher']
 
-// Re-route into other resourse router
-router.use('/:programId/topics', TopicRouter)
+const {requestModel} = require('../middleware/query')
+const { protect, authorize } = require('../middleware/auth')
+const { fileUpload } = require('../middleware/fileUpload')
 
-const populate = [
-	{ path: 'topics', select: 'title description photo' },
-	{ path: 'user', select: 'name email' }
-]
 router.route('/')        
-	.get(advancedResults(Program, populate), getPrograms)
+	.get(requestModel(Program), getPrograms)      
 	.post(protect, authorize(...allowedUsers), fileUpload, createProgram)
 	.delete(protect, authorize(...allowedUsers) /*deletePrograms*/)
 

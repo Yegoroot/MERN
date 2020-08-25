@@ -10,7 +10,7 @@ const {
 	deleteTopics // only superadmin (control this in controllers)
 } = require('../controllers/topics')
 
-const advancedResults = require('../middleware/advancedResults')
+const {requestModel} = require('../middleware/query')
 
 const Topic = require('../models/Topic')
 
@@ -26,13 +26,8 @@ router.use('/:topicId/notes', NoteRouter)
 
 router.route('/:id/photo').put(protect, authorize(...allowedUsers), topicPhotoUpload)
 
-const populate = [
-	{ path: 'notes', select: 'title description photo' },
-	{ path: 'user', select: 'name email' },
-	{ path: 'program', select: 'title' }
-]
 router.route('/')        
-	.get(advancedResults(Topic, populate), getTopics)
+	.get(requestModel(Topic), getTopics)
 	.post(protect, authorize(...allowedUsers), fileUpload, createTopic)
 	.delete(protect, authorize(...allowedUsers), deleteTopics)
 

@@ -19,7 +19,20 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 			count: notes.length, 
 			data: notes})
 	}  else {
-		res.status(200).json(res.advancedResults)
+
+		req.requestModel.populate([
+			{ path: 'topic', select: 'title description' },
+			{ path: 'user', select: 'name email' }
+		])
+	
+		const notes = await req.requestModel
+		
+		res.status(200).json({
+			success: true,
+			count: notes.length,
+			total: req.total,
+			data: notes
+		})
 	}
 })
 

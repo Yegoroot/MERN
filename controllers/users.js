@@ -7,7 +7,14 @@ const User = require('../models/User')
 // @route   GET /api/v1/auth/users
 // @access  Private/Admin
 exports.getUsers = asyncHandler(async (req, res, next) => {
-	res.status(200).json(res.advancedResults)
+	const users = await req.requestModel
+
+	res.status(200).json({
+		success: true,
+		count: users.length,
+		total: req.total,
+		data: users
+	})
 })
 
 // @desc    Get single user

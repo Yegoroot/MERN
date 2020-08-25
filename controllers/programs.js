@@ -6,7 +6,19 @@ const Program = require('../models/Program')
 // @route   GET /api/v1/programs
 // @access  Public
 exports.getPrograms = asyncHandler(async (req, res, next) => {
-	res.status(200).json(res.advancedResults)
+	req.requestModel.populate([
+		{ path: 'topics', select: 'title description photo -program' },
+		{ path: 'user', select: 'name email' }
+	])
+
+	const programs = await req.requestModel
+
+	res.status(200).json({
+		success: true,
+		count: programs.length,
+		total: req.total,
+		data: programs
+	})
 })
 
 // @desc    Get single program
@@ -22,7 +34,6 @@ exports.getProgram =  asyncHandler(async (req, res, next) => {
 			path: 'user',
 			select: 'name email'
 		})
-		
 	if(!program) {	
 		return	next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
 	}

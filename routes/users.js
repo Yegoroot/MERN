@@ -11,14 +11,14 @@ const {
 
 const User = require('../models/User')
 
-const advancedResults = require('../middleware/advancedResults')
+const {requestModel} = require('../middleware/query')
 const { protect, authorize } = require('../middleware/auth')
 
 router.use(protect)
 router.use(authorize('superadmin'))
 
 router.route('/')
-	.get(advancedResults(User), getUsers)     
+	.get(requestModel(User), getUsers)     
 	.post(createUser)   
 
 router.route('/:id')
