@@ -17,7 +17,11 @@ const hpp = require('hpp')
 const cors = require('cors')
 
 // load en vars
-dotenv.config({ path: './config/config.env' })
+// process.env.NODE_ENV - из docker-compose
+dotenv.config({ path: process.env.NODE_ENV === 'production' 
+	? './config/production.env'
+	: './config/development.env' 
+})
 
 // connect to datebase 
 connectDB()
