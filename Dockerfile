@@ -1,7 +1,7 @@
 FROM node:14-alpine
 
 # Спицифика работы нодовского приложения, требует node_modules внуцтри
-RUN mkdir -p /app/node_modules
+# RUN mkdir -p /app/node_modules
 
 # Рабочая директория
 WORKDIR /app
@@ -9,7 +9,8 @@ WORKDIR /app
 # Копируем файлы перед установкой на тот слуай чтоб не устанавливать пакеты если не было изминений в этих файлаъ
 COPY package*.json ./ 
 
-RUN npm ci --production
+# RUN npm ci --production
+RUN npm ci 
 
 COPY . .
 
