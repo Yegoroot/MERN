@@ -1,4 +1,4 @@
-// const path = require('path')
+const path = require('path')
 const ErrorResponse = require('../utils/errorResponse')
 /**
  * этот модуль можно сделать расширяемым, например для загрузки других файлоы
@@ -24,8 +24,10 @@ exports.fileUpload = function (req, res, next) {
 		return	next(new ErrorResponse(`Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`, 400))
 	}
 
-	// upload file
-	file.mv(`${process.env.IMAGES_UPLOAD_PATH}/${file.name}`, async err => {
+	/** Upload file
+	 * MadinahBackRootPath define in server.js - 
+	 */
+	file.mv(path.join(MadinahBackRootPath, `${process.env.IMAGES_UPLOAD_PATH}/${file.name}`), async err => {
 		if (err) {
 			console.error(err)
 			return	next(new ErrorResponse('Problem with file upload', 500))

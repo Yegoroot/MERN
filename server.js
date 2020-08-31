@@ -15,6 +15,8 @@ const rateLimit = require('express-rate-limit')
 const hpp = require('hpp')
 const cors = require('cors')
 
+global.MadinahBackRootPath = path.resolve(__dirname)
+
 // load en vars
 // process.env.NODE_ENV - из docker-compose
 dotenv.config({ path: process.env.NODE_ENV === 'production' 
