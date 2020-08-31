@@ -14,6 +14,9 @@ RUN npm ci
 
 COPY . .
 
+# local this is this folder but remote isnt
+RUN mkdir /nodedir/public/uploads/images 
+
 EXPOSE 5000
 CMD [ "npm", "run", "start" ]
 
