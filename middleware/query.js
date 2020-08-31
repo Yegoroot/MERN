@@ -8,7 +8,21 @@ const {queryString, pagination} = require('../utils/query')
 const requestModel = model => async (req, res, next) => {
 
 	const queryObj = queryString(req.query)
-	req.requestModel = model.find({...queryObj, publish: true})
+	
+	let additionalParams = {}
+	if (model.collection.collectionName === 'users') {
+		if (req.user.role !== 'superadmin') {
+			additionalParams = {
+				creator: req.user._id
+			}
+		}
+	} else {
+		additionalParams = {
+			publish: true
+		}
+	}
+
+	req.requestModel = model.find({...queryObj, ...additionalParams})
 
 	// Select Fileds
 	if(req.query.select) {
@@ -25,13 +39,13 @@ const requestModel = model => async (req, res, next) => {
 	}
 
 	// total documents
-	req.total =  await model.countDocuments({publish: true})
+	req.total =  await model.countDocuments({...additionalParams})
 
 	// Pagination
 	const {index, limit} = pagination(req.query)
 	req.requestModel.skip(index).limit(limit)
 
-	next()
+	return next()
 }
 
 module.exports = { requestModel }

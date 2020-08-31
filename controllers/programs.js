@@ -64,7 +64,7 @@ exports.updateProgram = asyncHandler(async (req, res, next) => {
 	
 	// Make shure user is owner
 	if (program.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
-		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
+		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 403))
 	}
 
 	program = await Program.findByIdAndUpdate(req.params.id, req.body, {

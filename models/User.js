@@ -49,7 +49,7 @@ const UserSchema = new mongoose.Schema({
 		default: Date.now
 	},
 	// who was create this
-	whoCreate: {
+	creator: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'User'
 	},
