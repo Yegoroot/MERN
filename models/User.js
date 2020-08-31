@@ -48,6 +48,11 @@ const UserSchema = new mongoose.Schema({
 		type: Date, 
 		default: Date.now
 	},
+	// who was create this
+	whoCreate: {
+		type: mongoose.Schema.ObjectId,
+		ref: 'User'
+	},
 	/**
 	 * This for show tag 'new' ahead smth if had smth created since last user entered  
 	 */
