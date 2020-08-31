@@ -1,7 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
-const connectDB = require('./config/db')
 // eslint-disable-next-line no-unused-vars
 const colors = require('colors')
 const fileupload = require('express-fileupload')
@@ -20,10 +19,11 @@ const cors = require('cors')
 // process.env.NODE_ENV - из docker-compose
 dotenv.config({ path: process.env.NODE_ENV === 'production' 
 	? './config/production.env'
-	: './config/development.env' 
+	: './config/devolopment.env' 
 })
 
 // connect to datebase 
+const connectDB = require('./config/db')
 connectDB()
 
 // Route files
@@ -42,9 +42,9 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Dev logging middleware
-if(process.env.NODE_ENV === 'development') {
-	app.use(morgan('dev'))
-}
+// if(process.env.NODE_ENV === 'development') {
+app.use(morgan('dev'))
+// }
 
 // File uploading
 app.use(fileupload())
@@ -88,7 +88,7 @@ const PORT = process.env.PORT || 5000
 const server = app.listen(
 	PORT,
 	console.log(
-		`server running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}`.blue
+		`server running in ${process.env.NODE_ENV} mode on port ${PORT}`.blue
 	)
 )
 

@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
-const URL = process.env.NODE_ENV === 'production'
-	? process.env.MONGO_URL
-	: 'mongodb://localhost:27017/madinah'
+const URL = process.env.MONGO_URL
 
 const connectDB = async () => {
 	const conn = await mongoose
