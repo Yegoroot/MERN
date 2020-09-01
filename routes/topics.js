@@ -6,7 +6,7 @@ const {
 	createTopic, 
 	updateTopic, 
 	deleteTopic, 
-	topicPhotoUpload, 
+	// topicPhotoUpload, 
 	deleteTopics // only superadmin (control this in controllers)
 } = require('../controllers/topics')
 
@@ -24,7 +24,7 @@ const allowedUsers = ['superadmin', 'admin', 'teacher']
 // Re-route into other resourse router
 router.use('/:topicId/notes', NoteRouter)
 
-router.route('/:id/photo').put(protect, authorize(...allowedUsers), topicPhotoUpload)
+// router.route('/:id/photo').put(protect, authorize(...allowedUsers), topicPhotoUpload)
 
 router.route('/')        
 	.get(requestModel(Topic), getTopics)

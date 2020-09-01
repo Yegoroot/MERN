@@ -57,6 +57,10 @@ exports.getTopic =  asyncHandler(async (req, res, next) => {
 			path: 'program',
 			select: 'title'
 		})
+		.populate({
+			path: 'user',
+			select: 'name'
+		})
 		
 	if(!topic || !topic.publish) {	
 		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
@@ -150,49 +154,49 @@ exports.deleteTopics = asyncHandler(async (req, res, next) => {
 // @desc    Upload photo for topic
 // @route   PUL /api/v1/topics/:id/photo
 // @access  Private
-exports.topicPhotoUpload = asyncHandler(async (req, res, next) => {
+// exports.topicPhotoUpload = asyncHandler(async (req, res, next) => {
 
-	const topic = await Topic.findById(req.params.id)
+// 	const topic = await Topic.findById(req.params.id)
 	
-	if (!topic) {
-		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
-	}
+// 	if (!topic) {
+// 		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
+// 	}
 
-	if (!req.files) {
-		return	next(new ErrorResponse('Please upload file', 400))
-	}
+// 	if (!req.files) {
+// 		return	next(new ErrorResponse('Please upload file', 400))
+// 	}
 
-	// Make shure user is owner
-	if (topic.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
-		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
-	}
+// 	// Make shure user is owner
+// 	if (topic.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
+// 		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
+// 	}
 
-	const file  = req.files.file
+// 	const file  = req.files.file
 
-	// Make sure the image is a photo
-	if (!file.mimetype.startsWith('image')) {
-		return	next(new ErrorResponse('Please upload an image file', 400))
-	}
+// 	// Make sure the image is a photo
+// 	if (!file.mimetype.startsWith('image')) {
+// 		return	next(new ErrorResponse('Please upload an image file', 400))
+// 	}
 
-	// Check filesize
-	if(file.size > process.env.MAX_FILE_UPLOAD) {
-		return	next(new ErrorResponse(`Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`, 400))
-	}
+// 	// Check filesize
+// 	if(file.size > process.env.MAX_FILE_UPLOAD) {
+// 		return	next(new ErrorResponse(`Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`, 400))
+// 	}
 
-	// Create custom filename
-	file.name = `photo_${topic._id}${path.parse(file.name).ext}`
+// 	// Create custom filename
+// 	file.name = `photo_${topic._id}${path.parse(file.name).ext}`
 
-	file.mv(`${process.env.IMAGES_UPLOAD_PATH}/${file.name}`, async err => {
-		if (err) {
-			console.error(err)
-			return	next(new ErrorResponse('Problem with file upload', 500))
-		}
+// 	file.mv(`${process.env.IMAGES_UPLOAD_PATH}/${file.name}`, async err => {
+// 		if (err) {
+// 			console.error(err)
+// 			return	next(new ErrorResponse('Problem with file upload', 500))
+// 		}
 
-		await Topic.findByIdAndUpdate(req.params.id, { photo: file.name })
+// 		await Topic.findByIdAndUpdate(req.params.id, { photo: file.name })
 		
-		res.status(200).json({
-			success: true,
-			data: file.name
-		})
-	})
-})
+// 		res.status(200).json({
+// 			success: true,
+// 			data: file.name
+// 		})
+// 	})
+// })

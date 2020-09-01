@@ -29,13 +29,13 @@ const Topicschemea = new mongoose.Schema({
 	},
 	description: {
 		type: String,
-		required: [ true, 'please add a descripion'],
+		// required: [ true, 'please add a descripion'],
 		maxlength: [500, 'Descripion can not be more than 500 characters' ]
 	},
-	content: String,
-	photo: {
-		type: String
-	},
+	// content: String,
+	// photo: {
+	// 	type: String
+	// },
 	tags: {
 		type: [Object],
 		ref: 'tags'
