@@ -43,7 +43,11 @@ exports.getNote =  asyncHandler(async (req, res, next) => {
 	const note = await Note.findById(req.params.id)
 		.populate({
 			path: 'topic',
-			select: 'title description'
+			select: 'title description program',
+			populate : {
+				path : 'program',
+				select: 'title'
+			}
 		})
 		.populate({
 			path: 'user',
