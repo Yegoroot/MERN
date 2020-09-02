@@ -21,7 +21,10 @@ exports.getNotes = asyncHandler(async (req, res, next) => {
 	}  else {
 
 		req.requestModel.populate([
-			{ path: 'topic', select: 'title description' },
+			{ path: 'topic', 
+				select: 'title description program',
+				populate : { 	path : 'program',	select: 'title'}
+			},
 			{ path: 'user', select: 'name email' }
 		])
 	

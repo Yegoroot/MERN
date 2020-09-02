@@ -58,11 +58,11 @@ const NoteSchemea = new mongoose.Schema({
 		type: String
 	}],
 	// tags: [TagsSchema],
-	topic: [{
+	topic: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'Topic',
 		required: true
-	}],
+	},
 	photo: {
 		type: String
 	},

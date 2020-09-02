@@ -61,20 +61,7 @@ Topicschemea.pre('deleteMany', async function (next){
 	const ids = this.getQuery()._id['$in']
 	ids.forEach( async id => {
 		const notes = await Note.find({ topic: id })
-		notes.forEach(note => {
-			// console.log('Topic', note.topic)
-			// console.log('Length', note.topic.length)
-			if(note.topic.length === 1) {
-				// only in one topic
-				note.delete()
-			} else {
-				// delete objectId
-				note.update(
-					{ },
-					{ $pull: { topic: id } }
-				)
-			}
-		})
+		notes.forEach(note => note.delete())
 	})
 	next()
 })
