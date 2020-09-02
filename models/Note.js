@@ -26,7 +26,6 @@ const NoteSchemea = new mongoose.Schema({
 	title: {
 		type: String,
 		required: [true, 'please add a title'],
-		unique: true,
 		trim: true,
 		maxlength: [150, 'Title can not be more than 50 characters']
 	},
