@@ -6,18 +6,18 @@ const { getNotes, getNote, createNote, updateNote, deleteNote, deleteNotes } = r
 const Note = require('../models/Note')
 const {requestModel} = require('../middleware/query')
 
-const { protect, authorize } = require('../middleware/auth')
+const { isAuth, haveAccess } = require('../middleware/auth')
 
-const allowedUsers = ['superadmin', 'admin', 'teacher', 'publisher']
+const theseHaveAccess = ['superadmin', 'admin', 'teacher']
 
 router.route('/')        
 	.get(requestModel(Note), getNotes)
-	.post(protect, authorize(...allowedUsers), createNote)
-	.delete(protect, authorize(...allowedUsers),  deleteNotes)
+	.post(isAuth, haveAccess(...theseHaveAccess), createNote)
+	.delete(isAuth, haveAccess(...theseHaveAccess),  deleteNotes)
 
 router.route('/:id')	
 	.get(getNote)
-	.put(protect, authorize(...allowedUsers), updateNote)
-	.delete(protect, authorize(...allowedUsers),  deleteNote)
+	.put(isAuth, haveAccess(...theseHaveAccess), updateNote)
+	.delete(isAuth, haveAccess(...theseHaveAccess),  deleteNote)
 
 module.exports = router

@@ -11,7 +11,7 @@ const {
 } = require('../controllers/auth')
 
 const router = express.Router()
-const { protect } = require('../middleware/auth')
+const { isAuth } = require('../middleware/auth')
 
 router
 	.post('/register', register)
@@ -19,8 +19,8 @@ router
 	.get('/logout', logout)
 	.post('/forgotpassword', forgotPassword)
 	.put('/resetpassword/:resettoken', resetPassword)
-	.get('/me', protect, getMe)
-	.put('/updatedetails', protect, updateDetails)
-	.put('/updatepassword', protect, updatePassword)
+	.get('/me', isAuth, getMe)
+	.put('/updatedetails', isAuth, updateDetails)
+	.put('/updatepassword', isAuth, updatePassword)
 
 module.exports = router

@@ -6,7 +6,6 @@ const {
 	createTopic, 
 	updateTopic, 
 	deleteTopic, 
-	// topicPhotoUpload, 
 	deleteTopics // only superadmin (control this in controllers)
 } = require('../controllers/topics')
 
@@ -14,26 +13,24 @@ const {requestModel} = require('../middleware/query')
 
 const Topic = require('../models/Topic')
 
-const { protect, authorize } = require('../middleware/auth')
+const { isAuth, haveAccess } = require('../middleware/auth')
 const { fileUpload } = require('../middleware/fileUpload')
-// Include other resource
 const NoteRouter = require('./notes')
 
-const allowedUsers = ['superadmin', 'admin', 'teacher']
+const theseHaveAccess = ['superadmin', 'admin', 'teacher']
 
 // Re-route into other resourse router
 router.use('/:topicId/notes', NoteRouter)
 
-// router.route('/:id/photo').put(protect, authorize(...allowedUsers), topicPhotoUpload)
 
 router.route('/')        
 	.get(requestModel(Topic), getTopics)
-	.post(protect, authorize(...allowedUsers), fileUpload, createTopic)
-	.delete(protect, authorize(...allowedUsers), deleteTopics)
+	.post(isAuth, haveAccess(...theseHaveAccess), fileUpload, createTopic)
+	.delete(isAuth, haveAccess(...theseHaveAccess), deleteTopics)
 
 router.route('/:id')	
 	.get(getTopic)
-	.put(protect, authorize(...allowedUsers), fileUpload, updateTopic)
-	.delete(protect, authorize(...allowedUsers), deleteTopic)
+	.put(isAuth, haveAccess(...theseHaveAccess), fileUpload, updateTopic)
+	.delete(isAuth, haveAccess(...theseHaveAccess), deleteTopic)
 
 module.exports = router
