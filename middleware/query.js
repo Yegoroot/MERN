@@ -18,7 +18,7 @@ const requestModel = model => async (req, res, next) => {
 		}
 	} else {
 		additionalParams = {
-			// publish: true
+			publish: true
 		}
 	}
 
