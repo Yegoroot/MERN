@@ -1,44 +1,59 @@
 const mongoose = require('mongoose')
-const opts = { toJSON: { virtuals: true }, toObject: {virtuals: true} }
-const Note = require('./Note')
-// tags model
-const tags = new mongoose.Schema({
-	photo: String
-})
-mongoose.model('tags', tags, 'tags' )
+const opts = { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 
-// Topic model
-const Topicschemea = new mongoose.Schema({
+// const TagsShema = new mongoose.Schema({
+// 	color: String,
+// 	title: String
+// })
+// mongoose.model('tags', TagsShema )
+
+const TopicSchemea = new mongoose.Schema({
 	title: {
 		type: String,
-		required: [ true, 'please add a title'],
-		unique: true,
+		required: [true, 'please add a title'],
 		trim: true,
-		maxlength: [50, 'Title can not be more than 50 characters' ]
+		maxlength: [150, 'Title can not be more than 50 characters']
 	},
 	language: String,
-	translation: Array,
-	program: {
-		type: mongoose.Schema.ObjectId,
-		ref: 'Program',
-		required: [ true, 'please choose a program']
-	},
+	translation: Object,
 	publish: { 
 		type: Boolean,
 		default: false
 	},
 	description: {
 		type: String,
-		// required: [ true, 'please add a descripion'],
-		maxlength: [500, 'Descripion can not be more than 500 characters' ]
+		required: [true, 'please add a descripion'],
+		maxlength: [500, 'Descripion can not be more than 500 characters']
 	},
-	// content: String,
-	// photo: {
+	contents: [{
+		id: String,
+		subtitle: {
+			type: String
+		},
+		type: {
+			type: String,
+			enum: ['text', 'markdown', 'audio']
+		},
+		data: {
+			type: Object,
+			required: true
+		}
+	}],
+	// tags: [{
+	// 	type: [Object],
+	// 	ref: 'tags'
+	// }],
+	// hashTag: [{
 	// 	type: String
-	// },
-	tags: {
-		type: [Object],
-		ref: 'tags'
+	// }],
+	// tags: [TagsSchema],
+	program: {
+		type: mongoose.Schema.ObjectId,
+		ref: 'Program',
+		required: true
+	},
+	photo: {
+		type: String
 	},
 	updatedAt: {
 		type: Date,
@@ -55,27 +70,27 @@ const Topicschemea = new mongoose.Schema({
 	}
 }, opts)
 
-// Cascade delete note when a topic is deleted
-Topicschemea.pre('deleteMany', async function (next){
+// // static method to get date of update or create date of topic
+// TopicSchemea.statics.setUpdatedAtTopic = async function (topicIds) {
+// 	try {
+// 		await this.model('Topic').updateMany({ '_id': { $in: topicIds } }, {
+// 			$set: {
+// 				updatedAt: new Date()
+// 			}
+// 		})
+// 	} catch (err) {
+// 		console.error(err)
+// 	}
+// }
 
-	const ids = this.getQuery()._id['$in']
-	ids.forEach( async id => {
-		const notes = await Note.find({ topic: id })
-		notes.forEach(note => note.delete())
-	})
-	next()
-})
+// call setUpdatedAtTopic after save
+// TopicSchemea.post('save', function () {
+// 	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
+// })
 
-// Reverse populate with virtuals
-/**
- * В таблицу topic мы добавили те категории которые относяться к нему
- */
-Topicschemea.virtual('notes', {
-	ref: 'Note',
-	localField: '_id',
-	foreignField: 'topic',
-	id: true
-	// justOne: false
-})
+// call setUpdatedAtTopic before remove
+// TopicSchemea.pre('remove', function () {
+// 	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
+// })
 
-module.exports = mongoose.model('Topic', Topicschemea) 
+module.exports = mongoose.model('Topic', TopicSchemea) 

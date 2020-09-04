@@ -70,4 +70,12 @@ Programschemea.virtual('topics', {
 // 	next()
 // })
 
+Programschemea.pre('remove', async function (next){
+	// eslint-disable-next-line no-console
+	console.log(`Topics being removed from program ${this._id}`)
+	await this.model('Topic').deleteMany({ program: this._id })
+	next()
+})
+
+
 module.exports = mongoose.model('Program', Programschemea) 

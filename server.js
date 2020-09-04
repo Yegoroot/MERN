@@ -31,7 +31,6 @@ connectDB()
 // Route files
 const programs = require('./routes/programs')
 const topics = require('./routes/topics')
-const notes = require('./routes/notes')
 const auth = require('./routes/auth')
 const users = require('./routes/users')
 
@@ -79,7 +78,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 // Mount routers
 app.use('/api/v1/programs', programs)
 app.use('/api/v1/topics', topics)
-app.use('/api/v1/notes', notes)
 app.use('/api/v1/auth', auth)
 app.use('/api/v1/users', users)
 
