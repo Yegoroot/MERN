@@ -1,6 +1,6 @@
 const express = require('express')
-const router = express.Router({mergeParams: true})
-
+const Topic = require('../models/Topic')
+const router = express.Router(/*{mergeParams: true}*/)
 const { 
 	getTopics,
 	getTopic,
@@ -11,9 +11,7 @@ const {
 	getMyTopic
 } = require('../controllers/topics')
 
-const Topic = require('../models/Topic')
 const {requestModel} = require('../middleware/query')
-
 const { isAuth, haveAccess } = require('../middleware/auth')
 
 const theseHaveAccess = ['superadmin', 'admin', 'teacher']

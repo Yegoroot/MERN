@@ -1,4 +1,5 @@
 const express = require('express')
+const Program = require('../models/Program')
 const router = express.Router()
 const { 
 	getPrograms, 
@@ -9,15 +10,12 @@ const {
 	getMyProgram
 } = require('../controllers/programs')
 
-const Program = require('../models/Program')
-const TopicRouter = require('./topics') // Re-route into other resourse router
-router.use('/:programId/topics', TopicRouter)
-
-const theseHaveAccess = ['superadmin', 'admin', 'teacher']
-
 const {requestModel} = require('../middleware/query')
 const { isAuth, haveAccess } = require('../middleware/auth')
 const { fileUpload } = require('../middleware/fileUpload')
+
+const theseHaveAccess = ['superadmin', 'admin', 'teacher']
+
 
 router.route('/')        
 	.get(requestModel(Program), getPrograms)      

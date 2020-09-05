@@ -13,7 +13,6 @@ exports.getMyProgram = asyncHandler(async (req, res, next) => {
 		params.user = req.user._id
 	}
 
-
 	const program = await Program.findOne({ _id: req.params.id, ...params})
 		.populate({
 			path: 'topics',
@@ -56,7 +55,11 @@ exports.getProgram =  asyncHandler(async (req, res, next) => {
 	const program = await Program.findById(req.params.id)
 		.populate({
 			path: 'topics',
-			select: 'title description photo'
+			// populate: {
+			// 	path: 'program',
+			// 	select: 'title'
+			// },
+			select: 'title description'
 		})
 		.populate({
 			path: 'user',

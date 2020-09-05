@@ -33,39 +33,23 @@ exports.getMyTopic =  asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/topics
 // @access  Public
 exports.getTopics = asyncHandler(async (req, res, next) => {
-	if(req.params.programId) { 	
-		const topics = await Topic.find({ program: req.params.programId })		
-			.populate({
-				path: 'program',
-				select: 'title' 
-			}) 
-			.populate({
-				path: 'user',
-				select: 'name' 
-			}) 
-		return 	res.status(200).json({ 	
-			// TODO сделать pagination in the course it doesnt exist
-			success: true, 
-			count: topics.length, 
-			data: topics})
-	}  else {
 
-		req.requestModel.populate([
-			{ path: 'program', 
-				select: 'title description'
-			},
-			{ path: 'user', select: 'name email' }
-		])
+	req.requestModel.populate([
+		{ path: 'program', 
+			select: 'title description'
+		},
+		{ path: 'user', select: 'name email' }
+	])
 	
-		const topics = await req.requestModel
+	const topics = await req.requestModel
 		
-		res.status(200).json({
-			success: true,
-			count: topics.length,
-			total: req.total,
-			data: topics
-		})
-	}
+	res.status(200).json({
+		success: true,
+		count: topics.length,
+		total: req.total,
+		data: topics
+	})
+	
 })
 
 // @desc    Get single topic
