@@ -2,6 +2,33 @@ const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const Topic = require('../models/Topic')
 
+
+// @desc    Get single topic
+// @route   GET /api/v1/topics/:id
+// @access  Public
+exports.getMyTopic =  asyncHandler(async (req, res, next) => {
+
+	const params = {}
+	if (req.user.role !== 'superadmin') {
+		params.user = req.user._id
+	}
+
+	const topic = await Topic.findOne({_id: req.params.id, ...params})
+		.populate({
+			path: 'program',
+			select: 'title'
+		})
+		.populate({
+			path: 'user',
+			select: 'name'
+		})
+	if(!topic) {	
+		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
+	}
+	res.status(200).json({success: true, data: topic})
+})
+
+
 // @desc    Get all topics
 // @route   GET /api/v1/topics
 // @access  Public

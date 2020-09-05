@@ -1,7 +1,15 @@
 const express = require('express')
 const router = express.Router({mergeParams: true})
 
-const { getTopics, getTopic, createTopic, updateTopic, deleteTopic, deleteTopics } = require('../controllers/topics')
+const { 
+	getTopics,
+	getTopic,
+	createTopic,
+	updateTopic,
+	deleteTopic,
+	deleteTopics,
+	getMyTopic
+} = require('../controllers/topics')
 
 const Topic = require('../models/Topic')
 const {requestModel} = require('../middleware/query')
@@ -14,6 +22,11 @@ router.route('/')
 	.get(requestModel(Topic), getTopics)
 	.post(isAuth, haveAccess(...theseHaveAccess), createTopic)
 	.delete(isAuth, haveAccess(...theseHaveAccess),  deleteTopics)
+
+router.route('/my')
+	.get(isAuth, haveAccess(...theseHaveAccess), requestModel(Topic, 'my'),  getTopics)
+router.route('/my/:id')
+	.get(isAuth, haveAccess(...theseHaveAccess), getMyTopic)
 
 router.route('/:id')	
 	.get(getTopic)
