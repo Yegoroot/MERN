@@ -5,9 +5,8 @@ const {
 	getProgram, 
 	createProgram, 
 	updateProgram, 
-	deleteProgram 
-	// getMyPrograms,
-	// getMyProgram
+	deleteProgram,
+	getMyProgram
 } = require('../controllers/programs')
 
 const Program = require('../models/Program')
@@ -25,10 +24,10 @@ router.route('/')
 	.post(isAuth, haveAccess(...theseHaveAccess), fileUpload, createProgram)
 	.delete(isAuth, haveAccess(...theseHaveAccess))
 
-// router.route('/my')
-// 	.get(getMyPrograms)
-// router.route('/my/:id')
-// 	.get(getMyProgram)
+router.route('/my')
+	.get(isAuth, haveAccess(...theseHaveAccess), requestModel(Program, 'my'),  getPrograms)
+router.route('/my/:id')
+	.get(isAuth, haveAccess(...theseHaveAccess), getMyProgram)
 
 router.route('/:id')	
 	.get(getProgram)

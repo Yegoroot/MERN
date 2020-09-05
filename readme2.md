@@ -25,3 +25,16 @@ const profile = await profile.findOne({user: req.user.id}).populate('user', ['na
 
 ### Likes
 [System of likes in 23 lessons](https://coursehunter.net/course/mern-stack-front-to-back-full-stack-react-redux-node-js)
+
+
+## GET Programs
+
+- Get all unbublish
+/api/v1/programs
+
+- Get all my
+/api/v1/programs/my
+
+- Get all (only superadmin)
+/api/v1/programs/my?all=true
+

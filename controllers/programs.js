@@ -2,40 +2,32 @@ const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const Program = require('../models/Program')
 
-// @desc    Get all my programs
-// @route   GET /api/v1/programs/my
-// @access  Public
-exports.getMyPrograms = asyncHandler(async (req, res, next) => {
-
-	// req.requestModel.populate([
-	// 	{ path: 'topics', select: 'title description photo -program' },
-	// 	{ path: 'user', select: 'name email' }
-	// ])
-	// const programs = await req.requestModel
-	res.status(200).json({
-		success: true
-		// count: programs.length,
-		// total: req.total,
-		// data: programs
-	})
-})
-
 
 // @desc    Get all my program
 // @route   GET /api/v1/programs/my/:id
 // @access  Public
 exports.getMyProgram = asyncHandler(async (req, res, next) => {
-	// req.requestModel.populate([
-	// 	{ path: 'topics', select: 'title description photo -program' },
-	// 	{ path: 'user', select: 'name email' }
-	// ])
-	// const programs = await req.requestModel
-	res.status(200).json({
-		success: true
-		// count: programs.length,
-		// total: req.total,
-		// data: programs
-	})
+
+	const params = {}
+	if (req.user.role !== 'superadmin') {
+		params.user = req.user._id
+	}
+
+
+	const program = await Program.findOne({ _id: req.params.id, ...params})
+		.populate({
+			path: 'topics',
+			select: 'title description photo'
+		})
+		.populate({
+			path: 'user',
+			select: 'name email'
+		})
+
+	if(!program) {	
+		return	next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
+	}
+	res.status(200).json({success: true, data: program})
 })
 
 
