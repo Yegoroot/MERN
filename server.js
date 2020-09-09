@@ -33,6 +33,7 @@ const programs = require('./routes/programs')
 const topics = require('./routes/topics')
 const auth = require('./routes/auth')
 const users = require('./routes/users')
+const types = require('./routes/types')
 
 const app = express()
 
@@ -57,7 +58,7 @@ app.use(mongoSanitize())
 app.use(helmet())
 
 // Prevent XSS attaks
-// app.use(xss())
+app.use(xss())
 
 // Enable CORS
 app.use(cors())
@@ -80,6 +81,7 @@ app.use('/api/v1/programs', programs)
 app.use('/api/v1/topics', topics)
 app.use('/api/v1/auth', auth)
 app.use('/api/v1/users', users)
+app.use('/api/v1/types', types)
 
 app.use(errorHandlrer)
 
