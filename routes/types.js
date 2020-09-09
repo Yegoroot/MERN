@@ -3,6 +3,7 @@ const router = express.Router()
 const { isAuth, haveAccess } = require('../middleware/auth')
 const { 
 	getTypes,
+	getType,
 	createType, 
 	updateType, 
 	deleteType 
@@ -17,6 +18,7 @@ router.route('/')
 	.post(createType)   
 
 router.route('/:id')
+	.get(getType)	
 	.put(updateType)	
 	.delete(deleteType)	
 

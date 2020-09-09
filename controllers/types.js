@@ -16,6 +16,18 @@ exports.getTypes = asyncHandler(async (req, res, next) => {
 })
 
 
+// @desc    Get all type
+// @route   GET /api/v1/auth/types
+// @access  Private/superadmin
+exports.getType = asyncHandler(async (req, res, next) => {
+	const type = await Type.findById(req.params.id)
+	res.status(200).json({
+		success: true,
+		data: type
+	})
+})
+
+
 // @desc    Create type
 // @route   POST /api/v1/auth/types
 // @access  Private/superadmin

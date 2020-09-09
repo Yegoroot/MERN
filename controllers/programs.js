@@ -22,6 +22,7 @@ exports.getMyProgram = asyncHandler(async (req, res, next) => {
 			path: 'user',
 			select: 'name email'
 		})
+		.populate({ path: 'types', select: 'title alias color' })
 
 	if(!program) {	
 		return	next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
@@ -36,7 +37,8 @@ exports.getMyProgram = asyncHandler(async (req, res, next) => {
 exports.getPrograms = asyncHandler(async (req, res, next) => {
 	req.requestModel.populate([
 		{ path: 'topics', select: 'title description photo -program' },
-		{ path: 'user', select: 'name email' }
+		{ path: 'user', select: 'name email' },
+		{ path: 'types', select: 'title alias color' }
 	])
 	const programs = await req.requestModel
 	res.status(200).json({
@@ -65,6 +67,10 @@ exports.getProgram =  asyncHandler(async (req, res, next) => {
 			path: 'user',
 			select: 'name email'
 		})
+		.populate({
+			path: 'types',
+			select: 'title alias color'
+		})
 	if(!program || !program.publish) {	
 		return	next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
 	}
@@ -78,6 +84,9 @@ exports.getProgram =  asyncHandler(async (req, res, next) => {
 exports.createProgram = asyncHandler(async (req, res, next) => {
 	req.body.user = req.user.id // Add user to req.body
 	
+	if(req.body.types) {
+		req.body.types =  JSON.parse(req.body.types)
+	}
 	const program = await Program.create(req.body)
 	res.status(201).json({success: true, data: program})
 })
@@ -88,6 +97,11 @@ exports.createProgram = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateProgram = asyncHandler(async (req, res, next) => {
 	let program = await Program.findById(req.params.id)
+
+	if(req.body.types) {
+		req.body.types =  JSON.parse(req.body.types)
+	}
+
 	if (!program) {
 		return	next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
 	}

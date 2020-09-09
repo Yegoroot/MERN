@@ -22,6 +22,10 @@ const Programschemea = new mongoose.Schema({
 		// required: [ true, 'please add a descripion'],
 		maxlength: [500, 'Descripion can not be more than 500 characters' ]
 	},
+	types: [{
+		type: mongoose.Schema.ObjectId,
+		ref: 'Type'
+	}],
 	photo: {
 		type: String
 	},
