@@ -12,14 +12,14 @@ const {
 
 const {requestModel} = require('../middleware/query')
 const { isAuth, haveAccess } = require('../middleware/auth')
-const { fileUpload } = require('../middleware/fileUpload')
+const { photoUploadProtect } = require('../middleware/photoUploadProtect')
 
 const theseHaveAccess = ['superadmin', 'admin', 'teacher']
 
 
 router.route('/')        
 	.get(requestModel(Program), getPrograms)      
-	.post(isAuth, haveAccess(...theseHaveAccess), fileUpload, createProgram)
+	.post(isAuth, haveAccess(...theseHaveAccess), photoUploadProtect, createProgram)
 	.delete(isAuth, haveAccess(...theseHaveAccess))
 
 router.route('/my')
@@ -29,7 +29,7 @@ router.route('/my/:id')
 
 router.route('/:id')	
 	.get(getProgram)
-	.put(isAuth, haveAccess(...theseHaveAccess), fileUpload, updateProgram)
+	.put(isAuth, haveAccess(...theseHaveAccess), photoUploadProtect, updateProgram)
 	.delete(isAuth, haveAccess(...theseHaveAccess), deleteProgram)
 
 module.exports = router

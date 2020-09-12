@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:14.8.0
 
 # Спицифика работы нодовского приложения, требует node_modules внуцтри
 # RUN mkdir -p /app/node_modules
@@ -10,7 +10,7 @@ WORKDIR /nodedir
 COPY package*.json ./ 
 
 # RUN npm ci --production
-RUN npm ci 
+RUN npm ci --only=production
 
 COPY . .
 

@@ -3,7 +3,6 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 // eslint-disable-next-line no-unused-vars
 const colors = require('colors')
-const fileupload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
 const path = require('path')
 const errorHandlrer = require('./middleware/error')
@@ -48,9 +47,6 @@ app.use(cookieParser())
 app.use(morgan('dev'))
 // }
 
-// File uploading
-app.use(fileupload())
-
 // Sanitize data
 app.use(mongoSanitize())
 
@@ -58,6 +54,9 @@ app.use(mongoSanitize())
 app.use(helmet())
 
 // Prevent XSS attaks
+/**
+ * если я это включу то мои topics будут сохраняться кракозябрами вместo > - &lp
+ */
 // app.use(xss())
 
 // Enable CORS
