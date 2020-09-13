@@ -28,6 +28,9 @@ const createProgramDirectories = (programId) => {
 	createDirectory(pathId) 
 	createDirectory(path.join(pathId, '/photo')) 
 	createDirectory(path.join(pathId, '/photo/compress')) 
+	// create directories for topics
+	createDirectory(path.join(pathId, '/topics')) 
+
 }
 
 
