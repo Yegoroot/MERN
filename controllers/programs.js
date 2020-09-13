@@ -129,9 +129,12 @@ exports.createProgram = asyncHandler(async (req, res, next) => {
 
 	busboy.on('finish', () => {
 
-		program.save( (err) => {
+		program.save( (error) => {
 			
-			if (err) return res.status(400).json({success: false, err })
+			if (error)  {
+				fs.rmdirSync(pathProgram(program.id), { recursive: true })
+				return res.status(400).json({success: false, error: JSON.stringify(error) })
+			}
 			res.status(201).json({success: true, data: program })
 		})
 	})
@@ -175,11 +178,15 @@ exports.updateProgram = asyncHandler(async (req, res, next) => {
 		} 
 	})
 	busboy.on('finish', async function() {
-		program = await Program.findByIdAndUpdate(req.params.id, program, {
-			new: true,
-			runValidators: true
-		})
-		res.status(200).json({success: true, data: program})
+		try {			
+			program = await Program.findByIdAndUpdate(req.params.id, program, {
+				new: true,
+				runValidators: true
+			})
+			res.status(200).json({success: true, data: program})
+		} catch (error) {
+			res.status(400).json({success: false, error: JSON.stringify(error) || 'Here Error'})	
+		}
 	})
 	req.pipe(busboy)
 	/**
