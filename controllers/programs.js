@@ -5,6 +5,7 @@ const {createProgramPhotoDirectories, pathProgram, convertCompress} = require('.
 const Busboy = require('busboy')
 const fs = require('fs')
 const path = require('path')
+const rimraf = require('rimraf')
 
 
 // @desc    Get all my program
@@ -104,7 +105,7 @@ exports.createProgram = asyncHandler(async (req, res, next) => {
 		program.save( async (error) => {
 			
 			if (error)  {
-				fs.rmdirSync(pathProgram(program.id), { recursive: true })
+				rimraf.sync(pathProgram(program.id))
 				return res.status(400).json({success: false, error: JSON.stringify(error) })
 			}
 			// CONVERT AND COMPRESS 
@@ -187,6 +188,6 @@ exports.deleteProgram = asyncHandler(async (req, res, next) => {
 		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
 	}
 	program.remove() // не используем deleteByID потому что не сработает событие .pre('remove',
-	fs.rmdirSync(pathProgram(program.id), { recursive: true })
+	rimraf.sync(pathProgram(program.id))
 	return res.status(200).json({success: true, data: {}})
 })

@@ -7,9 +7,9 @@ const {
 	createTopic,
 	updateTopic,
 	deleteTopic,
-	deleteTopics,
 	getMyTopic,
-	createRecord
+	createRecord,
+	deleteRecord
 } = require('../controllers/topics')
 
 const {requestModel} = require('../middleware/query')
@@ -20,7 +20,6 @@ const theseHaveAccess = ['superadmin', 'admin', 'teacher']
 router.route('/')        
 	.get(requestModel(Topic), getTopics)
 	.post(isAuth, haveAccess(...theseHaveAccess), createTopic)
-	.delete(isAuth, haveAccess(...theseHaveAccess),  deleteTopics)
 
 router.route('/my')
 	.get(isAuth, haveAccess(...theseHaveAccess), requestModel(Topic, 'my'),  getTopics)
@@ -29,6 +28,8 @@ router.route('/my/:id')
 
 router.route('/record')	
 	.post(isAuth, haveAccess(...theseHaveAccess), createRecord)
+router.route('/recorddelete')	
+	.post(isAuth, haveAccess(...theseHaveAccess), deleteRecord)
 
 router.route('/:id')	
 	.get(getTopic)

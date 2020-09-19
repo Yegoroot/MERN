@@ -4,10 +4,11 @@ const imagemin = require('imagemin')
 const imageminPngquant = require('imagemin-pngquant')
 const imageminMozjpeg = require('imagemin-mozjpeg')
 const imageminWebp = require('imagemin-webp')
+const rimraf = require('rimraf')
 
 const convertCompress = async (from, to) => {
 	// DELETE COMPRESS FOLDER (if update)
-	fs.rmdirSync(path.join(__dirname, '../', to), { recursive: true })
+	rimraf.sync(path.join(__dirname, '../', to, '/*'))
 
 	// CONVERT
 	const convertToWebp = async () =>

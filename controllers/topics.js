@@ -4,7 +4,8 @@ const Topic = require('../models/Topic')
 const {createRecordDirectory, createDirectory, convertCompress} = require('../utils/fileUpload')
 const Busboy = require('busboy')
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
+const rimraf = require('rimraf')
 
 
 // @desc    Create record
@@ -32,7 +33,11 @@ exports.createRecord = asyncHandler(async (req, res, next) => {
 			_fileName = `image${path.extname(filename)}`
 			const imageFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
 			createRecordDirectory({programId, topicId, recordId})
-			fs.renameSync(tmp,  path.join(imageFolder, _fileName))	
+			try {
+				fs.moveSync(tmp,  path.join(imageFolder, _fileName))	
+			} catch (e) {
+				console.log(e)
+			}
 		})
 	})	
 	
@@ -47,6 +52,14 @@ exports.createRecord = asyncHandler(async (req, res, next) => {
 	})
 	req.pipe(busboy)
 
+})
+
+
+exports.deleteRecord = asyncHandler(async (req, res, next) => {
+	const {programId, topicId, recordId} = req.body
+	const imageFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
+	rimraf.sync(imageFolder)
+	return res.status(200).json({success: true, data: {}})
 })
 
 
@@ -124,7 +137,21 @@ exports.getTopic =  asyncHandler(async (req, res, next) => {
 exports.createTopic = asyncHandler(async (req, res, next) => {
 	// Add user to req.body
 	req.body.user = req.user.id
-	
+	/**
+	 * Move directory
+	 */
+	if (req.body.programId !== req.body.program) {
+		try {
+			fs.copySync(
+				`public/uploads/programs/${req.body.programId}/topics/${req.body._id}`, 
+				`public/uploads/programs/${req.body.program}/topics/${req.body._id}`
+			)	
+			rimraf.sync(`public/uploads/programs/${req.body.programId}/topics/${req.body._id}`)
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
 	if(req.body.sections) {
 		req.body.sections =  JSON.parse(req.body.sections)
 	}
@@ -144,6 +171,21 @@ exports.updateTopic = asyncHandler(async (req, res, next) => {
 	if (topic.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
 		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
 	}
+	/**
+	 * Move directory
+	 */
+	if (req.body.programId !== req.body.program) {
+		try {
+			fs.copySync(
+				`public/uploads/programs/${req.body.programId}/topics/${req.body._id}`, 
+				`public/uploads/programs/${req.body.program}/topics/${req.body._id}`
+			)	
+			rimraf.sync(`public/uploads/programs/${req.body.programId}/topics/${req.body._id}`)
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
 	topic = await Topic.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true
@@ -162,7 +204,9 @@ exports.deleteTopic = asyncHandler(async (req, res, next) => {
 	if (topic.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
 		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
 	}
+	const topicFolder = `public/uploads/programs/${topic.program}/topics/${req.params.id}`
 	await topic.remove()
+	rimraf.sync(topicFolder)
 	return res.status(200).json({success: true, data: {}})
 })
 
