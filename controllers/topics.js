@@ -12,6 +12,7 @@ const fs = require('fs')
 // @access  Private
 exports.createRecord = asyncHandler(async (req, res, next) => {
 	const body = {}
+	let _fileName
 	const busboy = new Busboy({ headers: req.headers })
 
 	busboy.on('field', (fieldname, val)=> {	body[fieldname] = val } )
@@ -22,13 +23,13 @@ exports.createRecord = asyncHandler(async (req, res, next) => {
 		createDirectory('public/tmp/records/images')
 		const tmp = path.join('public/tmp/records/images', filename)	
 		file.pipe(fs.createWriteStream(tmp))
-		
+
 		file.on('end', () => {
 			/**
 			 * Переносим в нужную директорию
 			 */
 			const {programId, topicId, recordId} = body
-			const _fileName = `photo${path.extname(filename)}`
+			_fileName = `image${path.extname(filename)}`
 			const imageFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
 			createRecordDirectory({programId, topicId, recordId})
 			fs.renameSync(tmp,  path.join(imageFolder, _fileName))	
@@ -42,7 +43,7 @@ exports.createRecord = asyncHandler(async (req, res, next) => {
 		 * Сжимаем изображения
 		 */
 		await convertCompress(imageFolder, path.join(imageFolder, '/compress'))
-		res.status(201).json({success: true})
+		res.status(201).json({success: true, image: `/topics/${topicId}/contents/${recordId}/compress/${_fileName}?${new Date().getTime()}`})
 	})
 	req.pipe(busboy)
 

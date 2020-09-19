@@ -6,6 +6,9 @@ const imageminMozjpeg = require('imagemin-mozjpeg')
 const imageminWebp = require('imagemin-webp')
 
 const convertCompress = async (from, to) => {
+	// DELETE COMPRESS FOLDER (if update)
+	fs.rmdirSync(path.join(__dirname, '../', to), { recursive: true })
+
 	// CONVERT
 	const convertToWebp = async () =>
 		await imagemin([from], {

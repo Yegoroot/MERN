@@ -26,13 +26,13 @@ const TopicSchemea = new mongoose.Schema({
 		maxlength: [500, 'Descripion can not be more than 500 characters']
 	},
 	contents: [{
-		id: String,
+		// id: String,
 		subtitle: {
 			type: String
 		},
 		type: {
 			type: String,
-			enum: ['text', 'markdown', 'audio']
+			enum: ['text', 'markdown', 'audio', 'image']
 		},
 		data: {
 			type: Object,

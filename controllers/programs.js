@@ -143,7 +143,7 @@ exports.updateProgram = asyncHandler(async (req, res, next) => {
 		// SAVE PHOTO
 		const _fileName = `photo${path.extname(filename)}` 
 		const saveFileTo = path.join(pathProgram(program.id), '/photo', _fileName);	file.pipe(fs.createWriteStream(saveFileTo))
-		program.photo = _fileName	
+		program.photo = `${_fileName}?${new Date().getTime()}`	
 	})
 
 	busboy.on('field', function(fieldname, val) {
