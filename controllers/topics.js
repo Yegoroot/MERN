@@ -1,6 +1,52 @@
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const Topic = require('../models/Topic')
+const {createRecordDirectory, createDirectory, convertCompress} = require('../utils/fileUpload')
+const Busboy = require('busboy')
+const path = require('path')
+const fs = require('fs')
+
+
+// @desc    Create record
+// @route   POST /api/v1/topics/record
+// @access  Private
+exports.createRecord = asyncHandler(async (req, res, next) => {
+	const body = {}
+	const busboy = new Busboy({ headers: req.headers })
+
+	busboy.on('field', (fieldname, val)=> {	body[fieldname] = val } )
+	busboy.on('file', (fieldname, file, filename ) => {
+		/* 
+		* Сохраняем во временную папку 
+		 */
+		createDirectory('public/tmp/records/images')
+		const tmp = path.join('public/tmp/records/images', filename)	
+		file.pipe(fs.createWriteStream(tmp))
+		
+		file.on('end', () => {
+			/**
+			 * Переносим в нужную директорию
+			 */
+			const {programId, topicId, recordId} = body
+			const _fileName = `photo${path.extname(filename)}`
+			const imageFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
+			createRecordDirectory({programId, topicId, recordId})
+			fs.renameSync(tmp,  path.join(imageFolder, _fileName))	
+		})
+	})	
+	
+	busboy.on('finish', async () => {
+		const {programId, topicId, recordId} = body
+		const imageFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
+		/**
+		 * Сжимаем изображения
+		 */
+		await convertCompress(imageFolder, path.join(imageFolder, '/compress'))
+		res.status(201).json({success: true})
+	})
+	req.pipe(busboy)
+
+})
 
 
 // @desc    Get single topic

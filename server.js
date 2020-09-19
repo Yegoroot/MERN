@@ -9,7 +9,7 @@ const errorHandlrer = require('./middleware/error')
 
 const mongoSanitize = require('express-mongo-sanitize')
 const helmet = require('helmet')
-const xss = require('xss-clean')
+// const xss = require('xss-clean')
 const rateLimit = require('express-rate-limit')
 const hpp = require('hpp')
 const cors = require('cors')

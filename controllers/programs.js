@@ -1,14 +1,11 @@
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const Program = require('../models/Program')
-const {createProgramDirectories, pathProgram} = require('../utils/fileUpload')
+const {createProgramPhotoDirectories, pathProgram, convertCompress} = require('../utils/fileUpload')
 const Busboy = require('busboy')
 const fs = require('fs')
 const path = require('path')
-const imagemin = require('imagemin')
-const imageminPngquant = require('imagemin-pngquant')
-const imageminMozjpeg = require('imagemin-mozjpeg')
-const imageminWebp = require('imagemin-webp')
+
 
 // @desc    Get all my program
 // @route   GET /api/v1/programs/my/:id
@@ -76,28 +73,6 @@ exports.getProgram =  asyncHandler(async (req, res, next) => {
 })
 
 
-const convertCompress = async (id) => {
-	const _from = `public/uploads/programs/${id}/photo/*.{jpg,JPG,png,PNG,jpeg,JPEG}`
-	const destination =  `public/uploads/programs/${id}/photo/compress`
-	// CONVERT
-	const convertToWebp = () =>
-		imagemin([_from], {
-			destination,
-			plugins: [
-				imageminWebp({quality: 75 })
-			]
-		})
-	// COMPRESS PHOTO 
-	imagemin([_from], {
-		destination,
-		plugins: [
-			imageminMozjpeg({	quality: 70 }),
-			imageminPngquant({ quality: [0.6, 0.8] })
-		]
-	})
-		.then(() => convertToWebp())	 
-}
-
 // @desc    Create program
 // @route   POST /api/v1/program/:id
 // @access  Private
@@ -107,7 +82,7 @@ exports.createProgram = asyncHandler(async (req, res, next) => {
 	// user from previous middleware
 	program.user = req.user.id 
 	// create special folder for program
-	createProgramDirectories(program.id)
+	createProgramPhotoDirectories(program.id)
 
 	const busboy = new Busboy({ headers: req.headers })
 
@@ -116,8 +91,6 @@ exports.createProgram = asyncHandler(async (req, res, next) => {
 		const _fileName = `photo${path.extname(filename)}` 
 		const saveFileTo = path.join(pathProgram(program.id), '/photo', _fileName);	file.pipe(fs.createWriteStream(saveFileTo))
 		program.photo = _fileName	
-		// CONVERT AND COMPRESS 
-		file.on('end', async () => convertCompress(program.id))
 	})
 
 	busboy.on('field', function(fieldname, val) {
@@ -128,13 +101,16 @@ exports.createProgram = asyncHandler(async (req, res, next) => {
 	})
 
 	busboy.on('finish', () => {
-
-		program.save( (error) => {
+		program.save( async (error) => {
 			
 			if (error)  {
 				fs.rmdirSync(pathProgram(program.id), { recursive: true })
 				return res.status(400).json({success: false, error: JSON.stringify(error) })
 			}
+			// CONVERT AND COMPRESS 
+			const from = `public/uploads/programs/${program.id}/photo/*.{jpg,JPG,png,PNG,jpeg,JPEG}`
+			const to =  `public/uploads/programs/${program.id}/photo/compress`
+			await convertCompress(from, to)
 			res.status(201).json({success: true, data: program })
 		})
 	})
@@ -156,7 +132,7 @@ exports.updateProgram = asyncHandler(async (req, res, next) => {
 		return	next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 403))
 	}
 	
-	createProgramDirectories(program.id) // check if no - create
+	createProgramPhotoDirectories(program.id) // check if no - create
 	
 	/**
 	 * ----------------
@@ -168,21 +144,25 @@ exports.updateProgram = asyncHandler(async (req, res, next) => {
 		const _fileName = `photo${path.extname(filename)}` 
 		const saveFileTo = path.join(pathProgram(program.id), '/photo', _fileName);	file.pipe(fs.createWriteStream(saveFileTo))
 		program.photo = _fileName	
-		// CONVERT AND COMPRESS 
-		file.on('end', async () => convertCompress(program.id))
 	})
+
 	busboy.on('field', function(fieldname, val) {
 		program[fieldname] = val
 		if (fieldname === 'types') {
 			program[fieldname] = JSON.parse(val)
 		} 
 	})
+	
 	busboy.on('finish', async function() {
 		try {			
 			program = await Program.findByIdAndUpdate(req.params.id, program, {
 				new: true,
 				runValidators: true
 			})
+			// CONVERT AND COMPRESS 
+			const from = `public/uploads/programs/${program.id}/photo/*.{jpg,JPG,png,PNG,jpeg,JPEG}`
+			const to =  `public/uploads/programs/${program.id}/photo/compress`
+			await convertCompress(from, to)
 			res.status(200).json({success: true, data: program})
 		} catch (error) {
 			res.status(400).json({success: false, error: JSON.stringify(error) || 'Here Error'})	

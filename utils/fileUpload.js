@@ -1,5 +1,30 @@
-const path = require('path'),
-	fs = require('fs')
+const path = require('path')
+const	fs = require('fs')
+const imagemin = require('imagemin')
+const imageminPngquant = require('imagemin-pngquant')
+const imageminMozjpeg = require('imagemin-mozjpeg')
+const imageminWebp = require('imagemin-webp')
+
+const convertCompress = async (from, to) => {
+	// CONVERT
+	const convertToWebp = async () =>
+		await imagemin([from], {
+			destination: to,
+			plugins: [
+				imageminWebp({quality: 75 })
+			]
+		})
+		// COMPRESS PHOTO 
+	await imagemin([from], {
+		destination: to,
+		plugins: [
+			imageminMozjpeg({	quality: 70 }),
+			imageminPngquant({ quality: [0.6, 0.8] })
+		]
+	}
+	)
+		.then(async () => {await convertToWebp()})	 
+}
 
 
 /**
@@ -19,22 +44,28 @@ const createDirectory = (pathId) => {
 	}
 }
 
+const createRecordDirectory = ({programId, topicId, recordId}) => {
+	const pathId = pathProgram(programId)
+	createDirectory(path.join(pathId, `/topics/${topicId}/contents/${recordId}`)) 
+	createDirectory(path.join(pathId, `/topics/${topicId}/contents/${recordId}/compress`)) 
+}
+
 /**
  * Create dirrectory /programs/:programId
  * Create dirrectory /programs/:programId/compress
  */
-const createProgramDirectories = (programId) => {
+const createProgramPhotoDirectories = (programId) => {
 	const pathId = pathProgram(programId)
 	createDirectory(pathId) 
 	createDirectory(path.join(pathId, '/photo')) 
 	createDirectory(path.join(pathId, '/photo/compress')) 
-	// create directories for topics
-	createDirectory(path.join(pathId, '/topics')) 
-
 }
 
 
 module.exports = {
 	pathProgram,
-	createProgramDirectories
+	createDirectory,
+	convertCompress,
+	createProgramPhotoDirectories,
+	createRecordDirectory
 }
