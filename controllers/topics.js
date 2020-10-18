@@ -229,3 +229,30 @@ exports.deleteTopics = asyncHandler(async (req, res, next) => {
 		}
 	)
 })
+
+
+// @desc    Update many topics
+// @route   Update /api/v1/topics/order
+// @access  Private
+exports.updateTopics = asyncHandler(async (req, res, next) => {
+	const topics = req.body.topics
+	return Topic.bulkWrite(topics.map((obj) => {
+		// console.log(obj);
+		const { _id, ...update } = obj
+		return {
+			updateOne: {
+				filter: { _id },
+				update: { // obj.sequence
+					// $setOnInsert: { author: author },
+					$set: update
+				},
+				upsert: true
+			}
+		}
+	}))
+		.then(result => {
+			// console.log(result)
+			res.status(200).json({success: true, data: {}})
+		})
+		// .catch((e) => reject(e));
+})

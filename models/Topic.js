@@ -25,6 +25,10 @@ const TopicSchemea = new mongoose.Schema({
 		// required: [true, 'please add a descripion'],
 		maxlength: [500, 'Descripion can not be more than 500 characters']
 	},
+	// order
+	sequence: {
+		type: Number
+	},
 	contents: [{
 		// id: String,
 		subtitle: {
