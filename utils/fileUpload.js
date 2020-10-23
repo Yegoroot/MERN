@@ -48,10 +48,12 @@ const createDirectory = (pathId) => {
 	}
 }
 
-const createRecordDirectory = ({programId, topicId, recordId}) => {
+const createRecordDirectory = ({programId, topicId, recordId, withoutCompress}) => {
 	const pathId = pathProgram(programId)
 	createDirectory(path.join(pathId, `/topics/${topicId}/contents/${recordId}`)) 
-	createDirectory(path.join(pathId, `/topics/${topicId}/contents/${recordId}/compress`)) 
+	if (!withoutCompress) {
+		createDirectory(path.join(pathId, `/topics/${topicId}/contents/${recordId}/compress`)) 
+	}
 }
 
 /**

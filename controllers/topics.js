@@ -9,14 +9,55 @@ const rimraf = require('rimraf')
 
 
 // @desc    Create record
-// @route   POST /api/v1/topics/record
+// @route   POST /api/v1/topics/record/audio
 // @access  Private
-exports.createRecord = asyncHandler(async (req, res, next) => {
+exports.createAudioRecord = asyncHandler(async (req, res, next) => {
 	const body = {}
 	let _fileName
 	const busboy = new Busboy({ headers: req.headers })
 
 	busboy.on('field', (fieldname, val)=> {	body[fieldname] = val } )
+	busboy.on('file', (fieldname, file, filename ) => {
+		/* 
+		* Сохраняем во временную папку 
+		 */
+		createDirectory('public/tmp/records/audio')
+		const tmp = path.join('public/tmp/records/audio', filename)	
+		file.pipe(fs.createWriteStream(tmp))
+
+		file.on('end', () => {
+			/**
+			 * Переносим в нужную директорию
+			 */
+			const {programId, topicId, recordId} = body
+			_fileName = `audio${path.extname(filename)}`
+			const recordFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
+			createRecordDirectory({programId, topicId, recordId, withoutCompress: true})
+			try {
+				fs.moveSync(tmp,  path.join(recordFolder, _fileName))	
+			} catch (e) {
+				console.log(e)
+			}
+		})
+	})	
+	
+	busboy.on('finish', async () => {
+		const { topicId, recordId} = body
+		res.status(201).json({success: true, record: `/topics/${topicId}/contents/${recordId}/${_fileName}`})
+	})
+	req.pipe(busboy)
+})
+
+
+// @desc    Create record
+// @route   POST /api/v1/topics/record/image
+// @access  Private
+exports.createImageRecord = asyncHandler(async (req, res, next) => {
+	const body = {}
+	let _fileName
+	const busboy = new Busboy({ headers: req.headers })
+
+	busboy.on('field', (fieldname, val)=> {	body[fieldname] = val })
 	busboy.on('file', (fieldname, file, filename ) => {
 		/* 
 		* Сохраняем во временную папку 
@@ -57,9 +98,14 @@ exports.createRecord = asyncHandler(async (req, res, next) => {
 
 exports.deleteRecord = asyncHandler(async (req, res, next) => {
 	const {programId, topicId, recordId} = req.body
-	const imageFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
-	rimraf.sync(imageFolder)
-	return res.status(200).json({success: true, data: {}})
+	if (!!programId && !!topicId && !!recordId) {
+
+		const recordFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
+		rimraf.sync(recordFolder)
+		return res.status(200).json({success: true, data: {}})
+	} else {
+		return res.status(400).json({success: false, error: `Not enought data ${programId} ${topicId} ${recordId}`})
+	}
 })
 
 

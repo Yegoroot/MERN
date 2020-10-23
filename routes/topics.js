@@ -8,7 +8,8 @@ const {
 	updateTopic,
 	deleteTopic,
 	getMyTopic,
-	createRecord,
+	createImageRecord,
+	createAudioRecord,
 	deleteRecord,
 	updateTopics
 } = require('../controllers/topics')
@@ -31,8 +32,10 @@ router.route('/my')
 router.route('/my/:id')
 	.get(isAuth, haveAccess(...theseHaveAccess), getMyTopic)
 	
-router.route('/record')	
-	.post(isAuth, haveAccess(...theseHaveAccess), createRecord)
+router.route('/record/image')	
+	.post(isAuth, haveAccess(...theseHaveAccess), createImageRecord)
+router.route('/record/audio')	
+	.post(isAuth, haveAccess(...theseHaveAccess), createAudioRecord)
 router.route('/recorddelete')	
 	.post(isAuth, haveAccess(...theseHaveAccess), deleteRecord)
 
