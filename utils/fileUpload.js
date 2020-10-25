@@ -46,11 +46,14 @@ const createDirectory = (pathId) => {
 	if (!isExist) {
 		fs.mkdirSync(pathId, {recursive: true})
 	}
+	// console.log('222 or 444' )
 }
 
 const createRecordDirectory = ({programId, topicId, recordId, withoutCompress}) => {
+	// console.log('111')
 	const pathId = pathProgram(programId)
 	createDirectory(path.join(pathId, `/topics/${topicId}/contents/${recordId}`)) 
+	// console.log('333')
 	if (!withoutCompress) {
 		createDirectory(path.join(pathId, `/topics/${topicId}/contents/${recordId}/compress`)) 
 	}

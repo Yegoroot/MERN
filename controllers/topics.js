@@ -13,11 +13,18 @@ const rimraf = require('rimraf')
 // @access  Private
 exports.createAudioRecord = asyncHandler(async (req, res, next) => {
 	const body = {}
-	let _fileName
+	let _fileName, 
+		size = 0
 	const busboy = new Busboy({ headers: req.headers })
 
 	busboy.on('field', (fieldname, val)=> {	body[fieldname] = val } )
 	busboy.on('file', (fieldname, file, filename ) => {
+		_fileName = filename
+		
+		file.on('data', function(data) {
+			size = data.length + size
+		})
+
 		/* 
 		* Сохраняем во временную папку 
 		 */
@@ -30,11 +37,10 @@ exports.createAudioRecord = asyncHandler(async (req, res, next) => {
 			 * Переносим в нужную директорию
 			 */
 			const {programId, topicId, recordId} = body
-			_fileName = `audio${path.extname(filename)}`
 			const recordFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
 			createRecordDirectory({programId, topicId, recordId, withoutCompress: true})
 			try {
-				fs.moveSync(tmp,  path.join(recordFolder, _fileName))	
+				fs.moveSync(tmp,  path.join(recordFolder, filename))	
 			} catch (e) {
 				console.log(e)
 			}
@@ -43,7 +49,12 @@ exports.createAudioRecord = asyncHandler(async (req, res, next) => {
 	
 	busboy.on('finish', async () => {
 		const { topicId, recordId} = body
-		res.status(201).json({success: true, record: `/topics/${topicId}/contents/${recordId}/${_fileName}`})
+		res.status(201).json({
+			audio: `/topics/${topicId}/contents/${recordId}/${_fileName}`, 
+			file: _fileName, 
+			size,
+			annotations: []
+		})
 	})
 	req.pipe(busboy)
 })
@@ -73,8 +84,20 @@ exports.createImageRecord = asyncHandler(async (req, res, next) => {
 			const {programId, topicId, recordId} = body
 			_fileName = `image${path.extname(filename)}`
 			const imageFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
-			createRecordDirectory({programId, topicId, recordId})
+
+			// If update image, first of all delete all in that folder
+			if(fs.existsSync(imageFolder)) {
+
+				rimraf.sync(imageFolder)
+				// console.log('000')
+				createRecordDirectory({programId, topicId, recordId})
+				// console.log('555')
+			} else {
+				// console.log('777')
+				createRecordDirectory({programId, topicId, recordId})
+			}
 			try {
+				// console.log('888', fs.existsSync(imageFolder))
 				fs.moveSync(tmp,  path.join(imageFolder, _fileName))	
 			} catch (e) {
 				console.log(e)
@@ -89,7 +112,9 @@ exports.createImageRecord = asyncHandler(async (req, res, next) => {
 		 * Сжимаем изображения
 		 */
 		await convertCompress(imageFolder, path.join(imageFolder, '/compress'))
-		res.status(201).json({success: true, image: `/topics/${topicId}/contents/${recordId}/compress/${_fileName}?${new Date().getTime()}`})
+		res.status(201).json({
+			image: `/topics/${topicId}/contents/${recordId}/compress/${_fileName}?${new Date().getTime()}`
+		})
 	})
 	req.pipe(busboy)
 
