@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const opts = { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+const autoIncrementModelID = require('./Counter')
 
 // const TagsShema = new mongoose.Schema({
 // 	color: String,
@@ -96,5 +97,15 @@ const TopicSchemea = new mongoose.Schema({
 // TopicSchemea.pre('remove', function () {
 // 	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
 // })
+
+TopicSchemea.pre('save', function (next) {
+	if (!this.isNew) {
+		next()
+		return
+	}
+
+	autoIncrementModelID('Topic', this, next)
+})
+
 
 module.exports = mongoose.model('Topic', TopicSchemea) 
