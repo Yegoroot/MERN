@@ -11,15 +11,14 @@ const {
 
 
 router.use(isAuth) // ONLY AUTH USERS
-router.use(haveAccess(...['superadmin'])) // ONLY SUOERADMIN
 
 router.route('/')
-	.get(getTypes)     
-	.post(createType)   
+	.get(getTypes, haveAccess(...['superadmin', 'admin']))     
+	.post(createType, haveAccess(...['superadmin']))   
 
 router.route('/:id')
-	.get(getType)	
-	.put(updateType)	
-	.delete(deleteType)	
+	.get(getType, haveAccess(...['superadmin']))
+	.put(updateType, haveAccess(...['superadmin']))
+	.delete(deleteType, haveAccess(...['superadmin']))	
 
 module.exports = router
