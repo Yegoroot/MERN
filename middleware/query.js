@@ -25,6 +25,16 @@ const requestModel = (model, whoWhant) => async (req, res, next) => {
 		}
 	}
 
+	if(model.collection.collectionName === 'programs') {
+		if (queryObj.language){
+			additionalParams.language = { $in:  JSON.parse(queryObj.language) }
+		}
+		if (queryObj.level){
+			additionalParams.level = { $in:  JSON.parse(queryObj.level) }
+		}
+	}
+
+
 	/**
 	 * если /my то мы знаем пользователя, роут защищен
 	 */

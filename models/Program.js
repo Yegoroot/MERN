@@ -33,6 +33,9 @@ const Programschemea = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
+	level: {
+		type: String
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now
