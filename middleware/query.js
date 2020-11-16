@@ -39,13 +39,13 @@ const requestModel = (model, whoWhant) => async (req, res, next) => {
 	 * если /my то мы знаем пользователя, роут защищен
 	 */
 	if (whoWhant === 'my') {
-		if ( req.user.role !== 'superadmin' || !queryObj.all) {
+		if ( req.user.role !== 'superadmin' /*|| !queryObj.all*/) {
 			// console.log('not superadmin or not all')
 			additionalParams = {
 				user: req.user._id
 			}
 		} 
-		delete queryObj.all
+		// delete queryObj.all
 		delete additionalParams.publish
 	}
 
