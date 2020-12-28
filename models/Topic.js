@@ -13,6 +13,7 @@ const TopicSchemea = new mongoose.Schema({
 		type: String,
 		required: [true, 'please add a title'],
 		trim: true,
+		unique: false,
 		maxlength: [150, 'Title can not be more than 50 characters']
 	},
 	language: String,
