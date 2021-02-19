@@ -15,7 +15,6 @@ module.exports = {
 	rules: {
 		'no-console': ['warn', { allow: ['warn', 'info', 'error'] }],
 		'quotes': ['error', 'single'],
-		'semi': ['warn', 'never'],
 		'max-len': [
 			'error',
 			{
