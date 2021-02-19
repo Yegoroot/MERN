@@ -15,15 +15,9 @@ exports.isAuth = asyncHandler(async (req, res, next) => {
 
 		token = req.cookies.token
 	}
-
-
+	// Make sure token exists
 	if(!token) {
-		req.user = {
-			_id: null,
-			role: 'user',
-			name: 'unknown'
-		}
-		return next()
+		return next(new ErrorResponse('Not authorize to access this route', 401))
 	}
 
 	try {

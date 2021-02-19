@@ -134,32 +134,6 @@ exports.deleteRecord = asyncHandler(async (req, res, next) => {
 })
 
 
-// @desc    Get single topic
-// @route   GET /api/v1/topics/:id
-// @access  Public
-exports.getMyTopic =  asyncHandler(async (req, res, next) => {
-
-	const params = {}
-	if (req.user.role !== 'superadmin') {
-		params.user = req.user._id
-	}
-
-	const topic = await Topic.findOne({_id: req.params.id, ...params})
-		.populate({
-			path: 'program',
-			select: 'title'
-		})
-		.populate({
-			path: 'user',
-			select: 'name'
-		})
-	if(!topic) {	
-		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
-	}
-	res.status(200).json({success: true, data: topic})
-})
-
-
 // @desc    Get all topics
 // @route   GET /api/v1/topics
 // @access  Public
@@ -172,7 +146,9 @@ exports.getTopics = asyncHandler(async (req, res, next) => {
 		{ path: 'user', select: 'name email' }
 	])
 	
-	const topics = await req.requestModel
+	let topics = await req.requestModel
+	const filter = (p) => req.user.role === 'superadmin' || p.publish || req.user._id === p.user._id
+	topics = topics.filter(filter)
 		
 	res.status(200).json({
 		success: true,
@@ -183,23 +159,26 @@ exports.getTopics = asyncHandler(async (req, res, next) => {
 	
 })
 
+
 // @desc    Get single topic
 // @route   GET /api/v1/topics/:id
 // @access  Public
 exports.getTopic =  asyncHandler(async (req, res, next) => {
 	const topic = await Topic.findById(req.params.id)
-		.populate({
-			path: 'program',
-			select: 'title'
-		})
-		.populate({
-			path: 'user',
-			select: 'name'
-		})
-	if(!topic || !topic.publish) {	
-		return	next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
+		.populate({	path: 'program',	select: 'title' })
+		.populate({	path: 'user',	select: 'name' })
+
+	const result = () => res.status(200).json({success: true, data: topic})
+	const error = () => next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
+	
+	if(!topic ) {	
+		return error()
 	}
-	res.status(200).json({success: true, data: topic})
+	if (req.user.role === 'superadmin' || topic.publish || req.user._id === topic.user._id) {
+		return result()
+	} else {
+		return error()
+	}
 })
 
 // @desc    Create topic

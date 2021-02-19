@@ -8,28 +8,6 @@ const path = require('path')
 const rimraf = require('rimraf')
 
 
-// @desc    Get all my program
-// @route   GET /api/v1/programs/my/:id
-// @access  Public
-exports.getMyProgram = asyncHandler(async (req, res, next) => {
-
-	const params = {}
-	if (req.user.role !== 'superadmin') {
-		params.user = req.user._id
-	}
-
-	const program = await Program.findOne({ _id: req.params.id, ...params})
-		.populate({	path: 'topics',	select: 'title description photo'})
-		.populate({	path: 'user',	select: 'name email' })
-		.populate({ path: 'types', select: 'title alias color' })
-
-	if(!program) {	
-		return	next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
-	}
-	res.status(200).json({success: true, data: program})
-})
-
-
 // @desc    Get all programs
 // @route   GET /api/v1/programs
 // @access  Public
@@ -39,7 +17,11 @@ exports.getPrograms = asyncHandler(async (req, res, next) => {
 		{ path: 'user', select: 'name email' },
 		{ path: 'types', select: 'title alias color' }
 	])
-	const programs = await req.requestModel
+	
+	let programs = await req.requestModel
+	const filter = (p) => req.user.role === 'superadmin' || p.publish || req.user._id === p.user._id
+	programs = programs.filter(filter)
+
 	res.status(200).json({
 		success: true,
 		count: programs.length,
@@ -53,24 +35,22 @@ exports.getPrograms = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/program/:id
 // @access  Public
 exports.getProgram =  asyncHandler(async (req, res, next) => {
+
 	const program = await Program.findById(req.params.id)
-		.populate({
-			path: 'topics',
-			// populate: {path: 'program',	select: 'title'}, // populate of populate
-			select: 'title description'
-		})
-		.populate({
-			path: 'user',
-			select: 'name email'
-		})
-		.populate({
-			path: 'types',
-			select: 'title alias color'
-		})
-	if(!program || !program.publish) {	
-		return	next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
+		.populate({	path: 'topics',	select: 'title description'})
+		.populate({	path: 'user',	select: 'name email' })
+		.populate({path: 'types',select: 'title alias color'})
+	const result = () => res.status(200).json({success: true, data: program})
+	const error = () => next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
+
+	if(!program ) {	
+		return error()
 	}
-	res.status(200).json({success: true, data: program})
+	if (req.user.role === 'superadmin' || program.publish || req.user._id === program.user._id) {
+		return result()
+	} else {
+		return error()
+	}
 })
 
 

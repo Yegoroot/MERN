@@ -5,25 +5,12 @@ const {queryString, pagination} = require('../utils/query')
  * как сделано на пример total, то есть мы НЕ ДЕЛАЛИ ТАК 	req.total =  await req.requestModel.countDocuments()
  * потому что дальше он все затрет, а после фильтрации получит резельтат от выборки а не от модели
  */
-const requestModel = (model, whoWhant) => async (req, res, next) => {
+const requestModel = (model) => async (req, res, next) => {
 
 	const queryObj = queryString(req.query)
 	
-	/**
-	 * если получаем пользователей то мы знаем кто обращается, роут защищен
-	 */
 	let additionalParams = {}
-	if (model.collection.collectionName === 'users') {
-		if (req.user.role !== 'superadmin') {
-			additionalParams = {
-				creator: req.user._id
-			}
-		}
-	} else {
-		additionalParams = {
-			publish: true
-		}
-	}
+
 
 	if(model.collection.collectionName === 'programs') {
 		if (queryObj.language){
@@ -33,22 +20,6 @@ const requestModel = (model, whoWhant) => async (req, res, next) => {
 			additionalParams.level = { $in:  JSON.parse(queryObj.level) }
 		}
 	}
-
-
-	/**
-	 * если /my то мы знаем пользователя, роут защищен
-	 */
-	if (whoWhant === 'my') {
-		if ( req.user.role !== 'superadmin' /*|| !queryObj.all*/) {
-			// console.log('not superadmin or not all')
-			additionalParams = {
-				user: req.user._id
-			}
-		} 
-		// delete queryObj.all
-		delete additionalParams.publish
-	}
-
 
 	req.requestModel = model.find({...queryObj, ...additionalParams})
 

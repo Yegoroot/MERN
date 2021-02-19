@@ -7,7 +7,6 @@ const {
 	createTopic,
 	updateTopic,
 	deleteTopic,
-	getMyTopic,
 	createImageRecord,
 	createAudioRecord,
 	deleteRecord,
@@ -20,18 +19,13 @@ const { isAuth, haveAccess } = require('../middleware/auth')
 const theseHaveAccess = ['superadmin', 'admin', 'teacher']
 
 router.route('/')        
-	.get(requestModel(Topic), getTopics)
+	.get(isAuth, requestModel(Topic), getTopics)
 	.post(isAuth, haveAccess(...theseHaveAccess), createTopic)
 	
 // order topics
 router.route('/order')
 	.post(isAuth, haveAccess(...theseHaveAccess), updateTopics)
 
-router.route('/my')
-	.get(isAuth, haveAccess(...theseHaveAccess), requestModel(Topic, 'my'),  getTopics)
-router.route('/my/:id')
-	.get(isAuth, haveAccess(...theseHaveAccess), getMyTopic)
-	
 router.route('/record/image')	
 	.post(isAuth, haveAccess(...theseHaveAccess), createImageRecord)
 router.route('/record/audio')	
@@ -40,7 +34,7 @@ router.route('/recorddelete')
 	.post(isAuth, haveAccess(...theseHaveAccess), deleteRecord)
 
 router.route('/:id')	
-	.get(getTopic)
+	.get(isAuth, getTopic)
 	.put(isAuth, haveAccess(...theseHaveAccess), updateTopic)
 	.delete(isAuth, haveAccess(...theseHaveAccess),  deleteTopic)
 
