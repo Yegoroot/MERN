@@ -1,5 +1,4 @@
 const express = require('express')
-const Topic = require('../models/Topic')
 const router = express.Router(/*{mergeParams: true}*/)
 const { 
 	getTopics,
@@ -13,13 +12,12 @@ const {
 	updateTopics
 } = require('../controllers/topics')
 
-const {requestModel} = require('../middleware/query')
 const { isAuth, haveAccess } = require('../middleware/auth')
 
 const theseHaveAccess = ['superadmin', 'admin', 'teacher']
 
 router.route('/')        
-	.get(isAuth, requestModel(Topic), getTopics)
+	.get(isAuth, getTopics)
 	.post(isAuth, haveAccess(...theseHaveAccess), createTopic)
 	
 // order topics

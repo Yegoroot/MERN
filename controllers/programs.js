@@ -6,26 +6,23 @@ const Busboy = require('busboy')
 const fs = require('fs')
 const path = require('path')
 const rimraf = require('rimraf')
+const QueryPrograms = require('../utils/QueryPrograms')
 
 
 // @desc    Get all programs
 // @route   GET /api/v1/programs
 // @access  Public
 exports.getPrograms = asyncHandler(async (req, res, next) => {
-	req.requestModel.populate([
-		{ path: 'topics', select: 'title description photo -program' },
-		{ path: 'user', select: 'name email' },
-		{ path: 'types', select: 'title alias color' }
-	])
-	
-	let programs = await req.requestModel
-	const filter = (p) => req.user.role === 'superadmin' || p.publish || req.user._id === p.user._id
-	programs = programs.filter(filter)
+
+	const query = new QueryPrograms(req.query, Program, req.user)
+	query.sendRequest() 
+	let programs = await query.getData()
+	let total = await query.getTotal()
 
 	res.status(200).json({
 		success: true,
 		count: programs.length,
-		total: req.total,
+		total,
 		data: programs
 	})
 })
@@ -46,7 +43,7 @@ exports.getProgram =  asyncHandler(async (req, res, next) => {
 	if(!program ) {	
 		return error()
 	}
-	if (req.user.role === 'superadmin' || program.publish || req.user._id === program.user._id) {
+	if (req.user.role === 'superadmin' || program.publish || `${req.user._id}` === `${program.user._id}`) {
 		return result()
 	} else {
 		return error()

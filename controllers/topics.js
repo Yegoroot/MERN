@@ -6,7 +6,7 @@ const Busboy = require('busboy')
 const path = require('path')
 const fs = require('fs-extra')
 const rimraf = require('rimraf')
-
+const QueryTopics = require('../utils/QueryTopics')
 
 // @desc    Create record
 // @route   POST /api/v1/topics/record/audio
@@ -139,21 +139,15 @@ exports.deleteRecord = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getTopics = asyncHandler(async (req, res, next) => {
 
-	req.requestModel.populate([
-		{ path: 'program', 
-			select: 'title description'
-		},
-		{ path: 'user', select: 'name email' }
-	])
-	
-	let topics = await req.requestModel
-	const filter = (p) => req.user.role === 'superadmin' || p.publish || req.user._id === p.user._id
-	topics = topics.filter(filter)
+	const query = new QueryTopics(req.query, Topic, req.user)
+	query.sendRequest() 
+	let topics = await query.getData()
+	let total = await query.getTotal()
 		
 	res.status(200).json({
 		success: true,
 		count: topics.length,
-		total: req.total,
+		total,
 		data: topics
 	})
 	
@@ -174,7 +168,7 @@ exports.getTopic =  asyncHandler(async (req, res, next) => {
 	if(!topic ) {	
 		return error()
 	}
-	if (req.user.role === 'superadmin' || topic.publish || req.user._id === topic.user._id) {
+	if (req.user.role === 'superadmin' || topic.publish || `${req.user._id}` === `${topic.user._id}`) {
 		return result()
 	} else {
 		return error()

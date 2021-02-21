@@ -2,17 +2,20 @@
 // const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const User = require('../models/User')
+const Query = require('../utils/Query')
 
 // @desc    Get all users
 // @route   GET /api/v1/auth/users
 // @access  Private/Admin
 exports.getUsers = asyncHandler(async (req, res, next) => {
-	const users = await req.requestModel
-
+	const query = new Query(req.query, User, req.user)
+	query.sendRequest() 
+	let users = await query.getData()
+	let total = await query.getTotal()
 	res.status(200).json({
 		success: true,
 		count: users.length,
-		total: req.total,
+		total,
 		data: users
 	})
 })

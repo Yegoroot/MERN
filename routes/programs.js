@@ -1,5 +1,4 @@
 const express = require('express')
-const Program = require('../models/Program')
 const router = express.Router()
 const { 
 	getPrograms, 
@@ -10,14 +9,13 @@ const {
 	// getMyProgram
 } = require('../controllers/programs')
 
-const {requestModel} = require('../middleware/query')
 const { isAuth, haveAccess } = require('../middleware/auth')
 const { photoUploadProtect } = require('../middleware/photoUploadProtect')
 
 const theseHaveAccess = ['superadmin', 'admin', 'teacher']
 
 router.route('/')        
-	.get(isAuth, requestModel(Program), getPrograms)      
+	.get(isAuth, getPrograms)      
 	.post(isAuth, haveAccess(...theseHaveAccess), photoUploadProtect, createProgram)
 	.delete(isAuth, haveAccess(...theseHaveAccess))
 
