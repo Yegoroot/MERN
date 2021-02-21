@@ -13,16 +13,23 @@ class Query {
 	populate() { 	return	}
 
 	filter() {
-		return this.user.role === 'superadmin' 
-			? {} // никакого фильтра
-			: {
-				// все опубликованные и собсвтеннику можно
-				$or: [ { publish: true }, { user: this.user._id }]
+		if (this.user.role === 'superadmin' ) {	return {}	}	
+		
+		if (this.query.fromDashboard) {
+			return {
+				user: this.user._id 
 			}
+		} else {
+			return {
+				$or: [ { publish: true }, { user: this.user._id }] // все опубликованные и собсвтеннику можно
+			}	
+		}
+
 	}
 
 	modifyQuery() {
-		const {select, sort, page, limit, ...newQuery} = this.query
+		// удаляем некоторые поля потому что их обрабатываем по другому
+		const {select, sort, page, limit, fromDashboard, ...newQuery} = this.query
 		let queryStr = JSON.stringify(newQuery)
 		queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)	
 		return JSON.parse(queryStr)
@@ -69,6 +76,7 @@ class Query {
 		
 	sendRequest() {
 		const filter = this.filter()
+		console.log(filter)
 		this.request =  this.model.find({...this.mongoQuery, ...filter})
 		this.select()
 		this.populate()
