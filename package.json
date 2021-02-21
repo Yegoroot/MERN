@@ -4,13 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start_WINDOWS": "NODE_ENV=production & node server",
     "start": "NODE_ENV=production node server",
-    "start.dev": "node server",
-    "dev": "nodemon server.js",
-    "dev.docker": "nodemon --legacy-watch server.js",
-    "d": "node sender.js -d",
-    "i": "node sender.js -i"
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
