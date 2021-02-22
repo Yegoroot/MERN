@@ -27,6 +27,20 @@ class Query {
 
 	}
 
+	filterCount(){
+		if (this.user.role === 'superadmin' ) {	return {}	}	
+		
+		if (this.query.fromDashboard) {
+			return {
+				user: this.user._id 
+			}
+		} else {
+			return {
+				$or: [ { publish: true }, { user: this.user._id }] // все опубликованные и собсвтеннику можно
+			}	
+		}
+	}
+
 	modifyQuery() {
 		// удаляем некоторые поля потому что их обрабатываем по другому
 		const {select, sort, page, limit, fromDashboard, ...newQuery} = this.query
@@ -64,7 +78,7 @@ class Query {
 	}
 
 	async getTotal() {
-		return await this.request.countDocuments({...this.mongoQuery, ...this.filter()})
+		return await this.model.countDocuments({...this.mongoQuery, ...this.filter()})
 	}
 	
 	info() {
@@ -76,7 +90,6 @@ class Query {
 		
 	sendRequest() {
 		const filter = this.filter()
-		console.log(filter)
 		this.request =  this.model.find({...this.mongoQuery, ...filter})
 		this.select()
 		this.populate()
