@@ -1,4 +1,4 @@
-const Query = require('./Query')
+const Query = require('./QueryMain')
 
 class QueryPrograms extends Query {
 	constructor(query, model, user) {

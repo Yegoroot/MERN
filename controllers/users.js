@@ -2,7 +2,7 @@
 // const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const User = require('../models/User')
-const Query = require('../utils/Query')
+const Query = require('../utils/QueryMain')
 
 // @desc    Get all users
 // @route   GET /api/v1/auth/users

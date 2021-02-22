@@ -1,4 +1,4 @@
-const Query = require('./Query')
+const Query = require('./QueryMain')
 
 class QueryTopics extends Query {
 	constructor(query, model, user) {
