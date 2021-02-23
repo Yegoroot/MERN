@@ -11,7 +11,7 @@ const QueryTopics = require('../utils/QueryTopics')
 // @desc    Create record
 // @route   POST /api/v1/topics/record/audio
 // @access  Private
-exports.createAudioRecord = asyncHandler(async (req, res, next) => {
+exports.createAudioRecord = asyncHandler(async (req, res) => {
 	const body = {}
 	let _fileName, 
 		size = 0
@@ -63,7 +63,7 @@ exports.createAudioRecord = asyncHandler(async (req, res, next) => {
 // @desc    Create record
 // @route   POST /api/v1/topics/record/image
 // @access  Private
-exports.createImageRecord = asyncHandler(async (req, res, next) => {
+exports.createImageRecord = asyncHandler(async (req, res) => {
 	const body = {}
 	let _fileName
 	const busboy = new Busboy({ headers: req.headers })
@@ -121,7 +121,7 @@ exports.createImageRecord = asyncHandler(async (req, res, next) => {
 })
 
 
-exports.deleteRecord = asyncHandler(async (req, res, next) => {
+exports.deleteRecord = asyncHandler(async (req, res) => {
 	const {programId, topicId, recordId} = req.body
 	if (!!programId && !!topicId && !!recordId) {
 
@@ -137,7 +137,7 @@ exports.deleteRecord = asyncHandler(async (req, res, next) => {
 // @desc    Get all topics
 // @route   GET /api/v1/topics
 // @access  Public
-exports.getTopics = asyncHandler(async (req, res, next) => {
+exports.getTopics = asyncHandler(async (req, res) => {
 
 	const query = new QueryTopics(req.query, Topic, req.user)
 	query.sendRequest() 
@@ -178,7 +178,7 @@ exports.getTopic =  asyncHandler(async (req, res, next) => {
 // @desc    Create topic
 // @route   POST /api/v1/topics/:id
 // @access  Private
-exports.createTopic = asyncHandler(async (req, res, next) => {
+exports.createTopic = asyncHandler(async (req, res) => {
 	// Add user to req.body
 	req.body.user = req.user.id
 	/**
@@ -264,7 +264,7 @@ exports.deleteTopics = asyncHandler(async (req, res, next) => {
 	}
 	await Topic.deleteMany(
 		{	_id: {	$in: ids	}	},
-		(error, result) => {
+		(error) => {
 			if (error) {
 				return	next(new ErrorResponse(`${error.message}`, 500))
 			} else {
@@ -278,7 +278,7 @@ exports.deleteTopics = asyncHandler(async (req, res, next) => {
 // @desc    Update many topics
 // @route   Update /api/v1/topics/order
 // @access  Private
-exports.updateTopics = asyncHandler(async (req, res, next) => {
+exports.updateTopics = asyncHandler(async (req, res) => {
 	const topics = req.body.topics
 	return Topic.bulkWrite(topics.map((obj) => {
 		// console.log(obj);
@@ -294,7 +294,7 @@ exports.updateTopics = asyncHandler(async (req, res, next) => {
 			}
 		}
 	}))
-		.then(result => {
+		.then(() => {
 			// console.log(result)
 			res.status(200).json({success: true, data: {}})
 		})
