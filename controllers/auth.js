@@ -56,8 +56,8 @@ export const getMe = asyncHandler(async (req, res) => {
 })
 
 export const logout = asyncHandler(async (req, res ) => {
-  res.cookie('token', 'none', {
-    expires: new Date(Date.now() + 10 * 1000),
+  res.cookie('token', '', {
+    expires: 'Thu, 01 Jan 1970 00:00:00 GMT',
     httpOnly: true
   })
 
