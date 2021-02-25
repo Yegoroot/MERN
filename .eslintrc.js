@@ -14,6 +14,8 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
+    'consistent-return': ['warn', { treatUndefinedAsUnspecified: true }], // arraw func return value
+    'import/extensions': ['warn', 'always', { ignorePackages: true }],
     'no-console': ['warn', { allow: ['warn', 'info', 'error'] }],
     'no-underscore-dangle': 'off',
     quotes: ['error', 'single'],

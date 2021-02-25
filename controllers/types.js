@@ -1,71 +1,69 @@
 // const path = require('path')
 // const ErrorResponse = require('../utils/errorResponse')
-const asyncHandler = require('../middleware/async')
-const Type = require('../models/Type')
+import asyncHandler from '../middleware/async.js'
+import Type from '../models/Type.js'
 
 // @desc    Get all types
 // @route   GET /api/v1/auth/types
 // @access  Private/superadmin
-exports.getTypes = asyncHandler(async (req, res, next) => {
-	const types = await Type.find()
-	res.status(200).json({
-		success: true,
-		count: types.length,
-		data: types
-	})
+export const getTypes = asyncHandler(async (req, res, next) => {
+  const types = await Type.find()
+  res.status(200).json({
+    success: true,
+    count: types.length,
+    data: types,
+  })
 })
 
 
 // @desc    Get all type
 // @route   GET /api/v1/auth/types
 // @access  Private/superadmin
-exports.getType = asyncHandler(async (req, res, next) => {
-	const type = await Type.findById(req.params.id)
-	res.status(200).json({
-		success: true,
-		data: type
-	})
+export const getType = asyncHandler(async (req, res, next) => {
+  const type = await Type.findById(req.params.id)
+  res.status(200).json({
+    success: true,
+    data: type,
+  })
 })
 
 
 // @desc    Create type
 // @route   POST /api/v1/auth/types
 // @access  Private/superadmin
-exports.createType = asyncHandler(async (req, res, next) => {
-	const data = await Type.create(req.body)
-	res.status(201).json({
-		success: true,
-		data
-	})
+export const createType = asyncHandler(async (req, res, next) => {
+  const data = await Type.create(req.body)
+  res.status(201).json({
+    success: true,
+    data,
+  })
 })
 
 
 // @desc    Update type
 // @route   PUT /api/v1/auth/types/:id
 // @access  Private/superadmin
-exports.updateType = asyncHandler(async (req, res, next) => {
+export const updateType = asyncHandler(async (req, res, next) => {
+  const data = await Type.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  })
 
-	const data = await Type.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-		runValidators: true
-	})
-
-	res.status(201).json({
-		success: true,
-		data
-	})
+  res.status(201).json({
+    success: true,
+    data,
+  })
 })
 
 
 // @desc    Delete type
 // @route   DELETE /api/v1/auth/types/:id
 // @access  Private/superadmin
-exports.deleteType = asyncHandler(async (req, res, next) => {
+export const deleteType = asyncHandler(async (req, res, next) => {
+  await Type.findByIdAndDelete(req.params.id)
 
-	await Type.findByIdAndDelete(req.params.id)
-
-	res.status(201).json({
-		success: true,
-		data: {}
-	})
+  res.status(201).json({
+    success: true,
+    data: {},
+  })
 })

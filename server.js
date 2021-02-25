@@ -1,43 +1,40 @@
-const express = require('express')
-const dotenv = require('dotenv')
-const morgan = require('morgan')
-// eslint-disable-next-line no-unused-vars
-const colors = require('colors')
-const cookieParser = require('cookie-parser')
-const path = require('path')
-const errorHandlrer = require('./middleware/error')
 
-const mongoSanitize = require('express-mongo-sanitize')
-const helmet = require('helmet')
+import express, { json } from 'express'
+import morgan from 'morgan'
+import 'colors'
+import { fileURLToPath } from 'url'
+import cookieParser from 'cookie-parser'
+import path, { dirname } from 'path'
+import mongoSanitize from 'express-mongo-sanitize'
+import helmet from 'helmet'
 // const xss = require('xss-clean')
-const rateLimit = require('express-rate-limit')
-const hpp = require('hpp')
-const cors = require('cors')
+import rateLimit from 'express-rate-limit'
+import hpp from 'hpp'
+import cors from 'cors'
+import errorHandlrer from './middleware/error.js'
+
+// FIRST
+import './config/env.js'
+
+// Route files
+import programs from './routes/programs.js'
+import topics from './routes/topics.js'
+import auth from './routes/auth.js'
+import users from './routes/users.js'
+import connectDB from './config/db.js'
+import types from './routes/types.js'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 global.MadinahBackRootPath = path.resolve(__dirname)
 
-// load en vars
-// process.env.NODE_ENV - из docker-compose
-dotenv.config({ path: process.env.NODE_ENV === 'production' 
-	? './config/production.env'
-	: './config/devolopment.env' 
-})
 
-// connect to datebase 
-const connectDB = require('./config/db')
 connectDB()
-
-// Route files
-const programs = require('./routes/programs')
-const topics = require('./routes/topics')
-const auth = require('./routes/auth')
-const users = require('./routes/users')
-const types = require('./routes/types')
 
 const app = express()
 
 // Body parser
-app.use(express.json())
+app.use(json())
 
 // Coockie parser
 app.use(cookieParser())
@@ -64,8 +61,8 @@ app.use(cors())
 
 // Rate limiting
 const limiter = rateLimit({
-	windowMs: 10 * 60 * 1000, // 10 minutes
-	max: 200
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 200,
 })
 app.use(limiter)
 
@@ -87,16 +84,18 @@ app.use(errorHandlrer)
 const PORT = process.env.PORT || 5000
 
 const server = app.listen(
-	PORT,
-	console.log(
-		`server running in ${process.env.NODE_ENV} mode on port ${PORT}`.blue
-	)
+  PORT,
+  // eslint-disable-next-line no-console
+  console.log(
+    `server running in ${process.env.NODE_ENV} mode on port ${PORT}`.blue,
+  ),
 )
 
 // Handle unhandle promise rejecttion
 // eslint-disable-next-line no-unused-vars
-process.on('unhandledRejection', (err, promise)=>{
-	console.log(`Error Ya Ahki:  ${err.message}`.red)
-	// Close server & exit procces
-	server.close(() => process.exit(1))
+process.on('unhandledRejection', (err, promise) => {
+  // eslint-disable-next-line no-console
+  console.log(`Error Ya Ahki:  ${err.message}`.red)
+  // Close server & exit procces
+  server.close(() => process.exit(1))
 })
