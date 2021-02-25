@@ -3,7 +3,6 @@ import express, { json } from 'express'
 import morgan from 'morgan'
 import 'colors'
 import { fileURLToPath } from 'url'
-import cookieParser from 'cookie-parser'
 import path, { dirname } from 'path'
 import mongoSanitize from 'express-mongo-sanitize'
 import helmet from 'helmet'
@@ -29,9 +28,6 @@ const app = express()
 
 // Body parser
 app.use(json())
-
-// Coockie parser
-app.use(cookieParser())
 
 // Dev logging middleware
 // if(process.env.NODE_ENV === 'development') {

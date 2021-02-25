@@ -2,7 +2,6 @@ import express from 'express'
 import {
   register,
   login,
-  logout,
   getMe
   // forgotPassword,
   // resetPassword,
@@ -16,10 +15,9 @@ const router = express.Router()
 router
   .post('/register', register)
   .post('/login', login)
-  .get('/logout', logout)
+  .get('/me', isAuth, getMe)
   // .post('/forgotpassword', forgotPassword)
   // .put('/resetpassword/:resettoken', resetPassword)
-  .get('/me', isAuth, getMe)
   // .put('/updatedetails', isAuth, updateDetails)
   // .put('/updatepassword', isAuth, updatePassword)
 

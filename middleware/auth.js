@@ -11,13 +11,6 @@ export const isAuth = asyncHandler(async (req, res, next) => {
     // Set taken from Bearer taken in header
     // eslint-disable-next-line prefer-destructuring
     token = req.headers.authorization.split(' ')[1]
-    // Set taken from cookie
-  }
-  /**
-   * МОЖНО УДАЛИТЬ КУКИ и не использовать
-   */
-   else if (req.cookies.token) {
-    token = req.cookies.token
   }
 
   if (!token) {

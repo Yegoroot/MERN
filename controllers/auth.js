@@ -5,6 +5,19 @@ import asyncHandler from '../middleware/async.js'
 import sendEmail from '../utils/sendEmail.js'
 import User from '../models/User.js'
 
+// Get token from model and send response
+const sendTokenResponse = (user, statusCode, res) => {
+  // Create token
+  const token = user.getSignedJwtToken()
+  res
+    .status(statusCode)
+    .json({
+      user,
+      token,
+      success: true
+    })
+}
+
 export const register = asyncHandler(async (req, res) => {
   const { name, email, password /** role */ } = req.body
 
@@ -12,8 +25,6 @@ export const register = asyncHandler(async (req, res) => {
   const user = await User.create({
     name, email, password, role: 'user'
   })
-
-  // eslint-disable-next-line no-use-before-define
   sendTokenResponse(user, 200, res)
 })
 
@@ -39,10 +50,7 @@ export const login = asyncHandler(async (req, res, next) => {
 
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401))
-    // return next(new ErrorResponse('Password Doesnt Correct', 401))
   }
-
-  // eslint-disable-next-line no-use-before-define
   sendTokenResponse(user, 200, res)
 })
 
@@ -52,18 +60,6 @@ export const getMe = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     user
-  })
-})
-
-export const logout = asyncHandler(async (req, res ) => {
-  res.cookie('token', '', {
-    expires: new Date(2018, 11, 24, 10, 33, 30, 0),
-    httpOnly: true
-  })
-
-  res.status(200).json({
-    success: true,
-    data: 'success'
   })
 })
 
@@ -128,34 +124,8 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
   user.resetPasswordToken = undefined
   user.getResetPasswordExpire = undefined
   await user.save()
-
-  // eslint-disable-next-line no-use-before-define
   sendTokenResponse(user, 200, res)
 })
-
-// Get token from model, create cookie and send response
-const sendTokenResponse = (user, statusCode, res) => {
-  // Create token
-  const token = user.getSignedJwtToken()
-
-  const options = {
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
-    httpOnly: true
-  }
-
-  if (process.env.NODE_env === 'production') {
-    options.secure = true
-  }
-
-  res
-    .status(statusCode)
-    .cookie('token', token, options)
-    .json({
-      user,
-      token,
-      success: true
-    })
-}
 
 export const updateDetails = asyncHandler(async (req, res) => {
   const fieldsToUpdate = {
@@ -186,6 +156,5 @@ export const updatePassword = asyncHandler(async (req, res, next) => {
   user.password = req.body.newPassword
   await user.save()
 
-  // console.log(user)
   sendTokenResponse(user, 200, res)
 })
