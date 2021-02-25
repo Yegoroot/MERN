@@ -12,16 +12,19 @@ export const isAuth = asyncHandler(async (req, res, next) => {
     // eslint-disable-next-line prefer-destructuring
     token = req.headers.authorization.split(' ')[1]
     // Set taken from cookie
-  } else if (req.cookies.token) {
+  }
+  /**
+   * МОЖНО УДАЛИТЬ КУКИ и не использовать
+   */
+   else if (req.cookies.token) {
     token = req.cookies.token
   }
-
 
   if (!token) {
     req.user = {
       _id: null,
       role: 'user',
-      name: 'unknown',
+      name: 'unknown'
     }
     return next()
   }
