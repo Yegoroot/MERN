@@ -1,4 +1,4 @@
-
+/* eslint-disable no-console */
 import express, { json } from 'express'
 import morgan from 'morgan'
 import 'colors'
@@ -7,27 +7,21 @@ import cookieParser from 'cookie-parser'
 import path, { dirname } from 'path'
 import mongoSanitize from 'express-mongo-sanitize'
 import helmet from 'helmet'
-// const xss = require('xss-clean')
 import rateLimit from 'express-rate-limit'
 import hpp from 'hpp'
-import cors from 'cors'
+import cors from 'cors' 
+import './config/env.js' // FIRST !
 import errorHandlrer from './middleware/error.js'
-
-// FIRST
-import './config/env.js'
-
-// Route files
 import programs from './routes/programs.js'
 import topics from './routes/topics.js'
 import auth from './routes/auth.js'
 import users from './routes/users.js'
 import connectDB from './config/db.js'
 import types from './routes/types.js'
+// const xss = require('xss-clean')
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-
 global.MadinahBackRootPath = path.resolve(__dirname)
-
 
 connectDB()
 
@@ -62,7 +56,7 @@ app.use(cors())
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 200,
+  max: 200
 })
 app.use(limiter)
 
@@ -82,20 +76,13 @@ app.use('/api/v1/types', types)
 app.use(errorHandlrer)
 
 const PORT = process.env.PORT || 5000
-
 const server = app.listen(
   PORT,
-  // eslint-disable-next-line no-console
-  console.log(
-    `server running in ${process.env.NODE_ENV} mode on port ${PORT}`.blue,
-  ),
+  console.log( `server running in ${process.env.NODE_ENV} mode on port ${PORT}`.blue)
 )
 
 // Handle unhandle promise rejecttion
-// eslint-disable-next-line no-unused-vars
-process.on('unhandledRejection', (err, promise) => {
-  // eslint-disable-next-line no-console
+process.on('unhandledRejection', (err) => {
   console.log(`Error Ya Ahki:  ${err.message}`.red)
-  // Close server & exit procces
-  server.close(() => process.exit(1))
+  server.close(() => process.exit(1))  // Close server & exit procces
 })
