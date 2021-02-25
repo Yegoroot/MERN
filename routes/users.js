@@ -1,27 +1,28 @@
-const express = require('express')
+import express from 'express'
+
+import {
+  getUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+} from '../controllers/users.js'
+
+import { isAuth, haveAccess } from '../middleware/auth.js'
+import { createUserMiddleWare, isOwner } from '../middleware/user.js'
+
 const router = express.Router()
 
-const { 
-	getUsers,
-	getUser,
-	createUser, 
-	updateUser, 
-	deleteUser 
-} = require('../controllers/users')
-
-const { isAuth, haveAccess } = require('../middleware/auth')
-const { createUserMiddleWare, isOwner } = require('../middleware/user')
-
 router.use(isAuth) // ONLY AUTH USERS
-router.use(haveAccess(...['superadmin','admin'])) // ONLY SUOERADMIN and ADMIN 
+router.use(haveAccess(...['superadmin', 'admin'])) // ONLY SUOERADMIN and ADMIN
 
 router.route('/')
-	.get(getUsers)     
-	.post(createUserMiddleWare, createUser)   
+  .get(getUsers)
+  .post(createUserMiddleWare, createUser)
 
 router.route('/:id')
-	.get(getUser)
-	.put(isOwner, createUserMiddleWare, updateUser)	
-	.delete(isOwner, deleteUser)	
+  .get(getUser)
+  .put(isOwner, createUserMiddleWare, updateUser)
+  .delete(isOwner, deleteUser)
 
-module.exports = router
+export default router

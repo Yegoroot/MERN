@@ -1,18 +1,18 @@
-const Busboy = require('busboy')
-const fs = require('fs')
-const path = require('path')
-const rimraf = require('rimraf')
-const ErrorResponse = require('../utils/errorResponse')
-const asyncHandler = require('../middleware/async')
-const Program = require('../models/Program')
-const { createProgramPhotoDirectories, pathProgram, convertCompress } = require('../utils/fileUpload')
-const QueryPrograms = require('../utils/QueryPrograms')
+import Busboy from 'busboy'
+import fs from 'fs'
+import path from 'path'
+import rimraf from 'rimraf'
+import ErrorResponse from '../utils/errorResponse.js'
+import asyncHandler from '../middleware/async.js'
+import Program from '../models/Program.js'
+import { createProgramPhotoDirectories, pathProgram, convertCompress } from '../utils/fileUpload.js'
+import QueryPrograms from '../utils/QueryPrograms.js'
 
 
 // @desc    Get all programs
 // @route   GET /api/v1/programs
 // @access  Public
-exports.getPrograms = asyncHandler(async (req, res) => {
+export const getPrograms = asyncHandler(async (req, res) => {
   const query = new QueryPrograms(req.query, Program, req.user)
   query.sendRequest()
   const programs = await query.getData()
@@ -30,7 +30,7 @@ exports.getPrograms = asyncHandler(async (req, res) => {
 // @desc    Get single program
 // @route   GET /api/v1/program/:id
 // @access  Public
-exports.getProgram = asyncHandler(async (req, res, next) => {
+export const getProgram = asyncHandler(async (req, res, next) => {
   const program = await Program.findById(req.params.id)
     .populate({ path: 'topics', select: 'title description' })
     .populate({ path: 'user', select: 'name email' })
@@ -51,7 +51,7 @@ exports.getProgram = asyncHandler(async (req, res, next) => {
 // @desc    Create program
 // @route   POST /api/v1/program/:id
 // @access  Private
-exports.createProgram = asyncHandler(async (req, res) => {
+export const createProgram = asyncHandler(async (req, res) => {
   const program = new Program({})
   // user from previous middleware
   program.user = req.user.id
@@ -75,6 +75,7 @@ exports.createProgram = asyncHandler(async (req, res) => {
   })
 
   busboy.on('finish', () => {
+    // eslint-disable-next-line consistent-return
     program.save(async (error) => {
       if (error) {
         rimraf.sync(pathProgram(program.id))
@@ -94,7 +95,8 @@ exports.createProgram = asyncHandler(async (req, res) => {
 // @desc    Update program
 // @route   PUT /api/v1/programs/:id
 // @access  Private
-exports.updateProgram = asyncHandler(async (req, res, next) => {
+// eslint-disable-next-line consistent-return
+export const updateProgram = asyncHandler(async (req, res, next) => {
   let program = await Program.findById(req.params.id)
 
   if (!program) {
@@ -151,7 +153,7 @@ exports.updateProgram = asyncHandler(async (req, res, next) => {
 // @desc    Delete program
 // @route   DELETE /api/v1/programs/:id
 // @access  Private
-exports.deleteProgram = asyncHandler(async (req, res, next) => {
+export const deleteProgram = asyncHandler(async (req, res, next) => {
   const program = await Program.findById(req.params.id)
   if (!program) {
     return next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))

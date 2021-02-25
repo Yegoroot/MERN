@@ -1,39 +1,40 @@
-const express = require('express')
-const router = express.Router(/*{mergeParams: true}*/)
-const { 
-	getTopics,
-	getTopic,
-	createTopic,
-	updateTopic,
-	deleteTopic,
-	createImageRecord,
-	createAudioRecord,
-	deleteRecord,
-	updateTopics
-} = require('../controllers/topics')
+import express from 'express'
+import {
+  getTopics,
+  getTopic,
+  createTopic,
+  updateTopic,
+  deleteTopic,
+  createImageRecord,
+  createAudioRecord,
+  deleteRecord,
+  updateTopics,
+} from '../controllers/topics.js'
 
-const { isAuth, haveAccess } = require('../middleware/auth')
+import { isAuth, haveAccess } from '../middleware/auth.js'
+
+const router = express.Router(/* {mergeParams: true} */)
 
 const theseHaveAccess = ['superadmin', 'admin', 'teacher']
 
-router.route('/')        
-	.get(isAuth, getTopics)
-	.post(isAuth, haveAccess(...theseHaveAccess), createTopic)
-	
+router.route('/')
+  .get(isAuth, getTopics)
+  .post(isAuth, haveAccess(...theseHaveAccess), createTopic)
+
 // order topics
 router.route('/order')
-	.post(isAuth, haveAccess(...theseHaveAccess), updateTopics)
+  .post(isAuth, haveAccess(...theseHaveAccess), updateTopics)
 
-router.route('/record/image')	
-	.post(isAuth, haveAccess(...theseHaveAccess), createImageRecord)
-router.route('/record/audio')	
-	.post(isAuth, haveAccess(...theseHaveAccess), createAudioRecord)
-router.route('/recorddelete')	
-	.post(isAuth, haveAccess(...theseHaveAccess), deleteRecord)
+router.route('/record/image')
+  .post(isAuth, haveAccess(...theseHaveAccess), createImageRecord)
+router.route('/record/audio')
+  .post(isAuth, haveAccess(...theseHaveAccess), createAudioRecord)
+router.route('/recorddelete')
+  .post(isAuth, haveAccess(...theseHaveAccess), deleteRecord)
 
-router.route('/:id')	
-	.get(isAuth, getTopic)
-	.put(isAuth, haveAccess(...theseHaveAccess), updateTopic)
-	.delete(isAuth, haveAccess(...theseHaveAccess),  deleteTopic)
+router.route('/:id')
+  .get(isAuth, getTopic)
+  .put(isAuth, haveAccess(...theseHaveAccess), updateTopic)
+  .delete(isAuth, haveAccess(...theseHaveAccess), deleteTopic)
 
-module.exports = router
+export default router
