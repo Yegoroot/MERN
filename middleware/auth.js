@@ -13,11 +13,15 @@ export const isAuth = asyncHandler(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1]
   }
 
+  const a = req
+  // console.log(a._passport._deserializers())
+  console.log(a.user)
+
   if (!token) {
     req.user = {
       _id: null,
       role: 'user',
-      name: 'unknown'
+      name: 'unknown',
     }
     return next()
   }
