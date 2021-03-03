@@ -11,23 +11,19 @@ router
   .get('/me', isAuth, getMe)
 
   // -------------- google
-  .get('/getuser', (req, res) => {
-    res.status(200).json({
-      success: true,
-      user: req.user,
-    })
-  })
   .get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
   .get('/google/redirect', passport.authenticate('google', { failureRedirect: '/failed', session: true }),
     (req, res) => {
       res.redirect('http://localhost:3000')
     })
-
-  .get('/auth/logout', (req, res) => {
+  .get('/logout', (req, res) => {
     if (req.user) {
       req.logout()
-      res.send('done')
     }
+    res.status(200).json({
+      success: true,
+      user: null,
+    })
   })
 
 export default router

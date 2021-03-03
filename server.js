@@ -109,7 +109,9 @@ app.use(passport.session())
 */
 
 // Enable CORS
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+if (process.env.NODE_ENV === 'development') {
+  app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+}
 
 // Body parser
 app.use(json())
