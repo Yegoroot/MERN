@@ -34,16 +34,21 @@ connectDB()
 
 const app = express()
 
-app.use(session({
+const sessionParams = {
   secret: 'secretcode',
   resave: true,
   saveUninitialized: true,
-  // cookie: {
-  //   sameSite: 'none',
-  //   secure: true,
-  //   maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
-  // },
-}))
+}
+// @FIXME check this I dont know
+// if (process.env.NODE_ENV === 'production') {
+//   sessionParams.cookie = {
+//     sameSite: 'none',
+//     secure: true,
+//     maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
+//   }
+// }
+
+app.use(session(sessionParams))
 
 // Passport
 
@@ -63,7 +68,7 @@ passport.use(
     {
       clientID: '791056805684-cr7s4rpmur3a31m8c6afi4hcr374r5mt.apps.googleusercontent.com',
       clientSecret: 'VQ034eSriGlu4yUvA_arwpWN',
-      callbackURL: '/api/v1/auth/google/redirect',
+      callbackURL: `${process.env.DOMAIN_SERVER}/api/v1/auth/google/redirect`,
     },
     async (accessToken, refreshToken, profileGoogle, done) => await User.findOne({ 'profile.id': profileGoogle.id },
       (err, user) => {
@@ -110,7 +115,7 @@ app.use(passport.session())
 
 // Enable CORS
 if (process.env.NODE_ENV === 'development') {
-  app.use(cors({ origin: process.env.DOMAIN, credentials: true }))
+  app.use(cors({ origin: process.env.DOMAIN_CLIENT, credentials: true }))
 }
 
 // Body parser

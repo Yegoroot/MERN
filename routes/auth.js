@@ -14,7 +14,7 @@ router
   .get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
   .get('/google/redirect', passport.authenticate('google', { failureRedirect: '/failed', session: true }),
     (req, res) => {
-      res.redirect(process.env.DOMAIN)
+      res.redirect(process.env.DOMAIN_CLIENT)
     })
   .get('/logout', (req, res) => {
     if (req.user) {
