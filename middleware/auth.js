@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import jwt from 'jsonwebtoken'
 import asyncHandler from './async.js'
 import ErrorResponse from '../utils/errorResponse.js'
@@ -5,36 +6,31 @@ import User from '../models/User.js'
 
 // Protect routes
 export const isAuth = asyncHandler(async (req, res, next) => {
-  let token
-
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-    // Set taken from Bearer taken in header
-    // eslint-disable-next-line prefer-destructuring
-    token = req.headers.authorization.split(' ')[1]
-    // Set taken from cookie
-  }
   /**
-   * МОЖНО УДАЛИТЬ КУКИ и не использовать
+   * FIRST, Passport.js //  token from session
+   * if req.user exist this means passport define our user from session and set to req.user
    */
-   else if (req.cookies.token) {
-    token = req.cookies.token
-  }
-
-  if (!token) {
-    req.user = {
-      _id: null,
-      role: 'user',
-      name: 'unknown'
-    }
+  if (req?.user?._id) {
     return next()
   }
 
+  /**
+   * SECOND, JWTAuth // token from headers
+   */
+  let token
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1] // Get taken from Bearer taken in header
+  }
+  // console.log(`ID USER = ${req?.user?._id}`.yellow)
+  // console.log(`Token = ${token}`.yellow)
+  if (!token) {
+    req.user = { _id: null, role: 'user', name: `unknown-${new Date()}` }
+    return next()
+  }
+  // Verify by token
   try {
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    /** for every request now we have access to req.user */
-    req.user = await User.findById(decoded.id)
-
+    req.user = await User.findById(decoded.id) /** for every request now we have access to req.user */
     next()
   } catch (error) {
     return next(new ErrorResponse('Not authorize to access this route', 401))
