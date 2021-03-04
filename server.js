@@ -68,7 +68,7 @@ passport.use(
     {
       clientID: '791056805684-cr7s4rpmur3a31m8c6afi4hcr374r5mt.apps.googleusercontent.com',
       clientSecret: 'VQ034eSriGlu4yUvA_arwpWN',
-      callbackURL: '/api/v1/auth/google/redirect',
+      callbackURL: 'http://localhost/api/v1/auth/google/redirect',
     },
     async (accessToken, refreshToken, profileGoogle, done) => await User.findOne({ 'profile.id': profileGoogle.id },
       (err, user) => {
