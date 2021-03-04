@@ -39,11 +39,11 @@ const sessionParams = {
   resave: true,
   saveUninitialized: true,
 }
-// @FIXME check this I dont know
+
 if (process.env.NODE_ENV === 'production') {
   sessionParams.cookie = {
     sameSite: true,
-    secure: true,
+    // secure: true, // @FIXME check this I dont know
     maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
   }
 }
@@ -63,12 +63,14 @@ passport.deserializeUser((id, done) => {
     done(null, user)
   })
 })
+
+console.log(`${process.env.DOMAIN_SERVER}`.red)
 passport.use(
   new GoogleStrategy(
     {
       clientID: '791056805684-cr7s4rpmur3a31m8c6afi4hcr374r5mt.apps.googleusercontent.com',
       clientSecret: 'VQ034eSriGlu4yUvA_arwpWN',
-      callbackURL: 'http://localhost/api/v1/auth/google/redirect',
+      callbackURL: `${process.env.DOMAIN_SERVER}/api/v1/auth/google/redirect`,
     },
     async (accessToken, refreshToken, profileGoogle, done) => await User.findOne({ 'profile.id': profileGoogle.id },
       (err, user) => {
