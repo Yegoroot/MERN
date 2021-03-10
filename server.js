@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-console */
 /* eslint-disable no-return-await */
 /* eslint-disable no-param-reassign */
@@ -15,7 +16,7 @@ import cors from 'cors'
 import passport from 'passport'
 import session from 'express-session'
 import './config/env.js' // FIRST !
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
+import { GoogleStrategy, GithubStrategy } from './utils/passportStrategies.js'
 import errorHandlrer from './middleware/error.js'
 import programs from './routes/programs.js'
 import topics from './routes/topics.js'
@@ -64,43 +65,8 @@ passport.deserializeUser((id, done) => {
   })
 })
 
-console.log(`${process.env.DOMAIN_SERVER}`.red)
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.DOMAIN_SERVER}/api/v1/auth/social/google/redirect`,
-    },
-    async (accessToken, refreshToken, profileGoogle, done) => await User.findOne({ 'profile.id': profileGoogle.id },
-      (err, user) => {
-        if (err) { return done(err) }
-
-        if (!user) {
-          user = new User({
-            name: profileGoogle.displayName,
-            email: profileGoogle.emails[0].value,
-            username: profileGoogle.username,
-            provider: 'google',
-            profile: {
-              id: profileGoogle.id,
-              name: profileGoogle.displayName,
-              email: profileGoogle.emails[0].value,
-              photo: profileGoogle.photos[0].value,
-            },
-          })
-          user.save((_err) => {
-            if (_err) console.log('err ser'.red, _err)
-            return done(_err, user)
-          })
-        } else {
-        // found user. Return
-          return done(err, user)
-        }
-      })
-    ,
-  ),
-)
+passport.use(GoogleStrategy())
+passport.use(GithubStrategy())
 
 app.use(passport.initialize())
 app.use(passport.session())

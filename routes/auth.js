@@ -5,6 +5,12 @@ import { isAuth } from '../middleware/auth.js'
 
 const router = express.Router()
 
+const succesRedirect = (req, res) => {
+  res.redirect(`${process.env.DOMAIN_CLIENT}/app/programs`)
+}
+
+const authenticateParams = { failureRedirect: `${process.env.DOMAIN_CLIENT}/login`, session: true }
+
 router
   .post('/register', register)
   .post('/login', login)
@@ -12,10 +18,13 @@ router
 
   // -------------- google
   .get('/social/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
-  .get('/social/google/redirect', passport.authenticate('google', { failureRedirect: `${process.env.DOMAIN_CLIENT}/login`, session: true }),
-    (req, res) => {
-      res.redirect(`${process.env.DOMAIN_CLIENT}/app/programs`)
-    })
+  .get('/social/google/redirect', passport.authenticate('google', authenticateParams), succesRedirect)
+  // -------------- twitter
+  .get('/social/twitter', passport.authenticate('twitter'))
+  .get('/social/twitter/redirect', passport.authenticate('twitter', authenticateParams), succesRedirect)
+  // -------------- github
+  .get('/social/github', passport.authenticate('github'))
+  .get('/social/github/redirect', passport.authenticate('github', authenticateParams), succesRedirect)
   // ------------
   .get('/logout', (req, res) => {
     if (req.user) {

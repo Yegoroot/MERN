@@ -35,6 +35,6 @@
     "no-unused-vars": "error", // не используеммые переменные,
     "linebreak-style": ["error", "windows"],
     "semi": ["error", "never"],
-    "no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 1 }] // пустые строки
+    "no-multiple-empty-lines": ["warn", { "max": 2, "maxEOF": 1 }] // пустые строки
   }
 }
