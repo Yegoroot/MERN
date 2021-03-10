@@ -68,9 +68,9 @@ console.log(`${process.env.DOMAIN_SERVER}`.red)
 passport.use(
   new GoogleStrategy(
     {
-      clientID: '791056805684-cr7s4rpmur3a31m8c6afi4hcr374r5mt.apps.googleusercontent.com',
-      clientSecret: 'VQ034eSriGlu4yUvA_arwpWN',
-      callbackURL: `${process.env.DOMAIN_SERVER}/api/v1/auth/google/redirect`,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: `${process.env.DOMAIN_SERVER}/api/v1/auth/social/google/redirect`,
     },
     async (accessToken, refreshToken, profileGoogle, done) => await User.findOne({ 'profile.id': profileGoogle.id },
       (err, user) => {
