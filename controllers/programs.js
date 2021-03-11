@@ -130,6 +130,7 @@ export const updateProgram = asyncHandler(async (req, res, next) => {
 
   busboy.on('finish', async () => {
     try {
+      program.updatedAt = new Date().toISOString() // date of update
       program = await Program.findByIdAndUpdate(req.params.id, program, {
         new: true,
         runValidators: true,

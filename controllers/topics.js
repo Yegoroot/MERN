@@ -105,13 +105,13 @@ export const createImageRecord = asyncHandler(async (req, res) => {
   busboy.on('finish', async () => {
     const { programId, topicId, recordId } = body
     const imageFolder = `public/uploads/programs/${programId}/topics/${topicId}/contents/${recordId}/`
-    
+
     /**
      * Сжимаем изображения
      */
     const from = `${imageFolder}*.{jpg,JPG,png,PNG,jpeg,JPEG}`
     const to = path.join(imageFolder, '/compress')
-    
+
     await convertCompress(from, to)
     // const a = await convertCompress(from, to)
     // console.log(`finish ${_fileName}`.green)
@@ -215,6 +215,10 @@ export const updateTopic = asyncHandler(async (req, res, next) => {
       console.error(err)
     }
   }
+
+  // req.body.updatedAt = Date.now
+
+  req.body.updatedAt = new Date().toISOString() // date of update
 
   topic = await Topic.findByIdAndUpdate(req.params.id, req.body, {
     new: true,

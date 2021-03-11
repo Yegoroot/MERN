@@ -10,7 +10,7 @@ export const isAuth = asyncHandler(async (req, res, next) => {
    * FIRST, Passport.js //  token from session
    * if req.user exist this means passport define our user from session and set to req.user
    */
-  console.log(`ID USER = ${req?.user?._id}`.yellow)
+  // console.log(`ID USER = ${req?.user?._id}`.yellow)
   if (req?.user?._id) {
     return next()
   }

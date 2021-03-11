@@ -4,8 +4,8 @@ import autoIncrementModelID from './Counter.js'
 const opts = { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 
 // const TagsShema = new mongoose.Schema({
-// 	color: String,
-// 	title: String
+//  color: String,
+//  title: String
 // })
 // mongoose.model('tags', TagsShema )
 
@@ -47,11 +47,11 @@ const TopicSchemea = new mongoose.Schema({
     },
   }],
   // tags: [{
-  // 	type: [Object],
-  // 	ref: 'tags'
+  //  type: [Object],
+  //  ref: 'tags'
   // }],
   // hashTag: [{
-  // 	type: String
+  //  type: String
   // }],
   // tags: [TagsSchema],
   program: {
@@ -79,25 +79,25 @@ const TopicSchemea = new mongoose.Schema({
 
 // // static method to get date of update or create date of topic
 // TopicSchemea.statics.setUpdatedAtTopic = async function (topicIds) {
-// 	try {
-// 		await this.model('Topic').updateMany({ '_id': { $in: topicIds } }, {
-// 			$set: {
-// 				updatedAt: new Date()
-// 			}
-// 		})
-// 	} catch (err) {
-// 		console.error(err)
-// 	}
+//  try {
+//   await this.model('Topic').updateMany({ '_id': { $in: topicIds } }, {
+//    $set: {
+//     updatedAt: new Date()
+//    }
+//   })
+//  } catch (err) {
+//   console.error(err)
+//  }
 // }
 
 // call setUpdatedAtTopic after save
 // TopicSchemea.post('save', function () {
-// 	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
+//  this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
 // })
 
 // call setUpdatedAtTopic before remove
 // TopicSchemea.pre('remove', function () {
-// 	this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
+//  this.constructor.setUpdatedAtTopic(this.topic) // send iDs topics
 // })
 
 TopicSchemea.pre('save', function (next) {
