@@ -87,7 +87,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Body parser
-app.use(json())
+app.use(json({ limit: '50mb' })) // 50mb this for image data:blop
 
 // Dev logging middleware if(process.env.NODE_ENV === 'development') {// }
 app.use(morgan('dev'))
