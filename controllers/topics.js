@@ -109,7 +109,7 @@ export const createImageRecord = asyncHandler(async (req, res) => {
     /**
      * Сжимаем изображения
      */
-    const from = `${imageFolder}*.{jpg,JPG,png,PNG,jpeg,JPEG}`
+    const from = `${imageFolder}*.{jpg,JPG,png,PNG,jpeg,JPEG,gif}`
     const to = path.join(imageFolder, '/compress')
 
     await convertCompress(from, to)

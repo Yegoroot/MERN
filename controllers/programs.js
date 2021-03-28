@@ -82,7 +82,7 @@ export const createProgram = asyncHandler(async (req, res) => {
         return res.status(400).json({ success: false, error: JSON.stringify(error) })
       }
       // CONVERT AND COMPRESS
-      const from = `public/uploads/programs/${program.id}/photo/*.{jpg,JPG,png,PNG,jpeg,JPEG}`
+      const from = `public/uploads/programs/${program.id}/photo/*.{jpg,JPG,png,PNG,jpeg,JPEG,gif}`
       const to = `public/uploads/programs/${program.id}/photo/compress`
       await convertCompress(from, to)
       res.status(201).json({ success: true, data: program })
@@ -136,7 +136,7 @@ export const updateProgram = asyncHandler(async (req, res, next) => {
         runValidators: true,
       })
       // CONVERT AND COMPRESS
-      const from = `public/uploads/programs/${program.id}/photo/*.{jpg,JPG,png,PNG,jpeg,JPEG}`
+      const from = `public/uploads/programs/${program.id}/photo/*.{jpg,JPG,png,PNG,jpeg,JPEG,gif}`
       const to = `public/uploads/programs/${program.id}/photo/compress`
       await convertCompress(from, to)
       res.status(200).json({ success: true, data: program })
