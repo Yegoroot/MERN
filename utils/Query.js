@@ -50,7 +50,7 @@ class Query {
 
   pagination() {
     const page = parseInt(this.query.page, 10) || 0
-    const limit = parseInt(this.query.limit, 10) || 25
+    const limit = parseInt(this.query.limit, 10) || 35
     const index = page * limit
     // METHOD MONGO
     this.request.skip(index).limit(limit)
