@@ -10,7 +10,7 @@ const Programschemea = new mongoose.Schema({
     trim: true,
     maxlength: [50, 'Title can not be more than 50 characters'],
   },
-  language: String,
+  language: {},
   translation: Array,
   // slug: String,
   publish: {

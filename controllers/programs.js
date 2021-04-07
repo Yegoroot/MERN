@@ -69,7 +69,7 @@ export const createProgram = asyncHandler(async (req, res) => {
 
   busboy.on('field', (fieldname, val) => {
     program[fieldname] = val
-    if (fieldname === 'types') {
+    if (fieldname === 'types' || fieldname === 'language' ) {
       program[fieldname] = JSON.parse(val)
     }
   })
@@ -123,7 +123,7 @@ export const updateProgram = asyncHandler(async (req, res, next) => {
 
   busboy.on('field', (fieldname, val) => {
     program[fieldname] = val
-    if (fieldname === 'types') {
+    if (fieldname === 'types' || fieldname === 'language' ) {
       program[fieldname] = JSON.parse(val)
     }
   })
