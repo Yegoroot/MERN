@@ -1,17 +1,35 @@
 import asyncHandler from '../middleware/async.js'
-import Dictionary from '../models/Dictionary.js'
+import Dictionary, { Category } from '../models/Dictionary.js'
+import ErrorResponse from '../utils/errorResponse.js'
 
-
+/**
+ * по пользователю ищем, так как у каждого пользоваткля только один словарь
+ */
 export const getDictionary = asyncHandler(async (req, res) => {
   const user = req.user.id
-  const dictionary = await Dictionary.find({ user })
+  const dictionary = await Dictionary.find({ user }).populate({
+    path: 'categories',
+  })
   res.status(200).json({
     success: true,
-    data: dictionary[0] || {},
+    data: dictionary[0] || null,
   })
 })
 
+// {{URL}}/api/v1/dictionary/categoryId
+export const getCategoryDictionary = asyncHandler(async (req, res) => {
+  const categoryId = req.params.id
+  const dictionaryId = req.user.dictionary
+  const category = await Category.find({ _id: categoryId, dictionary: dictionaryId })
+  res.status(200).json({
+    success: true,
+    data: category,
+  })
+})
 
+/**
+ * создается один раз для пользователя
+ */
 export const createDictionary = asyncHandler(async (req, res) => {
   const user = req.user.id
   const values = {
@@ -26,11 +44,37 @@ export const createDictionary = asyncHandler(async (req, res) => {
 })
 
 
-export const updateDictionary = asyncHandler(async (req, res) => {
-  const user = req.user.id
-  const data = await Dictionary.findOneAndUpdate({
-    _id: req.params.id,
-    user,
+export const createCategoryDictionary = asyncHandler(async (req, res, next) => {
+  const { user } = req
+  const dictionaryId = user.dictionary[0].id
+  const dictionary = await Dictionary.findById(dictionaryId)
+
+  if (!dictionary) {
+    return next(new ErrorResponse(`Dictionary not found with of id ${dictionaryId}`, 404))
+  }
+  // Make shure user is owner
+  if (dictionary.user.toString() !== req.user.id) {
+    return next(new ErrorResponse(`This user is not allowed to work with ${dictionaryId}`, 403))
+  }
+  const value = {
+    ...req.body,
+    dictionary: dictionaryId,
+  }
+  const data = await Category.create(value)
+  res.status(201).json({
+    success: true,
+    data,
+  })
+})
+
+// {{URL}}/api/v1/dictionary/categoryId
+export const updateCategoryDictionary = asyncHandler(async (req, res) => {
+  const { user } = req
+  const dictionaryId = user.dictionary[0].id
+  const categoryId = req.params.id
+  const data = await Category.findOneAndUpdate({
+    _id: categoryId,
+    dictionary: dictionaryId,
   }, req.body, {
     new: true,
     runValidators: true,
@@ -41,12 +85,12 @@ export const updateDictionary = asyncHandler(async (req, res) => {
   })
 })
 
-
-export const deleteDictionary = asyncHandler(async (req, res) => {
-  const user = req.user.id
-  await Dictionary.findOneAndDelete({
+// {{URL}}/api/v1/dictionary/categoryId
+export const deleteCategoryDictionary = asyncHandler(async (req, res) => {
+  const dictionaryId = req.user.dictionary
+  await Category.findOneAndDelete({
     _id: req.params.id,
-    user,
+    dictionary: dictionaryId,
   })
   res.status(201).json({
     success: true,

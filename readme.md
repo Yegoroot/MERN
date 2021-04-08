@@ -229,3 +229,18 @@ Dictionary is category list,
 При больщой нагрузки или больших данных лучше разделить на разные категории, то есть запросами обновлять категории по отдельности а не в целом словарь
 
 One dictionary for user
+
+### Защита
+
+`req.user` приходит напрямую из бд (почти), а к пользователю привязан только один словарь
+и поэтому это такая защита проверка, на тот случай если кто то попытается не туда не тот словарь или каталог загрузить
+
+```js
+// {{URL}}/api/v1/dictionary/categoryId
+const categoryId = req.params.id;
+const dictionaryId = req.user.dictionary; // привязан к пользователю, п ользователь пришел из БД, то есть это как зазита
+const category = await Category.find({
+  _id: categoryId,
+  dictionary: dictionaryId,
+});
+```

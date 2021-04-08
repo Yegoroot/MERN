@@ -3,6 +3,7 @@
 import asyncHandler from '../middleware/async.js'
 import User from '../models/User.js'
 import Query from '../utils/Query.js'
+import { populateDictionaryForUser } from '../models/Dictionary.js'
 
 // @desc    Get all users
 // @route   GET /api/v1/auth/users
@@ -24,7 +25,7 @@ export const getUsers = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/auth/users/:id
 // @access  Private/Admin
 export const getUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id)
+  const user = await User.findById(req.params.id).populate(populateDictionaryForUser)
 
   res.status(200).json({
     success: true,
@@ -37,7 +38,8 @@ export const getUser = asyncHandler(async (req, res) => {
 // @access  Private/superadmin
 // @access  Private/admin
 export const createUser = asyncHandler(async (req, res) => {
-  const data = await User.create(req.new_user)
+  let data = await User.create(req.new_user).populate(populateDictionaryForUser)
+  data = await data.populate(populateDictionaryForUser).execPopulate() // if you dont need "dictionary = []", you can delete this
 
   res.status(201).json({
     success: true,

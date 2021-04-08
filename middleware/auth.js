@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import asyncHandler from './async.js'
 import ErrorResponse from '../utils/errorResponse.js'
 import User from '../models/User.js'
+import { populateDictionaryForUserLight } from '../models/Dictionary.js'
 
 // Protect routes
 export const isAuth = asyncHandler(async (req, res, next) => {
@@ -24,14 +25,27 @@ export const isAuth = asyncHandler(async (req, res, next) => {
   }
   // console.log(`ID USER = ${req?.user?._id}`.yellow)
   // console.log(`Token = ${token}`.yellow)
+  // FIXME
+  // FIXME не авторизованный пользователь благодаря этой штуке проходит
+  // FIXME
+  // FIXME
+  // FIXME
+  // FIXME
+
+  // ЕСЛИ этот обработчик пол любому нужен, то тогда добавь другой midleware там где нужен эот обработчик
   if (!token) {
     req.user = { _id: null, role: 'user', name: `unknown-${new Date()}` }
     return next()
   }
+  // FIXME
+  // FIXME
+  // FIXME
+  // FIXME
+  // FIXME
   // Verify by token
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    req.user = await User.findById(decoded.id) /** for every request now we have access to req.user */
+    req.user = await User.findById(decoded.id).populate(populateDictionaryForUserLight) /** for every request now we have access to req.user */
     next()
   } catch (error) {
     return next(new ErrorResponse('Not authorize to access this route', 401))

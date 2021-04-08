@@ -5,6 +5,8 @@ import mongoose from 'mongoose'
 import bcryptjs from 'bcryptjs'
 import jsonwebtoken from 'jsonwebtoken'
 
+const opts = { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -30,7 +32,7 @@ const UserSchema = new mongoose.Schema({
     minLength: 6,
     select: false, // downt show password in API
   },
-  profile: { type: Object },
+  // profile: { type: Object },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -40,6 +42,13 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
   },
+}, opts)
+
+UserSchema.virtual('dictionary', {
+  ref: 'Dictionary',
+  localField: '_id',
+  foreignField: 'user',
+  id: true,
 })
 
 // Encrypt password using bcrypt

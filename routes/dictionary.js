@@ -4,8 +4,10 @@ import { isAuth } from '../middleware/auth.js'
 import {
   getDictionary,
   createDictionary,
-  updateDictionary,
-  deleteDictionary,
+  getCategoryDictionary,
+  updateCategoryDictionary,
+  deleteCategoryDictionary,
+  createCategoryDictionary,
 } from '../controllers/dictionary.js'
 
 const router = express.Router()
@@ -17,9 +19,9 @@ router.route('/')
   .post(createDictionary)
 
 router.route('/:id')
-  // .get(getDictionary)
-  .put(updateDictionary)
-  .delete(deleteDictionary)
-
+  .get(getCategoryDictionary)
+  .post(createCategoryDictionary)
+  .put(updateCategoryDictionary)
+  .delete(deleteCategoryDictionary)
 
 export default router
