@@ -20,6 +20,7 @@ import { GoogleStrategy, GithubStrategy } from './utils/passportStrategies.js'
 import errorHandlrer from './middleware/error.js'
 import programs from './routes/programs.js'
 import topics from './routes/topics.js'
+import dictionary from './routes/dictionary.js'
 import auth from './routes/auth.js'
 import users from './routes/users.js'
 import connectDB from './config/db.js'
@@ -120,6 +121,7 @@ app.use('/api/v1/auth', auth)
 app.use('/api/v1/users', users)
 app.use('/api/v1/programs', programs)
 app.use('/api/v1/types', types)
+app.use('/api/v1/dictionary', dictionary)
 
 app.use(errorHandlrer)
 

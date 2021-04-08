@@ -221,3 +221,11 @@ const profile = await profile
 
 - Get all (only superadmin)
   /api/v1/programs/my?all=true
+
+# Dictionary
+
+Dictionary is category list,
+
+При больщой нагрузки или больших данных лучше разделить на разные категории, то есть запросами обновлять категории по отдельности а не в целом словарь
+
+One dictionary for user
