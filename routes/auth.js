@@ -1,7 +1,7 @@
 import express from 'express'
 import passport from 'passport'
 import { register, login, getMe } from '../controllers/auth.js'
-import { isAuth } from '../middleware/auth.js'
+import { whoIs } from '../middleware/auth.js'
 
 const router = express.Router()
 
@@ -14,7 +14,7 @@ const authenticateParams = { failureRedirect: `${process.env.DOMAIN_CLIENT}/logi
 router
   .post('/register', register)
   .post('/login', login)
-  .get('/me', isAuth, getMe)
+  .get('/me', whoIs, getMe)
 
   // -------------- google
   .get('/social/google', passport.authenticate('google', { scope: ['profile', 'email'] }))

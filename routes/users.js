@@ -8,12 +8,12 @@ import {
   deleteUser,
 } from '../controllers/users.js'
 
-import { isAuth, haveAccess } from '../middleware/auth.js'
+import { whoIs, haveAccess } from '../middleware/auth.js'
 import { createUserMiddleWare, isOwner } from '../middleware/user.js'
 
 const router = express.Router()
 
-router.use(isAuth) // ONLY AUTH USERS
+router.use(whoIs)
 router.use(haveAccess(...['superadmin', 'admin'])) // ONLY SUOERADMIN and ADMIN
 
 router.route('/')

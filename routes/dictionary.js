@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { isAuth } from '../middleware/auth.js'
+import { isAuthOnly } from '../middleware/auth.js'
 import {
   getDictionary,
   createDictionary,
@@ -12,7 +12,7 @@ import {
 
 const router = express.Router()
 
-router.use(isAuth) // ONLY AUTH USERS
+router.use(isAuthOnly) // checking what user is
 
 router.route('/')
   .get(getDictionary)

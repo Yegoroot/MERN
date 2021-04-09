@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { isAuth, haveAccess } from '../middleware/auth.js'
+import { whoIs, haveAccess } from '../middleware/auth.js'
 import {
   getTypes,
   getType,
@@ -11,7 +11,7 @@ import {
 
 const router = express.Router()
 
-router.use(isAuth) // ONLY AUTH USERS
+router.use(whoIs)
 
 router.route('/')
   .get(getTypes, haveAccess(...['superadmin', 'admin']))

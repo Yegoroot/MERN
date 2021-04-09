@@ -5,46 +5,33 @@ import ErrorResponse from '../utils/errorResponse.js'
 import User from '../models/User.js'
 import { populateDictionaryForUserLight } from '../models/Dictionary.js'
 
-// Protect routes
-export const isAuth = asyncHandler(async (req, res, next) => {
-  /**
-   * FIRST, Passport.js //  token from session
-   * if req.user exist this means passport define our user from session and set to req.user
-   */
-  // console.log(`ID USER = ${req?.user?._id}`.yellow)
+
+/** We are checking what is current user
+ *
+ * 1) FIRST STEP - Passport.js is checking user under the hood for us. (if req.user exist this means passport define our user from session and set to req.user)
+ * 2) SECOND STEP - if passport dont know. JWTAuth (token from headers)
+ * 3) THIRD STEP - if FIRST AND SECOND dont know we Create Empty User для проверок в других местах на сайте
+ *    проверок вида: req.user.id // но а если не сделать это то будет ошибка (значение от undefined)
+ */
+
+export const whoIs = asyncHandler(async (req, res, next) => {
+  // FIRST
   if (req?.user?._id) {
     return next()
   }
-
-  /**
-   * SECOND, JWTAuth // token from headers
-   */
+  // SECOND
   let token
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     token = req.headers.authorization.split(' ')[1] // Get taken from Bearer taken in header
   }
-  // console.log(`ID USER = ${req?.user?._id}`.yellow)
-  // console.log(`Token = ${token}`.yellow)
-  // FIXME
-  // FIXME не авторизованный пользователь благодаря этой штуке проходит
-  // FIXME
-  // FIXME
-  // FIXME
-  // FIXME
-
-  // ЕСЛИ этот обработчик пол любому нужен, то тогда добавь другой midleware там где нужен эот обработчик
+  // THIRD
   if (!token) {
-    req.user = { _id: null, role: 'user', name: `unknown-${new Date()}` }
+    req.user = {}
     return next()
   }
-  // FIXME
-  // FIXME
-  // FIXME
-  // FIXME
-  // FIXME
-  // Verify by token
+
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) // Verify by token
     req.user = await User.findById(decoded.id).populate(populateDictionaryForUserLight) /** for every request now we have access to req.user */
     next()
   } catch (error) {
@@ -52,7 +39,22 @@ export const isAuth = asyncHandler(async (req, res, next) => {
   }
 })
 
-// Grant access to specific roles
+
+/** Protect: Only for Auth user
+ *
+ */
+export const isAuthOnly = asyncHandler(async (req, res, next) => {
+  await whoIs(req, res, next)
+  if (!req.user.role) {
+    return next(new ErrorResponse('Not authorize to access this route', 401))
+  }
+})
+
+
+/** Protect Route by role
+ *
+ * Grant access to specific roles
+ */
 export const haveAccess = (...roles) => (req, res, next) => {
   if (!roles.includes(req.user.role)) {
     return next(new ErrorResponse(`User role ${req.user.role} is not authorized to access this route`, 403))
