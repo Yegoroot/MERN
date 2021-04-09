@@ -1,5 +1,3 @@
-// const path = require('path')
-// const ErrorResponse = require('../utils/errorResponse')
 import asyncHandler from '../middleware/async.js'
 import User from '../models/User.js'
 import Query from '../utils/Query.js'

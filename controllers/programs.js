@@ -36,7 +36,7 @@ export const getProgram = asyncHandler(async (req, res, next) => {
     .populate({ path: 'user', select: 'name email' })
     .populate({ path: 'types', select: 'title alias color' })
   const result = () => res.status(200).json({ success: true, data: program })
-  const error = () => next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
+  const error = () => next(new ErrorResponse('Program with current id not found', 404))
 
   if (!program) {
     return error()
@@ -69,7 +69,7 @@ export const createProgram = asyncHandler(async (req, res) => {
 
   busboy.on('field', (fieldname, val) => {
     program[fieldname] = val
-    if (fieldname === 'types' || fieldname === 'language' ) {
+    if (fieldname === 'types' || fieldname === 'language') {
       program[fieldname] = JSON.parse(val)
     }
   })
@@ -100,11 +100,11 @@ export const updateProgram = asyncHandler(async (req, res, next) => {
   let program = await Program.findById(req.params.id)
 
   if (!program) {
-    return next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
+    return next(new ErrorResponse('Program with current id not found', 404))
   }
   // Make shure user is owner
   if (program.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
-    return next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 403))
+    return next(new ErrorResponse('This user is not allowed to work with the current program', 403))
   }
 
   createProgramPhotoDirectories(program.id) // check if no - create
@@ -123,7 +123,7 @@ export const updateProgram = asyncHandler(async (req, res, next) => {
 
   busboy.on('field', (fieldname, val) => {
     program[fieldname] = val
-    if (fieldname === 'types' || fieldname === 'language' ) {
+    if (fieldname === 'types' || fieldname === 'language') {
       program[fieldname] = JSON.parse(val)
     }
   })
@@ -157,10 +157,10 @@ export const updateProgram = asyncHandler(async (req, res, next) => {
 export const deleteProgram = asyncHandler(async (req, res, next) => {
   const program = await Program.findById(req.params.id)
   if (!program) {
-    return next(new ErrorResponse(`Program not found with of id ${req.params.id}`, 404))
+    return next(new ErrorResponse('Program with current id not found', 404))
   }
   if (program.user.toString() !== req.user.id && req.user.role !== 'superadmin') { // Make shure user is owner
-    return next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
+    return next(new ErrorResponse('This user is not allowed to work with the current program', 403))
   }
   program.remove() // не используем deleteByID потому что не сработает событие .pre('remove',
   rimraf.sync(pathProgram(program.id))

@@ -35,7 +35,7 @@ export const whoIs = asyncHandler(async (req, res, next) => {
     req.user = await User.findById(decoded.id).populate(populateDictionaryForUserLight) /** for every request now we have access to req.user */
     next()
   } catch (error) {
-    return next(new ErrorResponse('Not authorize to access this route', 401))
+    return next(new ErrorResponse('401 Not authorize to access this route', 401))
   }
 })
 
@@ -46,7 +46,7 @@ export const whoIs = asyncHandler(async (req, res, next) => {
 export const isAuthOnly = asyncHandler(async (req, res, next) => {
   await whoIs(req, res, next)
   if (!req.user.role) {
-    return next(new ErrorResponse('Not authorize to access this route', 401))
+    return next(new ErrorResponse('401 Not authorize to access this route', 401))
   }
 })
 
@@ -57,7 +57,7 @@ export const isAuthOnly = asyncHandler(async (req, res, next) => {
  */
 export const haveAccess = (...roles) => (req, res, next) => {
   if (!roles.includes(req.user.role)) {
-    return next(new ErrorResponse(`User role ${req.user.role} is not authorized to access this route`, 403))
+    return next(new ErrorResponse('403 Not allowed to access this route', 403))
   }
   next()
 }

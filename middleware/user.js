@@ -33,7 +33,7 @@ export const isOwner = asyncHandler(async (req, res, next) => {
   if (req.user.role !== 'superadmin') {
     const client = await User.findById(req.params.id)
     if (!client) {
-      return next(new ErrorResponse('Not Found', 404))
+      return next(new ErrorResponse('404', 404))
     }
 
     const creator = client.creator ? client.creator.toString() : null

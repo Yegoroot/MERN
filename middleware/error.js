@@ -1,5 +1,9 @@
 import ErrorResponse from '../utils/errorResponse.js'
 
+/**
+ * important to have a variable next
+ */
+// eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   let error = {
     ...err,
@@ -8,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
 
   // Mongoose bad objectID
   if (err.name === 'CastError') {
-    const message = 'Resource not found'
+    const message = '404'
     error = new ErrorResponse(message, 404)
   }
 

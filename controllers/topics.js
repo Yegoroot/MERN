@@ -156,7 +156,7 @@ export const getTopic = asyncHandler(async (req, res, next) => {
     .populate({ path: 'user', select: 'name' })
 
   const result = () => res.status(200).json({ success: true, data: topic })
-  const error = () => next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
+  const error = () => next(new ErrorResponse('404 The requested topic was not found', 404))
 
   if (!topic) {
     return error()
@@ -195,11 +195,11 @@ export const createTopic = asyncHandler(async (req, res) => {
 export const updateTopic = asyncHandler(async (req, res, next) => {
   let topic = await Topic.findById(req.params.id)
   if (!topic) {
-    return next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
+    return next(new ErrorResponse('404 The requested topic was not found', 404))
   }
   // Make shure user is owner
   if (topic.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
-    return next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
+    return next(new ErrorResponse('403 Not allowed to access this route', 403))
   }
   /**
   * Move directory
@@ -230,10 +230,10 @@ export const updateTopic = asyncHandler(async (req, res, next) => {
 export const deleteTopic = asyncHandler(async (req, res, next) => {
   const topic = await Topic.findById(req.params.id)
   if (!topic) {
-    return next(new ErrorResponse(`Topic not found with of id ${req.params.id}`, 404))
+    return next(new ErrorResponse('404 The requested topic was not found', 404))
   }
   if (topic.user.toString() !== req.user.id && req.user.role !== 'superadmin') {
-    return next(new ErrorResponse(`This user is not allowed to work with ${req.params.id}`, 401))
+    return next(new ErrorResponse('403 Not allowed to access this route', 403))
   }
   const topicFolder = `public/uploads/programs/${topic.program}/topics/${req.params.id}`
   await topic.remove()
@@ -242,22 +242,22 @@ export const deleteTopic = asyncHandler(async (req, res, next) => {
 })
 
 // eslint-disable-next-line consistent-return
-export const deleteTopics = asyncHandler(async (req, res, next) => {
-  const ids = req.query.ids.split(',')
-  if (req.user.role !== 'superadmin') {
-    return next(new ErrorResponse(`This user is not allowed to work with ${ids}`, 401))
-  }
-  await Topic.deleteMany(
-    { _id: { $in: ids } },
-    // eslint-disable-next-line consistent-return
-    (error) => {
-      if (error) {
-        return next(new ErrorResponse(`${error.message}`, 500))
-      }
-      res.status(200).json({ success: true, data: {} })
-    },
-  )
-})
+// export const deleteTopics = asyncHandler(async (req, res, next) => {
+//   const ids = req.query.ids.split(',')
+//   if (req.user.role !== 'superadmin') {
+//     return next(new ErrorResponse('403 Not allowed to access this route', 403))
+//   }
+//   await Topic.deleteMany(
+//     { _id: { $in: ids } },
+//     // eslint-disable-next-line consistent-return
+//     (error) => {
+//       if (error) {
+//         return next(new ErrorResponse(`${error.message}`, 500))
+//       }
+//       res.status(200).json({ success: true, data: {} })
+//     },
+//   )
+// })
 
 
 export const updateTopics = asyncHandler(async (req, res) => {

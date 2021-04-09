@@ -50,11 +50,11 @@ export const createCategoryDictionary = asyncHandler(async (req, res, next) => {
   const dictionary = await Dictionary.findById(dictionaryId)
 
   if (!dictionary) {
-    return next(new ErrorResponse(`Dictionary not found with of id ${dictionaryId}`, 404))
+    return next(new ErrorResponse('Dictionary not found', 404))
   }
   // Make shure user is owner
   if (dictionary.user.toString() !== req.user.id) {
-    return next(new ErrorResponse(`This user is not allowed to work with ${dictionaryId}`, 403))
+    return next(new ErrorResponse('403 Not allowed to access this route', 403))
   }
   const value = {
     ...req.body,
