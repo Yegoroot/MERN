@@ -6,7 +6,7 @@ import { whoIs } from '../middleware/auth.js'
 const router = express.Router()
 
 const succesRedirect = (req, res) => {
-  res.redirect(`${process.env.DOMAIN_CLIENT}/app/programs`)
+  res.redirect(`${process.env.DOMAIN_CLIENT}/programs`)
 }
 
 const authenticateParams = { failureRedirect: `${process.env.DOMAIN_CLIENT}/login`, session: true }
