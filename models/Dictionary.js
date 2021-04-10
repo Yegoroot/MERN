@@ -39,6 +39,7 @@ const DictionarySchema = new mongoose.Schema({
     required: true,
   },
 }, opts)
+
 DictionarySchema.virtual('categories', {
   ref: 'Category',
   localField: '_id',
@@ -47,24 +48,9 @@ DictionarySchema.virtual('categories', {
 })
 
 
+export const populateCategoriesWithoutWords = {
+  path: 'categories',
+  select: 'title -dictionary',
+}
+
 export default mongoose.model('Dictionary', DictionarySchema)
-
-
-/**
- * выводим dictionary: [{...}] или []
- *
- * когда пользователь регистрируется
- * когда пользователь получает о себе информацию
- */
-
-export const populateDictionaryForUser = {
-  path: 'dictionary',
-  populate: {
-    path: 'categories',
-    select: 'categories title -dictionary',
-  },
-}
-export const populateDictionaryForUserLight = {
-  path: 'dictionary',
-  select: 'id -user',
-}

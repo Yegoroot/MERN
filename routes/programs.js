@@ -19,7 +19,6 @@ router.use(whoIs)
 router.route('/')
   .get(getPrograms)
   .post(haveAccess(...theseHaveAccess), photoUploadProtect, createProgram)
-  .delete(haveAccess(...theseHaveAccess))
 
 router.route('/:id')
   .get(getProgram)

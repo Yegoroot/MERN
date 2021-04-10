@@ -54,10 +54,7 @@ app.use(session(sessionParams))
 
 // Passport
 
-passport.serializeUser((user, done) => {
-  console.log('serialise'.blue, user)
-  return done(null, user._id)
-})
+passport.serializeUser((user, done) => done(null, user._id)) // console.log('serialise'.blue, user)
 passport.deserializeUser((id, done) => {
   console.log('passport.deserializeUser'.bgCyan.black, id)
   return User.findById(id, (err, user) => {
@@ -122,9 +119,9 @@ app.use('/api/v1/users', users)
 app.use('/api/v1/programs', programs)
 app.use('/api/v1/types', types)
 app.use('/api/v1/dictionary', dictionary)
-app.use('*', (req, res) => { res.status(404).json({ success: false, error: '404' }) }) // https://stackoverflow.com/questions/6528876/how-to-redirect-404-errors-to-a-page-in-expressjs
 
 app.use(errorHandlrer)
+app.use('*', (req, res) => { res.status(404).json({ success: false, error: '404' }) }) // https://stackoverflow.com/questions/6528876/how-to-redirect-404-errors-to-a-page-in-expressjs
 
 const PORT = process.env.PORT || 5000
 const server = app.listen(
@@ -137,3 +134,4 @@ process.on('unhandledRejection', (err) => {
   console.log(`Error Ya Ahki:  ${err.message}`.red)
   server.close(() => process.exit(1)) // Close server & exit procces
 })
+

@@ -15,13 +15,17 @@ const router = express.Router()
 router.use(isAuthOnly) // checking what user is
 
 router.route('/')
-  .get(getDictionary)
-  .post(createDictionary)
+  .get(getDictionary) // dictionary of current user
+  .post(createDictionary) // create for current user
 
-router.route('/:id')
-  .get(getCategoryDictionary)
+
+router.route('/:dictionaryId')
   .post(createCategoryDictionary)
+
+router.route('/:categoryId')
+  .get(getCategoryDictionary)
   .put(updateCategoryDictionary)
   .delete(deleteCategoryDictionary)
+
 
 export default router

@@ -1,3 +1,5 @@
+# Документы вложенны в документ
+
 ```js
 const Category = new mongoose.Schema({
   title: String,
@@ -25,4 +27,23 @@ const DictionarySchema = new mongoose.Schema({
     required: true,
   },
 });
+```
+
+# Populate of populate
+
+```js
+//
+export const populateDictionary = {
+  path: "dictionary",
+  populate: {
+    path: "categories",
+    select: "categories title -dictionary",
+  },
+};
+// for create
+let data = await User.create(values);
+data = await data.populate(populateDictionary).execPopulate();
+
+// for get
+await User.find({ user }).populate(populateDictionary);
 ```

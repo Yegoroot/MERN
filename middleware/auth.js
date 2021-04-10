@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 import asyncHandler from './async.js'
 import ErrorResponse from '../utils/errorResponse.js'
 import User from '../models/User.js'
-import { populateDictionaryForUserLight } from '../models/Dictionary.js'
 
 
 /** We are checking what is current user
@@ -32,7 +31,7 @@ export const whoIs = asyncHandler(async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET) // Verify by token
-    req.user = await User.findById(decoded.id).populate(populateDictionaryForUserLight) /** for every request now we have access to req.user */
+    req.user = await User.findById(decoded.id)
     next()
   } catch (error) {
     return next(new ErrorResponse('401 Not authorize to access this route', 401))
