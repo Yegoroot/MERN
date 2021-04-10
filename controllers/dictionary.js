@@ -3,15 +3,6 @@ import Dictionary, { Category, populateCategoriesWithoutWords } from '../models/
 import ErrorResponse from '../utils/errorResponse.js'
 
 
-const asyncFuncMy = async (categoryId) => {
-  const category = 'nnn'
-  console.log('sdsd')
-
-
-  return category
-}
-
-
 /**
  * по пользователю ищем, так как у каждого пользоваткля только один словарь
  */
@@ -119,8 +110,6 @@ export const updateCategoryDictionary = asyncHandler(async (req, res, next) => {
 
 // INFO delete {{URL}}/api/v1/dictionary/categoryId
 export const deleteCategoryDictionary = asyncHandler(async (req, res, next) => {
-  await asyncFuncMy(categoryId)
-
   const { categoryId } = req.params
   const category = await Category.findById(categoryId).populate({
     path: 'dictionary',
