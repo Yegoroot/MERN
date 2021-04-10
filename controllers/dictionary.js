@@ -40,18 +40,18 @@ export const createDictionary = asyncHandler(async (req, res) => {
 })
 
 
-// INFO get {{URL}}/api/v1/dictionary/categoryId
+// INFO get {{URL}}/api/v1/dictionary/cat/categoryId
 export const getCategoryDictionary = asyncHandler(async (req, res, next) => {
-  const { categoryId } = req.params
-  const category = await Category.findById(categoryId).populate({
+  const { id } = req.params
+  const category = await Category.findById(id).populate({
     path: 'dictionary',
     select: 'user',
   })
-  const currentUserId = req.user.id.toString()
-  const dictionaryUserId = category.dictionary.user.toString()
   if (!category) {
     return next(new ErrorResponse('404', 404))
   }
+  const currentUserId = req.user.id.toString()
+  const dictionaryUserId = category.dictionary.user.toString()
   if (dictionaryUserId !== currentUserId) { // Make shure user is owner
     return next(new ErrorResponse('403 Not allowed to access this route', 403))
   }
@@ -62,16 +62,16 @@ export const getCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO create {{URL}}/api/v1/dictionary/dictionaryId
+// INFO create {{URL}}/api/v1/dictionary/cat
 export const createCategoryDictionary = asyncHandler(async (req, res, next) => {
-  const { dictionaryId } = req.params
+  const dictionaryId = req.body.dictionary
   const dictionary = await Dictionary.findById(dictionaryId)
+  if (!dictionary) {
+    return next(new ErrorResponse('Dictionary for this category not Found', 400))
+  }
 
   const currentUserId = req.user.id.toString()
   const dictionaryUserId = dictionary.user.toString()
-  if (!dictionary) {
-    return next(new ErrorResponse('Dictionary with this Id not Found', 400))
-  }
   if (dictionaryUserId !== currentUserId) { // Make shure user is owner
     return next(new ErrorResponse('403 Not allowed to access this route', 403))
   }
@@ -87,10 +87,10 @@ export const createCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO put {{URL}}/api/v1/dictionary/categoryId
+// INFO put {{URL}}/api/v1/dictionary/cat/categoryId
 export const updateCategoryDictionary = asyncHandler(async (req, res, next) => {
-  const { categoryId } = req.params
-  const category = await Category.findById(categoryId).populate({
+  const { id } = req.params
+  const category = await Category.findById(id).populate({
     path: 'dictionary',
     select: 'user',
   })
@@ -103,7 +103,7 @@ export const updateCategoryDictionary = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse('403 Not allowed to access this route', 403))
   }
 
-  const data = await Category.findOneAndUpdate({ _id: categoryId }, req.body, { new: true, runValidators: true })
+  const data = await Category.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true })
   res.status(201).json({
     success: true,
     data,
@@ -111,10 +111,10 @@ export const updateCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO delete {{URL}}/api/v1/dictionary/categoryId
+// INFO delete {{URL}}/api/v1/dictionary/cat/categoryId
 export const deleteCategoryDictionary = asyncHandler(async (req, res, next) => {
-  const { categoryId } = req.params
-  const category = await Category.findById(categoryId).populate({
+  const { id } = req.params
+  const category = await Category.findById(id).populate({
     path: 'dictionary',
     select: 'user',
   })
@@ -127,7 +127,7 @@ export const deleteCategoryDictionary = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse('403 Not allowed to access this route', 403))
   }
 
-  await Category.findOneAndDelete({ _id: req.params.categoryId })
+  await Category.findOneAndDelete({ _id: id })
 
   res.status(201).json({
     success: true,

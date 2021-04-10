@@ -19,10 +19,10 @@ router.route('/')
   .post(createDictionary) // create for current user
 
 
-router.route('/:dictionaryId')
+router.route('/cat')
   .post(createCategoryDictionary)
 
-router.route('/:categoryId')
+router.route('/cat/:id')
   .get(getCategoryDictionary)
   .put(updateCategoryDictionary)
   .delete(deleteCategoryDictionary)
