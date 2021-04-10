@@ -12,7 +12,10 @@ export const getDictionary = asyncHandler(async (req, res) => {
   const dictionary = await Dictionary.findOne({ user }).populate(populateCategoriesWithoutWords)
   res.status(200).json({
     success: true,
-    data: dictionary || null,
+    data: dictionary || {
+      _id: null,
+      categories: null,
+    },
   })
 })
 
