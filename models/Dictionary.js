@@ -52,7 +52,6 @@ CategoryScheme.virtual('words', {
   ref: 'Word',
   localField: '_id',
   foreignField: 'category',
-  id: true,
 })
 export const Category = mongoose.model('Category', CategoryScheme)
 
@@ -74,11 +73,10 @@ DictionarySchema.virtual('categories', {
   ref: 'Category',
   localField: '_id',
   foreignField: 'dictionary',
-  id: true,
 })
 
 
-export const populateWordsForCategory = { path: 'words' }
+export const populateWordsForCategory = { path: 'words', select: '_id title content' } // user
 
 export const populateCategoriesForDictionary = {
   path: 'categories',

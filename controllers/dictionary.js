@@ -1,12 +1,14 @@
 import asyncHandler from '../middleware/async.js'
-import Dictionary, { Category, populateCategoriesForDictionary, populateWordsForCategory } from '../models/Dictionary.js'
+import Dictionary, {
+  Category, Word, populateCategoriesForDictionary, populateWordsForCategory,
+} from '../models/Dictionary.js'
 import ErrorResponse from '../utils/errorResponse.js'
 
 
 /**
  * по пользователю ищем, так как у каждого пользоваткля только один словарь
  */
-// INFO get {{URL}}/api/v1/dictionary/dictionaryId
+// INFO GET DICTIONARY {{URL}}/api/v1/dictionary/
 //
 export const getDictionary = asyncHandler(async (req, res) => {
   const user = req.user.id
@@ -24,7 +26,7 @@ export const getDictionary = asyncHandler(async (req, res) => {
 /**
  * создается один раз для пользователя
  */
-// INFO create {{URL}}/api/v1/dictionary/
+// INFO CREATE DICTIONARY {{URL}}/api/v1/dictionary/
 //
 export const createDictionary = asyncHandler(async (req, res) => {
   const user = req.user.id
@@ -42,7 +44,7 @@ export const createDictionary = asyncHandler(async (req, res) => {
 })
 
 
-// INFO get {{URL}}/api/v1/dictionary/cat/categoryId
+// INFO GET CATEGORY {{URL}}/api/v1/dictionary/cat/:id
 //
 export const getCategoryDictionary = asyncHandler(async (req, res, next) => {
   const category = await Category.findOne({ _id: req.params.id, user: req.user.id }).populate(populateWordsForCategory)
@@ -56,7 +58,7 @@ export const getCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO create {{URL}}/api/v1/dictionary/cat
+// INFO CREATE CATEGORY {{URL}}/api/v1/dictionary/cat
 //
 export const createCategoryDictionary = asyncHandler(async (req, res, next) => {
   const dictionaryId = req.body.dictionary
@@ -72,7 +74,6 @@ export const createCategoryDictionary = asyncHandler(async (req, res, next) => {
   const value = {
     ...req.body,
     user: currentUserId,
-    dictionary: dictionaryId,
   }
   let data = await Category.create(value)
   data = data.populate(populateWordsForCategory)
@@ -83,7 +84,7 @@ export const createCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO put {{URL}}/api/v1/dictionary/cat/categoryId
+// INFO PUT CATEGORY {{URL}}/api/v1/dictionary/cat/:id
 //
 export const updateCategoryDictionary = asyncHandler(async (req, res, next) => {
   // :id and current_user
@@ -100,7 +101,7 @@ export const updateCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO delete {{URL}}/api/v1/dictionary/cat/categoryId
+// INFO DELETE CATEGORY {{URL}}/api/v1/dictionary/cat/:id
 //
 export const deleteCategoryDictionary = asyncHandler(async (req, res, next) => {
   // :id and current_user
@@ -114,3 +115,62 @@ export const deleteCategoryDictionary = asyncHandler(async (req, res, next) => {
     data: {},
   })
 })
+
+
+// INFO CREATE WORD {{URL}}/api/v1/dictionary/word/:id
+//
+export const createWordCategory = asyncHandler(async (req, res, next) => {
+  const categoryId = req.body.category
+  const category = await Category.findById(categoryId)
+  if (!category) {
+    return next(new ErrorResponse('Category for this word not Found', 400))
+  }
+  const currentUserId = req.user.id.toString()
+  const categoryUserId = category.user.toString()
+  if (categoryUserId !== currentUserId) { // Make shure user is owner
+    return next(new ErrorResponse('403 Not allowed to access this route', 403))
+  }
+  const value = {
+    ...req.body,
+    user: currentUserId,
+  }
+
+  const data = await Word.create(value)
+  if (!data) {
+    return next(new ErrorResponse('404', 404))
+  }
+  res.status(201).json({
+    success: true,
+    data,
+  })
+})
+
+
+// INFO PUT WORD {{URL}}/api/v1/dictionary/word/:id
+//
+export const updateWordCategory = asyncHandler(async (req, res, next) => {
+  // eslint-disable-next-line max-len
+  const data = await Word.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, runValidators: true })
+  if (!data) {
+    return next(new ErrorResponse('404', 404))
+  }
+  res.status(201).json({
+    success: true,
+    data,
+  })
+})
+
+
+// INFO DELETE WORD {{URL}}/api/v1/dictionary/word/:id
+//
+export const deleteWordCategory = asyncHandler(async (req, res, next) => {
+  const data = await Word.findOneAndDelete({ _id: req.params.id, user: req.user.id })
+  if (!data) {
+    return next(new ErrorResponse('404', 404))
+  }
+  res.status(201).json({
+    success: true,
+    data: {},
+  })
+})
+
