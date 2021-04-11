@@ -4,6 +4,28 @@ const opts = { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 
 
 /**
+ * Words of Category
+ *
+ *
+ */
+const WordsScheme = new mongoose.Schema({
+  title: String,
+  content: String,
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  category: {
+    unique: false,
+    type: mongoose.Schema.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
+})
+export const Word = mongoose.model('Word', WordsScheme)
+
+/**
  * Category of Dictionary
  *
  *
@@ -13,16 +35,24 @@ const CategoryScheme = new mongoose.Schema({
     type: String,
     required: true,
   },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   dictionary: {
     unique: false,
     type: mongoose.Schema.ObjectId,
     ref: 'Dictionary',
     required: true,
   },
-  words: [{
-    title: String,
-    content: String,
-  }],
+}, opts)
+
+CategoryScheme.virtual('words', {
+  ref: 'Word',
+  localField: '_id',
+  foreignField: 'category',
+  id: true,
 })
 export const Category = mongoose.model('Category', CategoryScheme)
 
@@ -48,7 +78,9 @@ DictionarySchema.virtual('categories', {
 })
 
 
-export const populateCategoriesWithoutWords = {
+export const populateWordsForCategory = { path: 'words' }
+
+export const populateCategoriesForDictionary = {
   path: 'categories',
   select: 'title -dictionary',
 }
