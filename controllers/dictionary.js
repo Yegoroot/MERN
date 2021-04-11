@@ -8,7 +8,7 @@ import ErrorResponse from '../utils/errorResponse.js'
 /**
  * по пользователю ищем, так как у каждого пользоваткля только один словарь
  */
-// INFO GET DICTIONARY {{URL}}/api/v1/dictionary/
+// GET DICTIONARY {{URL}}/api/v1/dictionary/
 //
 export const getDictionary = asyncHandler(async (req, res) => {
   const user = req.user.id
@@ -26,7 +26,7 @@ export const getDictionary = asyncHandler(async (req, res) => {
 /**
  * создается один раз для пользователя
  */
-// INFO CREATE DICTIONARY {{URL}}/api/v1/dictionary/
+// POST DICTIONARY {{URL}}/api/v1/dictionary/
 //
 export const createDictionary = asyncHandler(async (req, res) => {
   const user = req.user.id
@@ -44,7 +44,7 @@ export const createDictionary = asyncHandler(async (req, res) => {
 })
 
 
-// INFO GET CATEGORY {{URL}}/api/v1/dictionary/cat/:id
+// GET CATEGORY {{URL}}/api/v1/dictionary/cat/:id
 //
 export const getCategoryDictionary = asyncHandler(async (req, res, next) => {
   const category = await Category.findOne({ _id: req.params.id, user: req.user.id }).populate(populateWordsForCategory)
@@ -58,7 +58,7 @@ export const getCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO CREATE CATEGORY {{URL}}/api/v1/dictionary/cat
+// POST CATEGORY {{URL}}/api/v1/dictionary/cat
 //
 export const createCategoryDictionary = asyncHandler(async (req, res, next) => {
   const dictionaryId = req.body.dictionary
@@ -84,7 +84,7 @@ export const createCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO PUT CATEGORY {{URL}}/api/v1/dictionary/cat/:id
+// PUT CATEGORY {{URL}}/api/v1/dictionary/cat/:id
 //
 export const updateCategoryDictionary = asyncHandler(async (req, res, next) => {
   // :id and current_user
@@ -101,7 +101,7 @@ export const updateCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO DELETE CATEGORY {{URL}}/api/v1/dictionary/cat/:id
+// DELETE CATEGORY {{URL}}/api/v1/dictionary/cat/:id
 //
 export const deleteCategoryDictionary = asyncHandler(async (req, res, next) => {
   // :id and current_user
@@ -117,7 +117,7 @@ export const deleteCategoryDictionary = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO CREATE WORD {{URL}}/api/v1/dictionary/word/:id
+// POST WORD {{URL}}/api/v1/dictionary/word/:id
 //
 export const createWordCategory = asyncHandler(async (req, res, next) => {
   const categoryId = req.body.category
@@ -137,7 +137,7 @@ export const createWordCategory = asyncHandler(async (req, res, next) => {
 
   const data = await Word.create(value)
   if (!data) {
-    return next(new ErrorResponse('404', 404))
+    return next(new ErrorResponse('PROblems to create Word', 404))
   }
   res.status(201).json({
     success: true,
@@ -146,7 +146,7 @@ export const createWordCategory = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO PUT WORD {{URL}}/api/v1/dictionary/word/:id
+// PUT WORD {{URL}}/api/v1/dictionary/word/:id
 //
 export const updateWordCategory = asyncHandler(async (req, res, next) => {
   // eslint-disable-next-line max-len
@@ -161,7 +161,7 @@ export const updateWordCategory = asyncHandler(async (req, res, next) => {
 })
 
 
-// INFO DELETE WORD {{URL}}/api/v1/dictionary/word/:id
+// DELETE WORD {{URL}}/api/v1/dictionary/word/:id
 //
 export const deleteWordCategory = asyncHandler(async (req, res, next) => {
   const data = await Word.findOneAndDelete({ _id: req.params.id, user: req.user.id })

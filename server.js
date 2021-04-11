@@ -121,7 +121,7 @@ app.use('/api/v1/types', types)
 app.use('/api/v1/dictionary', dictionary)
 
 app.use(errorHandlrer)
-app.use('*', (req, res) => { res.status(404).json({ success: false, error: '404' }) }) // https://stackoverflow.com/questions/6528876/how-to-redirect-404-errors-to-a-page-in-expressjs
+app.use('*', (req, res) => { res.status(404).json({ success: false, error: 'The requested URL does not exist' }) }) // https://stackoverflow.com/questions/6528876/how-to-redirect-404-errors-to-a-page-in-expressjs
 
 const PORT = process.env.PORT || 5000
 const server = app.listen(
