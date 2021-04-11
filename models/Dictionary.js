@@ -53,6 +53,12 @@ CategoryScheme.virtual('words', {
   localField: '_id',
   foreignField: 'category',
 })
+CategoryScheme.virtual('countWords', {
+  ref: 'Word',
+  localField: '_id',
+  foreignField: 'category',
+  count: true,
+})
 export const Category = mongoose.model('Category', CategoryScheme)
 
 /**
@@ -81,6 +87,9 @@ export const populateWordsForCategory = { path: 'words', select: '_id title cont
 export const populateCategoriesForDictionary = {
   path: 'categories',
   select: 'title -dictionary',
+  populate: {
+    path: 'countWords',
+  },
 }
 
 export default mongoose.model('Dictionary', DictionarySchema)
